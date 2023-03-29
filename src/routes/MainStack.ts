@@ -5,6 +5,7 @@ import {options} from '../utils/navigationConfig';
 
 export default function MainStack() {
   let Stack = createNativeStackNavigator();
+
   return (
     <Stack.Navigator screenOptions={options}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
