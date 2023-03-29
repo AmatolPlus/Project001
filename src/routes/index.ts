@@ -1,3 +1,4 @@
 import LoginStack from './LoginStack';
+import TabStack from './TabStack';
 
-export {LoginStack};
+export {LoginStack, TabStack};

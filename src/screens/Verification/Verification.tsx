@@ -3,8 +3,8 @@ import {
   useValidateOtpMutation,
 } from '@/services/apis/login.api';
 import {useRoute} from '@react-navigation/native';
-import React, {, useState} from 'react';
-import { SafeAreaView, View} from 'react-native';
+import React, {useState} from 'react';
+import {SafeAreaView, View} from 'react-native';
 import Text from '@/ui/Text';
 import {styles} from './Verification.styles';
 import {useDispatch} from 'react-redux';
