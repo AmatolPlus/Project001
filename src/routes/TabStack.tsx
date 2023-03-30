@@ -1,48 +1,35 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import React from 'react';
-import {options} from '../utils/navigationConfig';
-import HomeStack from './HomeStack';
-import ProfileStack from './ProfileStack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Home, Profile} from '@/screens';
+import {ScreenNames} from '@/utils/screenName';
+
+const ProfileIcon = ({color, size}: any) => (
+  <Ionicons name="person" color={color} size={size} />
+);
+
+const HomeIcon = ({color, size}: any) => (
+  <Ionicons name="home" color={color} size={size} />
+);
 
 export default function TabStack() {
-  const getTabBarVisibility = route => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    const hideOnScreens = ['DetailsScreen', 'EditScreen']; // put here name of screen where you want to hide tabBar
-    return hideOnScreens.indexOf(routeName) <= -1;
-  };
   let Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator
-      options={({route}) => ({
-        tabBarStyle: (route => {
-          const routeName = getFocusedRouteNameFromRoute(route) ?? '';
-          console.log(routeName);
-          if (routeName === 'DetailsScreen' || 'EditScreen') {
-            return {display: 'none'};
-          }
-          return;
-        })(route),
-      })}>
+    <Tab.Navigator>
       <Tab.Screen
         options={{
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
+          tabBarIcon: HomeIcon,
         }}
-        name="Home"
-        component={HomeStack}
+        name={ScreenNames.home}
+        component={Home}
       />
       <Tab.Screen
         options={{
-          tabBarIcon: ({color, size}) => (
-            <Ionicons name="person" color={color} size={size} />
-          ),
+          tabBarIcon: ProfileIcon,
         }}
-        name="Profile"
-        component={ProfileStack}
+        name={ScreenNames.profile}
+        component={Profile}
       />
     </Tab.Navigator>
   );

@@ -2,19 +2,17 @@ import {MMKV} from 'react-native-mmkv';
 
 const storage = new MMKV();
 
-export function setUserToken(token: any) {
+export function set(key = 'token', token: any) {
   try {
-    storage.set('token', token);
-  } catch (error) {
-    console.log(error);
-  }
+    storage.set(key, token);
+  } catch (error) {}
 }
 
-export function getUserToken() {
+export function get(key = 'token') {
   try {
-    let token = storage.getString('token');
+    let token = storage.getString(key);
     return token;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 }
+
+export default storage;
