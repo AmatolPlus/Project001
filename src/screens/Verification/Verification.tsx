@@ -1,35 +1,39 @@
-import {
-  IValidateRequest,
-  useValidateOtpMutation,
-} from '@/services/apis/login.api';
-import {useRoute} from '@react-navigation/native';
-import React, {, useState} from 'react';
-import { SafeAreaView, View} from 'react-native';
-import Text from '@/ui/Text';
-import {styles} from './Verification.styles';
+import React, {useCallback, useState} from 'react';
+import {SafeAreaView, View} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
+
+import {set} from '@/utils/storage';
 import {Button} from '@/ui';
-import {saveUserInfo} from '@/services/login.slice';
-import {setUserToken} from '@/utils/storage';
+import {OtpState} from '../Login/LoginTypes';
+import {
+  IValidateRequest,
+  useValidateOtpMutation,
+} from '@/services/apis/login.api';
+import {saveUserInfo} from '@/services/reducers/login.slice';
+import {styles} from './Verification.styles';
+import Text from '@/ui/Text';
+import {ScreenNames} from '@/utils/screenName';
 
 const CELL_COUNT = 6;
 
 const VerificationScreen = () => {
+  const navigation: any = useNavigation();
   const route = useRoute();
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
-  let value = otpForm.otp;
   const {auth_token}: any = route.params;
-  let dispatch = useDispatch();
-  const [verify, {isLoading, error, data}] = useValidateOtpMutation();
   const [otpForm, setForm] = useState<IValidateRequest>({
     otp: undefined,
     auth_token,
   });
+  const value = otpForm.otp;
+  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const dispatch = useDispatch();
+  const [verify, {isLoading, isError}] = useValidateOtpMutation();
 
   const handleFormUpdate = (key: keyof OtpState, value: string) => {
     setForm(prevState => ({
@@ -38,18 +42,17 @@ const VerificationScreen = () => {
     }));
   };
 
-  const handleVerification = () => {
-    console.log(otpForm);
-    verify(otpForm)
-      .then(_data => {
-        dispatch(saveUserInfo(_data.data));
-        let token = _data?.data?.token;
-        setUserToken(token);
-      })
-      .catch(e => console.log(e));
-  };
+  const handleVerification = useCallback(async () => {
+    try {
+      let {data}: any = await verify(otpForm);
+      dispatch(saveUserInfo(data));
+      let token = data?.token;
+      set('token', token);
+      navigation.dispatch(StackActions.replace(ScreenNames.mainStack));
+    } catch (error) {}
+  }, [dispatch, navigation, otpForm, verify]);
 
-  if (error) {
+  if (isError) {
     return <></>;
   }
   return (

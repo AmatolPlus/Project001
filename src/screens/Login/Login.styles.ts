@@ -1,3 +1,4 @@
+import {Fonts} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 import {Colors} from '../../utils/colors';
 import {Spacing} from '../../utils/constants';
@@ -10,16 +11,19 @@ let styles = StyleSheet.create({
     ...CenterItem(),
   },
   title: {
-    fontSize: Spacing.xl,
-    fontWeight: 'bold',
+    ...Fonts.h1,
   },
-  nameInput: {
+  input: {
+    ...Fonts.h5,
     width: '100%',
     margin: Spacing.s,
   },
   loginButton: {
     borderRadius: Spacing.xs,
     alignSelf: 'flex-start',
+  },
+  loginButtonText: {
+    ...Fonts.h3,
   },
 });
 
