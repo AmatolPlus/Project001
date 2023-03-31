@@ -30,11 +30,16 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    const {data}: any = await login(loginForm);
-    const {auth_token} = data;
-    navigation.navigate(ScreenNames.verifcation, {
-      auth_token,
-    });
+    try {
+      const {data}: any = await login(loginForm);
+      console.log('data', data);
+      // const {auth_token} = data;
+      // navigation.navigate(ScreenNames.verifcation, {
+      //   auth_token,
+      // });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (isError) return <></>;

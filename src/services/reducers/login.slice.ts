@@ -14,5 +14,6 @@ const loginSlice = createSlice({
     },
   },
 });
+
 export const {saveUserInfo} = loginSlice.actions;
 export default loginSlice.reducer;

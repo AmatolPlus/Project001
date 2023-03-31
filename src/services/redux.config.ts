@@ -4,6 +4,7 @@ import pickBy from 'lodash/pickBy';
 import map from 'lodash/map';
 
 import {fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import {get} from '@/utils/storage';
 
 function customParamsSerializer(params: any) {
   const cleanedParams = pickBy(params, v => {
@@ -21,6 +22,16 @@ function customParamsSerializer(params: any) {
 
 const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
+  prepareHeaders: headers => {
+    const token = get('token');
+
+    // If we have a token set in state, let's assume that we should be passing it.
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+
+    return headers;
+  },
   paramsSerializer: customParamsSerializer,
 });
 

@@ -1,8 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit';
-import loginSlice from './reducers/login.slice';
+import {reducer} from './reducers/reducers';
+import logger from 'redux-logger';
+import {contestMiddleWare} from './apis/contests.api';
+import {loginMiddleware} from './apis/login.api';
 
 export const store = configureStore({
-  reducer: {
-    login: loginSlice,
-  },
+  reducer,
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware().concat(logger, contestMiddleWare, loginMiddleware),
 });

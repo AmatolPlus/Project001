@@ -35,7 +35,13 @@ export const loginService = createApi({
   }),
 });
 
+const loginReducerPath = loginService.reducerPath;
 const useLoginMutation = loginService.endpoints.login.useMutation;
 const useValidateOtpMutation = loginService.endpoints.validateOtp.useMutation;
 const loginMiddleware = loginService.middleware;
-export {useLoginMutation, useValidateOtpMutation, loginMiddleware};
+export {
+  useLoginMutation,
+  useValidateOtpMutation,
+  loginReducerPath,
+  loginMiddleware,
+};

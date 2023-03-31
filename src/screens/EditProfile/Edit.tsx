@@ -2,7 +2,7 @@ import {Button, Text} from '@/ui';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View} from 'react-native';
-import {styles} from '../Profile.styles';
+import {styles} from '../Profile/Profile.styles';
 
 export default function Edit() {
   const navigation: any = useNavigation();
