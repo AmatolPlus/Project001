@@ -10,6 +10,14 @@ export const fontSize = {
 };
 
 export const Fonts = {
+  title: {
+    fontSize: fontSize.h1,
+    fontFamily: 'LuckiestGuy-Regular',
+  },
+  title2: {
+    fontSize: fontSize.h4,
+    fontFamily: 'LuckiestGuy-Regular',
+  },
   h1: {
     fontSize: fontSize.h1,
     fontFamily: 'Rubik-ExtraBold',

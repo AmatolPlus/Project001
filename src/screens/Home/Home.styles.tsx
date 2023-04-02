@@ -1,25 +1,40 @@
+import {StyleSheet, Dimensions} from 'react-native';
+
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
 import {Fonts} from '@/utils/fonts';
-import {CenterItem} from '@/utils/spacing';
-import {StyleSheet} from 'react-native';
+import {Spacing} from '@/utils/constants';
+import {VerticalMargin} from '@/utils/spacing';
 
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.l,
-    ...CenterItem(),
+    height: Dimensions.get('screen').height,
+    width: Dimensions.get('screen').width,
   },
-  text: {
+  listContainer: {
+    paddingBottom: Spacing.l,
+  },
+  header: {
     ...Fonts.h1,
-    fontSize: 72,
-    textAlign: 'center',
   },
   button: {
     backgroundColor: Colors.info,
     padding: Spacing.l,
   },
-  buttonText: {
-    ...Fonts.h3,
-    color: Colors.white,
+  image: {
+    ...StyleSheet.absoluteFillObject,
+    resizeMode: 'contain',
+  },
+  imageContainer: {
+    ...VerticalMargin('s'),
+    width: Dimensions.get('window').width / 1.6,
+    height: 150,
+    borderRadius: Spacing.m,
+    marginRight: Spacing.m,
+    overflow: 'hidden',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
