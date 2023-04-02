@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+
 import {Button, TextInput, Text} from '@/ui';
-import styles from './Login.styles';
 import {FormState} from './LoginTypes';
 import {appConfig} from '@/utils/appConfig';
 import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
-import {useNavigation} from '@react-navigation/native';
+import styles from './Login.styles';
 
 const LoginScreen = () => {
   const navigation: any = useNavigation();
@@ -32,11 +33,10 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       const {data}: any = await login(loginForm);
-      console.log('data', data);
-      // const {auth_token} = data;
-      // navigation.navigate(ScreenNames.verifcation, {
-      //   auth_token,
-      // });
+      const {auth_token} = data;
+      navigation.navigate(ScreenNames.verifcation, {
+        auth_token,
+      });
     } catch (error) {
       console.log(error);
     }

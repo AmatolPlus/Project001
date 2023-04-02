@@ -1,11 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
 import {reducer} from './reducers/reducers';
-import logger from 'redux-logger';
-import {contestMiddleWare} from './apis/contests.api';
-import {loginMiddleware} from './apis/login.api';
+import {setupListeners} from '@reduxjs/toolkit/dist/query';
+import {loginService} from './apis/login.api';
+import {contestService} from './apis/contests.api';
 
 export const store = configureStore({
   reducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(logger, contestMiddleWare, loginMiddleware),
+  middleware: gDM =>
+    gDM().concat(loginService.middleware, contestService.middleware),
 });
+
+setupListeners(store.dispatch);

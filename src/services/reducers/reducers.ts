@@ -1,9 +1,7 @@
-import {contestReducerPath} from '../apis/contests.api';
-import {loginReducerPath} from '../apis/login.api';
-import contestsSlice from './contests.slice';
-import loginSlice from './login.slice';
+import {contestReducerPath, contestService} from '@/services/apis/contests.api';
+import {loginReducerPath, loginService} from '@/services/apis/login.api';
 
 export const reducer = {
-  [loginReducerPath]: loginSlice,
-  [contestReducerPath]: contestsSlice,
+  [loginReducerPath]: loginService.reducer,
+  [contestReducerPath]: contestService.reducer,
 };

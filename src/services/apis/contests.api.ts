@@ -17,18 +17,16 @@ export const contestService = createApi({
         url: 'contest/',
       }),
     }),
-    contestDetail: build.query<any, IContestBody>({
-      query: ({id, body}: any) => ({
+    contestDetail: build.query({
+      query: id => ({
         method: 'GET',
         url: `contest/${id}`,
-        body,
       }),
     }),
-    category: build.query<any, IContestBody>({
-      query: body => ({
+    section: build.query({
+      query: () => ({
         method: 'GET',
-        url: 'contest/category/',
-        body,
+        url: 'contest/section/',
       }),
     }),
     joinContest: build.mutation<any, IContestBody>({
@@ -41,19 +39,21 @@ export const contestService = createApi({
   }),
 });
 
-const useContestDetailQuery = contestService.endpoints.contestDetail.useQuery;
-const useCategoryQuery = contestService.endpoints.category.useQuery;
-const useContestListQuery = contestService.endpoints.contestList.useQuery;
-const useJoinContestQuery = contestService.endpoints.joinContest.useMutation;
+const {
+  useContestDetailQuery,
+  useContestListQuery,
+  useSectionQuery,
+  useJoinContestMutation,
+} = contestService;
 
 const contestMiddleWare = contestService.middleware;
 const contestReducerPath = contestService.reducerPath;
 
 export {
   useContestDetailQuery,
-  useCategoryQuery,
+  useSectionQuery,
   useContestListQuery,
-  useJoinContestQuery,
+  useJoinContestMutation,
   contestMiddleWare,
   contestReducerPath,
 };
