@@ -26,7 +26,7 @@ export const contestService = createApi({
     section: build.query({
       query: () => ({
         method: 'GET',
-        url: 'contest/section/',
+        url: 'contest/section',
       }),
     }),
     joinContest: build.mutation<any, IContestBody>({

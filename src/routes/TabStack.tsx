@@ -3,6 +3,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Home, Profile} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
+import {Fonts} from '@/utils/fonts';
 
 const ProfileIcon = ({color, size}: any) => (
   <Ionicons name="person" color={color} size={size} />
@@ -20,6 +21,8 @@ export default function TabStack() {
       <Tab.Screen
         options={{
           tabBarIcon: HomeIcon,
+          headerTitle: 'HighFive',
+          headerTitleStyle: {...Fonts.title},
         }}
         name={ScreenNames.home}
         component={Home}

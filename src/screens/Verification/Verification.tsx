@@ -47,7 +47,6 @@ const VerificationScreen = () => {
       let {data}: any = await verify(otpForm);
       dispatch(saveUserInfo(data));
       let token = data?.token;
-      console.log(token);
       set('token', token);
       navigation.dispatch(StackActions.replace(ScreenNames.mainStack));
     } catch (error) {}

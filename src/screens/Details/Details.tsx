@@ -1,7 +1,7 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
-import {Avatar, ProgressBar} from 'react-native-paper';
+import {ProgressBar} from 'react-native-paper';
 
 import {useContestDetailQuery} from '@/services/apis/contests.api';
 import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
@@ -33,15 +33,7 @@ export default function Details() {
       </Card>
       <View style={styles.contestDetails}>
         <View style={styles.headerContainer}>
-          <Section
-            icon={
-              <Avatar.Icon
-                style={{backgroundColor: 'white'}}
-                size={32}
-                icon="baby-face"
-              />
-            }
-            title={'Contest Name'}>
+          <Section title={'Contest Name'}>
             <Text style={styles.title}>{data.concept_name}</Text>
           </Section>
           <Section

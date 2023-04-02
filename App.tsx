@@ -12,6 +12,7 @@ import {Details, Edit} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
+import {options} from '@/utils/navigationConfig';
 import Launch from '@/screens/Launch';
 
 const Header = () => (
@@ -34,12 +35,18 @@ function App(): JSX.Element {
       <PaperProvider theme={theme}>
         <NavigationContainer>
           <MainStack.Navigator>
-            <MainStack.Screen name={ScreenNames.launch} component={Launch} />
             <MainStack.Screen
+              name={ScreenNames.launch}
+              options={options}
+              component={Launch}
+            />
+            <MainStack.Screen
+              options={options}
               name={ScreenNames.mainStack}
               component={TabStack}
             />
             <MainStack.Screen
+              options={options}
               name={ScreenNames.loginStack}
               component={LoginStack}
             />

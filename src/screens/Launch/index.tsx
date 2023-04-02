@@ -9,7 +9,6 @@ export default function Launch() {
   useEffect(() => {
     let token = get('token');
     if (token) {
-      console.log(token);
       navigation.navigate('Main');
     } else {
       navigation.navigate('Login');
