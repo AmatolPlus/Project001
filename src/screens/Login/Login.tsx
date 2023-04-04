@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Button, TextInput, Text} from '@/ui';
 import {FormState} from './LoginTypes';
@@ -9,20 +10,29 @@ import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
 import styles from './Login.styles';
+import {fontSize} from '@/utils/fonts';
 
 const LoginScreen = () => {
-  const navigation: any = useNavigation();
-  const [login, {isLoading, isError}] = useLoginMutation();
-
   const [loginForm, setForm] = useState<ILoginRequest>({
     username: undefined,
     mobile_number: undefined,
     country_code: undefined,
     referral_code: undefined,
   });
+  const navigation: any = useNavigation();
+  const [login, {isLoading, isError}] = useLoginMutation();
+
+  function isValid() {
+    const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
+    const nameRegex = /^[a-zA-Z]{3,}$/;
+    let status =
+      phoneRegex.test(`${loginForm?.mobile_number}`) &&
+      nameRegex.test(`${loginForm?.username}`);
+    return status;
+  }
 
   const handleFormUpdate = (key: keyof FormState, value: string) => {
-    setForm(prevState => ({
+    setForm((prevState: any) => ({
       ...prevState,
       [key]: value,
       country_code: '+91',
@@ -42,28 +52,58 @@ const LoginScreen = () => {
     }
   };
 
-  if (isError) return <></>;
+  const handleNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.mainStack);
+  }, [navigation]);
+
+  if (isError) {
+    return <></>;
+  }
 
   return (
     <View style={styles.container}>
+      <AntDesign
+        onPress={() => handleNavigation()}
+        style={styles.close}
+        name="closecircle"
+        size={fontSize.h1}
+        color={Colors.dark}
+      />
       <Text style={styles.title}>{appConfig.name}</Text>
       <TextInput
+        mode="outlined"
+        outlineColor={Colors.grey}
+        selectionColor={Colors.dark}
+        activeOutlineColor={Colors.dark}
         onChangeText={val => handleFormUpdate('username', val)}
         style={styles.input}
         label={'Name'}
       />
       <TextInput
+        mode="outlined"
+        outlineColor={Colors.grey}
+        activeOutlineColor={Colors.dark}
         onChangeText={val => handleFormUpdate('mobile_number', val)}
         style={styles.input}
         label={'Phone Number'}
+        keyboardType={'phone-pad'}
       />
       <Button
         loading={isLoading}
-        buttonColor={Colors.success}
         onPress={handleLogin}
-        disabled={isLoading}
-        style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>{'Sign In'}</Text>
+        buttonColor={Colors.success}
+        disabled={!isValid()}
+        style={[
+          styles.loginButton,
+          {backgroundColor: isValid() ? Colors.success : Colors.dark},
+        ]}>
+        <Text
+          style={{
+            color: isValid() ? Colors.dark : Colors.white,
+            ...styles.loginButtonText,
+          }}>
+          {'Sign In'}
+        </Text>
       </Button>
     </View>
   );

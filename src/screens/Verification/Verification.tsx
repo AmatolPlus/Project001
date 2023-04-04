@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
@@ -13,12 +13,15 @@ import {Button} from '@/ui';
 import {OtpState} from '../Login/LoginTypes';
 import {
   IValidateRequest,
+  useResendOtpMutation,
   useValidateOtpMutation,
 } from '@/services/apis/login.api';
 import {saveUserInfo} from '@/services/reducers/login.slice';
 import {styles} from './Verification.styles';
 import Text from '@/ui/Text';
 import {ScreenNames} from '@/utils/screenName';
+import Snackbar from '@/ui/SnackBar';
+import {ResendOtp} from '@/ui/ResendOtp';
 
 const CELL_COUNT = 6;
 
@@ -30,31 +33,55 @@ const VerificationScreen = () => {
     otp: undefined,
     auth_token,
   });
+  const [showSnackbar, setSnackbar] = useState(false);
   const value = otpForm.otp;
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const dispatch = useDispatch();
-  const [verify, {isLoading, isError}] = useValidateOtpMutation();
+  const [verify, {isLoading, error}] = useValidateOtpMutation();
+  const [resend] = useResendOtpMutation();
+  const [OTPStatus, setOTPStatus] = useState('');
 
-  const handleFormUpdate = (key: keyof OtpState, value: string) => {
+  useEffect(() => {
+    if (error) {
+      setSnackbar(true);
+    }
+  }, [error]);
+
+  const handleFormUpdate = (key: keyof OtpState, formValue: string) => {
     setForm(prevState => ({
       ...prevState,
-      [key]: value,
+      [key]: formValue,
     }));
   };
+
+  const handleResend = useCallback(async () => {
+    try {
+      let {data}: any = await resend({
+        auth_token,
+      });
+
+      setOTPStatus(data?.detail);
+      setSnackbar(true);
+    } catch (e) {}
+  }, [auth_token, resend]);
+
+  function handleDisabled() {
+    let otpRegx = /^\d{0,6}$/;
+    return otpRegx.test(`${otpForm.otp}`);
+  }
 
   const handleVerification = useCallback(async () => {
     try {
       let {data}: any = await verify(otpForm);
-      dispatch(saveUserInfo(data));
-      let token = data?.token;
-      set('token', token);
-      navigation.dispatch(StackActions.replace(ScreenNames.mainStack));
-    } catch (error) {}
+      if (data) {
+        let token = data?.token;
+        dispatch(saveUserInfo(data));
+        set('token', token);
+        navigation.dispatch(StackActions.replace(ScreenNames.mainStack));
+      }
+    } catch (e) {}
   }, [dispatch, navigation, otpForm, verify]);
 
-  if (isError) {
-    return <></>;
-  }
   return (
     <SafeAreaView style={styles.Container}>
       <Text style={styles.title}>Verfication Code</Text>
@@ -79,12 +106,28 @@ const VerificationScreen = () => {
           </View>
         )}
       />
+      <View>
+        <View style={styles.resendButtonContainer}>
+          <Text style={styles.resendButton} onPress={() => navigation.goBack()}>
+            Change Number ?
+          </Text>
+          <ResendOtp handleResend={handleResend} style={styles.resendButton} />
+        </View>
+      </View>
       <Button
+        disabled={!handleDisabled() || isLoading}
         loading={isLoading}
         onPress={handleVerification}
         style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>{'Submit'}</Text>
+        <Text style={styles.submitButtonText}>{'Confirm'}</Text>
       </Button>
+      <Snackbar
+        onDismiss={() => {
+          setSnackbar(false);
+        }}
+        visible={showSnackbar}>
+        {error?.data.details || OTPStatus}
+      </Snackbar>
     </SafeAreaView>
   );
 };

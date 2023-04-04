@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
@@ -7,86 +7,98 @@ import {useContestDetailQuery} from '@/services/apis/contests.api';
 import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
 
 import {Colors} from '@/utils/colors';
-import {Fonts, fontSize} from '@/utils/fonts';
 import {styles} from './Details.styles';
-import {BorderRadius, Spacing} from '@/utils/constants';
 import Ticket from '@/ui/Ticket';
+import {JoinEvent} from '@/ui/JoinEvent';
+import PriceChart from '@/ui/PrizeChart';
 
 export default function Details() {
   const {params}: any = useRoute();
   const id = params?.id;
+  const [isPrizeChartShown, setPriceChartShown] = useState(false);
   const {data, isLoading}: any = useContestDetailQuery(id);
 
+  const progress = useMemo(
+    () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
+    [data?.joined_list_count, data?.total_competators],
+  );
+  console.log(data);
   if (isLoading) {
     return <ActivityIndicator />;
   }
-
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}>
       <Card style={styles.card}>
         <Image
           source={{
-            uri: 'https://th.bing.com/th/id/R.bcd2e89f150f5c917531770ae2aa7248?rik=%2bOmurtLsgdoVwg&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fImages-New-York-City-Wallpaper-HD.jpg&ehk=U1Mlv4RqYo8uyeVNc5Tj6eybKKPN5cdXtEvk7LSeB%2bc%3d&risl=&pid=ImgRaw&r=0',
+            uri: data.sample_image_url,
           }}
           style={styles.image}
         />
       </Card>
       <View style={styles.contestDetails}>
         <View style={styles.headerContainer}>
-          <Section title={'Contest Name'}>
+          <Section>
             <Text style={styles.title}>{data.concept_name}</Text>
           </Section>
-          <Section
-            titleStyle={{color: Colors.white}}
-            containerStyles={{
-              backgroundColor: Colors.success,
-            }}
-            title={'View prize'}
-          />
+          <Button
+            buttonColor={Colors.info}
+            style={styles.button}
+            onPress={() => setPriceChartShown(!isPrizeChartShown)}>
+            <Text style={styles.buttonText}>View Prize Chart</Text>
+          </Button>
         </View>
-        <Section title={'About Contest'}>
+        <Section>
           <Text style={styles.desc}>{data.contest_desc}</Text>
         </Section>
-        <Section title={'My Progress'}>
-          <ProgressBar progress={0.5} color={Colors.primary} />
+        <Section>
+          <View style={styles.eventAttendees}>
+            <Text style={styles.eventAttendeesText}>Event Attendees</Text>
+            <Text style={styles.joinedCount}>
+              {data?.joined_list_count + '/' + data?.total_competators}
+            </Text>
+          </View>
+          <ProgressBar progress={progress} color={Colors.success} />
         </Section>
         <Section>
-          <Text
-            style={{
-              ...Fonts.h1,
-              fontSize: fontSize.h3,
-              marginBottom: Spacing.l,
-            }}>
-            Event Details
-          </Text>
+          <Text style={styles.eventDetailsHeader}>Event Details</Text>
           <Ticket
             contest_name={data.concept_name}
-            ended_on={data.ends_on}
-            days={data.days}
-            created_on={data.created}
+            ended_on={data.join_end_date}
+            days={data.join_validity_in_days}
+            created_on={data.published_on}
             entry_fee={data.entry_price}
           />
         </Section>
 
-        <Section
-          style={{
-            padding: Spacing.s,
-            borderRadius: BorderRadius.m,
-            backgroundColor: Colors.warning,
-          }}>
-          <Text style={{...Fonts.h4, marginBottom: Spacing.s}}>
+        <Section style={styles.termsHeaderContainer}>
+          <Text style={styles.termsHeader}>
             Prizepool will depend on how many slots are filled
           </Text>
-          <Text style={{...Fonts.sub1, color: Colors.dark}}>
+          <Text style={styles.termsBody}>
             I Confirm that i have read consent and agree to HighFive's user
             agreement & privacy policy. I am legal age & understand that i can
             change my communication preferences anytime in my account settings.
           </Text>
         </Section>
       </View>
-      <Button style={styles.joinButton}>
-        <Text style={styles.joinButtonText}>Join</Text>
-      </Button>
+      <JoinEvent
+        thresholdOccupancy={data.total_competators}
+        occupancy={data.joined_list_count}
+        joinEndDate={data.join_end_date}
+        joinStartDate={data.publish_on}
+        threshold={0}
+        onJoinEvent={function (): void {
+          throw new Error('Function not implemented.');
+        }}
+      />
+      <PriceChart
+        data={data.prize_chart}
+        isOpen={isPrizeChartShown}
+        setClosed={setPriceChartShown}
+      />
     </ScrollView>
   );
 }

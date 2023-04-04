@@ -45,7 +45,16 @@ export const styles = StyleSheet.create({
   submitButton: {
     backgroundColor: Colors.success,
     borderRadius: Spacing.s,
+    alignSelf: 'flex-end',
     ...HorizontalPadding('m'),
     ...VerticalMargin('m'),
+  },
+  resendButtonContainer: {
+    marginTop: Spacing.l,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  resendButton: {
+    color: Colors.info,
   },
 });

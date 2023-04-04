@@ -8,4 +8,5 @@ export enum ScreenNames {
   details = 'DetailsScreen',
   profile = 'Profile',
   edit = 'EditScreen',
+  contestList = 'ContestListScreen',
 }

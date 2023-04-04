@@ -19,14 +19,21 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      let fortmattedList: any = formatArray(data);
-      setFormattedData(fortmattedList);
+      let formattedList: any = formatArray(data);
+      setFormattedData(formattedList);
     }
   }, [data]);
 
   const handleDetailNavigation = useCallback(
     ({id}: any) => {
       navigation.navigate(ScreenNames.details, {id});
+    },
+    [navigation],
+  );
+
+  const handleContestNavigation = useCallback(
+    ({id}: any) => {
+      navigation.navigate(ScreenNames.contestList, {id});
     },
     [navigation],
   );
@@ -39,11 +46,32 @@ export default function Home() {
     return <ActivityIndicator />;
   }
 
-  const renderHeader = ({section: {title, data}}: any) => (
+  const renderItem = ({item}: any) => {
+    return (
+      <TouchableOpacity
+        onPress={() => handleDetailNavigation(item)}
+        style={styles.imageContainer}>
+        <Image
+          resizeMode={'cover'}
+          style={styles.image}
+          source={{
+            uri: item.sample_image_url,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
+  const renderHeader = ({section: {title, data, id}}: any) => (
     <View>
       <View style={styles.sectionHeader}>
         <Text style={styles.header}>{title}</Text>
-        <SimpleLineIcons name="arrow-right" size={20} color="black" />
+        <SimpleLineIcons
+          onPress={() => handleContestNavigation(id)}
+          name="arrow-right"
+          size={20}
+          color="black"
+        />
       </View>
       <FlashList
         data={data}
@@ -51,19 +79,7 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         estimatedItemSize={100}
         contentContainerStyle={styles.listContainer}
-        renderItem={({item}) => (
-          <TouchableOpacity
-            onPress={() => handleDetailNavigation(item)}
-            style={styles.imageContainer}>
-            <Image
-              resizeMode={'cover'}
-              style={styles.image}
-              source={{
-                uri: 'https://th.bing.com/th/id/R.bcd2e89f150f5c917531770ae2aa7248?rik=%2bOmurtLsgdoVwg&riu=http%3a%2f%2fwww.pixelstalk.net%2fwp-content%2fuploads%2f2016%2f05%2fImages-New-York-City-Wallpaper-HD.jpg&ehk=U1Mlv4RqYo8uyeVNc5Tj6eybKKPN5cdXtEvk7LSeB%2bc%3d&risl=&pid=ImgRaw&r=0',
-              }}
-            />
-          </TouchableOpacity>
-        )}
+        renderItem={renderItem}
       />
     </View>
   );
