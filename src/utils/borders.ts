@@ -3,7 +3,7 @@ import {BorderRadiusType, BorderRadius} from './constants';
 function BorderTopRadius(value: BorderRadiusType) {
   return {
     borderTopLeftRadius: BorderRadius[value],
-    borderBottomRightRadius: BorderRadius[value],
+    borderTopRightRadius: BorderRadius[value],
   };
 }
 

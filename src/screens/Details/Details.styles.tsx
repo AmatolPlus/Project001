@@ -7,8 +7,8 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.l,
+    paddingBottom: Spacing.l,
     backgroundColor: Colors.white,
-    flex: 1,
   },
   text: {
     ...Fonts.h1,
@@ -67,4 +67,25 @@ export const styles = StyleSheet.create({
     color: Colors.white,
     marginBottom: Spacing.m,
   },
+  button: {position: 'absolute', borderRadius: BorderRadius.s, right: 0},
+  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.white},
+  eventAttendees: {justifyContent: 'space-between', flexDirection: 'row'},
+  eventAttendeesText: {...Fonts.h6, ...VerticalMargin('s')},
+  joinedCount: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+    ...VerticalMargin('s'),
+  },
+  eventDetailsHeader: {
+    ...Fonts.h1,
+    fontSize: fontSize.h3,
+    marginBottom: Spacing.l,
+  },
+  termsHeaderContainer: {
+    padding: Spacing.s,
+    borderRadius: BorderRadius.m,
+    backgroundColor: Colors.warning,
+  },
+  termsHeader: {...Fonts.h4, marginBottom: Spacing.s},
+  termsBody: {...Fonts.sub1, color: Colors.dark},
 });

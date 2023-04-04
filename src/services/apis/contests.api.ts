@@ -29,6 +29,12 @@ export const contestService = createApi({
         url: 'contest/section',
       }),
     }),
+    moreContests: build.query({
+      query: id => ({
+        method: 'GET',
+        url: `contest/?contest_category=${id}`,
+      }),
+    }),
     joinContest: build.mutation<any, IContestBody>({
       query: body => ({
         method: 'POST',
@@ -44,6 +50,7 @@ const {
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
+  useMoreContestsQuery,
 } = contestService;
 
 const contestMiddleWare = contestService.middleware;
@@ -51,6 +58,7 @@ const contestReducerPath = contestService.reducerPath;
 
 export {
   useContestDetailQuery,
+  useMoreContestsQuery,
   useSectionQuery,
   useContestListQuery,
   useJoinContestMutation,

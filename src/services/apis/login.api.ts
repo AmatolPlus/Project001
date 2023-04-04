@@ -3,7 +3,7 @@ import {baseQuery} from '../redux.config';
 
 export interface ILoginRequest {
   username: string | undefined;
-  mobile_number: number | undefined;
+  mobile_number: number | string | undefined;
   country_code: string | undefined;
   referral_code: string | undefined;
 }
@@ -11,6 +11,10 @@ export interface ILoginRequest {
 export interface IValidateRequest {
   auth_token: string | undefined;
   otp: string | undefined;
+}
+
+export interface IResendRequest {
+  auth_token: string | undefined;
 }
 
 export const loginService = createApi({
@@ -32,9 +36,22 @@ export const loginService = createApi({
         body,
       }),
     }),
+    resendOtp: build.mutation<any, IResendRequest>({
+      query: body => ({
+        method: 'POST',
+        url: 'auth/resend_otp/',
+        body,
+      }),
+    }),
   }),
 });
 
-const {useLoginMutation, useValidateOtpMutation} = loginService;
+const {useLoginMutation, useValidateOtpMutation, useResendOtpMutation} =
+  loginService;
 const loginReducerPath = loginService.reducerPath;
-export {useLoginMutation, useValidateOtpMutation, loginReducerPath};
+export {
+  useLoginMutation,
+  useValidateOtpMutation,
+  useResendOtpMutation,
+  loginReducerPath,
+};

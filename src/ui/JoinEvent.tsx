@@ -70,7 +70,7 @@ export const JoinEvent = ({
           styles.button,
           {backgroundColor: isDisabled ? Colors.grey : Colors.success},
         ]}>
-        <Text style={styles.buttonText}>Withdraw</Text>
+        <Text style={styles.buttonText}>Join</Text>
       </Button>
       <JoinEventConfirmModal
         isOpen={isOpen}
