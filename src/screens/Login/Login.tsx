@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import {Button, TextInput, Text} from '@/ui';
 import {FormState} from './LoginTypes';
 import {appConfig} from '@/utils/appConfig';
@@ -9,6 +10,7 @@ import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
 import styles from './Login.styles';
+import {fontSize} from '@/utils/fonts';
 
 const LoginScreen = () => {
   const [loginForm, setForm] = useState<ILoginRequest>({
@@ -30,7 +32,7 @@ const LoginScreen = () => {
   }
 
   const handleFormUpdate = (key: keyof FormState, value: string) => {
-    setForm(prevState => ({
+    setForm((prevState: any) => ({
       ...prevState,
       [key]: value,
       country_code: '+91',
@@ -50,6 +52,10 @@ const LoginScreen = () => {
     }
   };
 
+  const handleNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.mainStack);
+  }, [navigation]);
+
   if (isError) {
     return <></>;
   }
@@ -57,11 +63,11 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <AntDesign
-        onPress={() => navigation.navigate(ScreenNames.mainStack)}
+        onPress={() => handleNavigation()}
         style={styles.close}
         name="closecircle"
-        size={24}
-        color="black"
+        size={fontSize.h1}
+        color={Colors.dark}
       />
       <Text style={styles.title}>{appConfig.name}</Text>
       <TextInput

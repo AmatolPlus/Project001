@@ -2,10 +2,11 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {TouchableOpacity, TouchableOpacityProps} from 'react-native';
+
 import {Home, Profile} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
-import {TouchableOpacity} from 'react-native';
 import {get} from '@/utils/storage';
 
 const ProfileIcon = ({color, size}: any) => (
@@ -16,10 +17,27 @@ const HomeIcon = ({color, size}: any) => (
   <Ionicons name="home" color={color} size={size} />
 );
 
-let token = get('token');
+const token = get('token');
 
 export default function TabStack() {
-  let Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
+
+  const TabBarButton = (
+    props: JSX.IntrinsicAttributes & Readonly<TouchableOpacityProps>,
+    {navigation}: any,
+  ): any => {
+    return (
+      <TouchableOpacity
+        activeOpacity={1}
+        {...props}
+        onPress={() =>
+          token
+            ? navigation.navigate(ScreenNames.profile)
+            : navigation.navigate(ScreenNames.loginStack)
+        }
+      />
+    );
+  };
 
   return (
     <Tab.Navigator>
@@ -36,17 +54,7 @@ export default function TabStack() {
         options={({navigation}) => ({
           tabBarIcon: ProfileIcon,
           tabBarButton: props => {
-            return (
-              <TouchableOpacity
-                activeOpacity={1}
-                {...props}
-                onPress={() =>
-                  token
-                    ? navigation.navigate(ScreenNames.profile)
-                    : navigation.navigate(ScreenNames.loginStack)
-                }
-              />
-            );
+            return <TabBarButton {...props} navigation={navigation} />;
           },
         })}
         name={ScreenNames.profile}

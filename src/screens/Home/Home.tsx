@@ -31,6 +31,13 @@ export default function Home() {
     [navigation],
   );
 
+  const handleContestNavigation = useCallback(
+    ({id}: any) => {
+      navigation.navigate(ScreenNames.contestList, {id});
+    },
+    [navigation],
+  );
+
   if (isError) {
     return <></>;
   }
@@ -39,12 +46,28 @@ export default function Home() {
     return <ActivityIndicator />;
   }
 
+  const renderItem = ({item}: any) => {
+    return (
+      <TouchableOpacity
+        onPress={() => handleDetailNavigation(item)}
+        style={styles.imageContainer}>
+        <Image
+          resizeMode={'cover'}
+          style={styles.image}
+          source={{
+            uri: item.sample_image_url,
+          }}
+        />
+      </TouchableOpacity>
+    );
+  };
+
   const renderHeader = ({section: {title, data, id}}: any) => (
     <View>
       <View style={styles.sectionHeader}>
         <Text style={styles.header}>{title}</Text>
         <SimpleLineIcons
-          onPress={() => navigation.navigate(ScreenNames.contestList, {id})}
+          onPress={() => handleContestNavigation(id)}
           name="arrow-right"
           size={20}
           color="black"
@@ -56,19 +79,7 @@ export default function Home() {
         showsHorizontalScrollIndicator={false}
         estimatedItemSize={100}
         contentContainerStyle={styles.listContainer}
-        renderItem={({item}: any) => (
-          <TouchableOpacity
-            onPress={() => handleDetailNavigation(item)}
-            style={styles.imageContainer}>
-            <Image
-              resizeMode={'cover'}
-              style={styles.image}
-              source={{
-                uri: item.sample_image_url,
-              }}
-            />
-          </TouchableOpacity>
-        )}
+        renderItem={renderItem}
       />
     </View>
   );

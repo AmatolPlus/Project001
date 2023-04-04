@@ -1,21 +1,10 @@
+import {
+  ILoginRequest,
+  IResendRequest,
+  IValidateRequest,
+} from '@/screens/Login/LoginTypes';
 import {createApi} from '@reduxjs/toolkit/query/react';
 import {baseQuery} from '../redux.config';
-
-export interface ILoginRequest {
-  username: string | undefined;
-  mobile_number: number | string | undefined;
-  country_code: string | undefined;
-  referral_code: string | undefined;
-}
-
-export interface IValidateRequest {
-  auth_token: string | undefined;
-  otp: string | undefined;
-}
-
-export interface IResendRequest {
-  auth_token: string | undefined;
-}
 
 export const loginService = createApi({
   reducerPath: 'login',
@@ -55,3 +44,4 @@ export {
   useResendOtpMutation,
   loginReducerPath,
 };
+export type {ILoginRequest, IValidateRequest};

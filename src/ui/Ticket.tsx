@@ -30,9 +30,7 @@ export default function Ticket({
 
       <View style={styles.entryFeeContainer}>
         <Text style={styles.entryFeeText}>₹ {entry_fee}</Text>
-        <Chip
-          textStyle={{...Fonts.h3, fontSize: fontSize.s1, color: Colors.dark}}
-          style={styles.chip}>
+        <Chip textStyle={styles.chipText} style={styles.chip}>
           Entry Fees
         </Chip>
       </View>
@@ -87,6 +85,7 @@ const styles = StyleSheet.create({
     fontSize: 48,
   },
   date: {...Fonts.sub1, textAlign: 'center', color: Colors.white},
+  chipText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.dark},
   ball: {
     position: 'absolute',
     height: 80,

@@ -7,6 +7,7 @@ import {
   Cursor,
   useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
+
 import {set} from '@/utils/storage';
 import {Button} from '@/ui';
 import {OtpState} from '../Login/LoginTypes';
@@ -41,7 +42,6 @@ const VerificationScreen = () => {
   const [OTPStatus, setOTPStatus] = useState('');
 
   useEffect(() => {
-    console.log(error);
     if (error) {
       setSnackbar(true);
     }

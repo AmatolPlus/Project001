@@ -5,10 +5,12 @@ import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin, VerticalMargin} from '@/utils/spacing';
 import {Dimensions, StyleSheet} from 'react-native';
 
+const {height} = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.m,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     flex: 1,
   },
   row: {
@@ -25,7 +27,7 @@ export const styles = StyleSheet.create({
     flex: 0.5,
     paddingBottom: Spacing.l,
     justifyContent: 'space-between',
-    height: Dimensions.get('window').height / 4.2,
+    height: height / 4.2,
   },
   image: {
     width: '100%',

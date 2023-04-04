@@ -56,6 +56,5 @@ export const styles = StyleSheet.create({
   },
   resendButton: {
     color: Colors.info,
-    marginHorizontal: 68,
   },
 });

@@ -1,19 +1,14 @@
+import {IPrizeChart} from '@/types/PrizeChart';
 import {Colors} from '@/utils/colors';
 import {Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin} from '@/utils/spacing';
-import React from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Dimensions} from 'react-native';
 import {Card, DataTable, Portal} from 'react-native-paper';
 import Modal from './Modal';
 import Text from './Text';
-
-interface IPrizeChart {
-  data: any;
-  isOpen: boolean;
-  setClosed: any;
-}
 
 const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
   const renderRow = () =>
@@ -77,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PriceChart;
+export default memo(PriceChart);

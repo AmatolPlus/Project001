@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
@@ -10,17 +10,19 @@ import {Colors} from '@/utils/colors';
 import {styles} from './Details.styles';
 import Ticket from '@/ui/Ticket';
 import {JoinEvent} from '@/ui/JoinEvent';
-import PriceChart from '@/ui/PriceChart';
+import PriceChart from '@/ui/PrizeChart';
 
 export default function Details() {
   const {params}: any = useRoute();
-  const [isPrizeChartShown, setPriceChartShown] = useState(false);
   const id = params?.id;
+  const [isPrizeChartShown, setPriceChartShown] = useState(false);
   const {data, isLoading}: any = useContestDetailQuery(id);
 
-  const progress =
-    ((data?.joined_list_count / data?.total_competators) * 100) / 100;
-
+  const progress = useMemo(
+    () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
+    [data?.joined_list_count, data?.total_competators],
+  );
+  console.log(data);
   if (isLoading) {
     return <ActivityIndicator />;
   }
@@ -83,8 +85,8 @@ export default function Details() {
         </Section>
       </View>
       <JoinEvent
-        thresholdOccupancy={100}
-        occupancy={99}
+        thresholdOccupancy={data.total_competators}
+        occupancy={data.joined_list_count}
         joinEndDate={data.join_end_date}
         joinStartDate={data.publish_on}
         threshold={0}
