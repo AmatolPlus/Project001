@@ -3,7 +3,9 @@ import {createSlice} from '@reduxjs/toolkit';
 const loginSlice = createSlice({
   name: 'login',
   initialState: {
-    userData: {},
+    userData: {
+      name: 'john',
+    },
   },
   reducers: {
     saveUserInfo: (state, action) => {

@@ -20,7 +20,7 @@ const LoginScreen = () => {
     referral_code: undefined,
   });
   const navigation: any = useNavigation();
-  const [login, {isLoading, isError}] = useLoginMutation();
+  const [login, {isLoading, error, isError}] = useLoginMutation();
 
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
@@ -43,12 +43,14 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       const {data}: any = await login(loginForm);
-      const {auth_token} = data;
-      navigation.navigate(ScreenNames.verifcation, {
-        auth_token,
-      });
-    } catch (error) {
-      console.log(error);
+      if (data) {
+        const {auth_token} = data;
+        navigation.navigate(ScreenNames.verifcation, {
+          auth_token,
+        });
+      }
+    } catch (e) {
+      // setErr(JSON.stringify(e));
     }
   };
 
@@ -57,7 +59,11 @@ const LoginScreen = () => {
   }, [navigation]);
 
   if (isError) {
-    return <></>;
+    return (
+      <>
+        <Text>{JSON.stringify(error)}</Text>
+      </>
+    );
   }
 
   return (

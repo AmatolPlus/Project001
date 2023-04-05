@@ -32,16 +32,27 @@ export const loginService = createApi({
         body,
       }),
     }),
+    userDetails: build.query({
+      query: () => ({
+        method: 'GET',
+        url: 'auth/user/',
+      }),
+    }),
   }),
 });
 
-const {useLoginMutation, useValidateOtpMutation, useResendOtpMutation} =
-  loginService;
+const {
+  useLoginMutation,
+  useValidateOtpMutation,
+  useUserDetailsQuery,
+  useResendOtpMutation,
+} = loginService;
 const loginReducerPath = loginService.reducerPath;
 export {
   useLoginMutation,
   useValidateOtpMutation,
   useResendOtpMutation,
   loginReducerPath,
+  useUserDetailsQuery,
 };
 export type {ILoginRequest, IValidateRequest};

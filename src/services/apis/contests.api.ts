@@ -53,7 +53,6 @@ const {
   useMoreContestsQuery,
 } = contestService;
 
-const contestMiddleWare = contestService.middleware;
 const contestReducerPath = contestService.reducerPath;
 
 export {
@@ -62,6 +61,5 @@ export {
   useSectionQuery,
   useContestListQuery,
   useJoinContestMutation,
-  contestMiddleWare,
   contestReducerPath,
 };

@@ -15,7 +15,8 @@ import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
-import Launch from '@/screens/Launch';
+import Launch from '@/screens/Launch/Launch';
+import {Colors} from '@/utils/colors';
 
 const HeaderIcon = ({navigation}: any) => {
   return (

@@ -22,7 +22,6 @@ export default function Details() {
     () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
     [data?.joined_list_count, data?.total_competators],
   );
-  console.log(data);
   if (isLoading) {
     return <ActivityIndicator />;
   }

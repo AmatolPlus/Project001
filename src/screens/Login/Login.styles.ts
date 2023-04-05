@@ -13,6 +13,7 @@ let styles = StyleSheet.create({
   title: {
     textAlign: 'left',
     alignSelf: 'flex-start',
+    color: Colors.purple,
     ...Fonts.title,
   },
   input: {

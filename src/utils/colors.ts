@@ -9,4 +9,5 @@ export enum Colors {
   light = '#f4f4f4',
   grey = '#c4c4c4',
   white = '#ffffffff',
+  purple = '#9900ef',
 }
