@@ -1,40 +1,64 @@
 import {StyleSheet, Dimensions} from 'react-native';
 
 import {Colors} from '@/utils/colors';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {VerticalMargin} from '@/utils/spacing';
 
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.l,
-    height: Dimensions.get('screen').height,
-    width: Dimensions.get('screen').width,
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingBottom: Spacing.xl,
   },
   listContainer: {
     paddingBottom: Spacing.l,
   },
   header: {
-    ...Fonts.h1,
+    ...Fonts.h2,
+    fontSize: fontSize.h5,
   },
   button: {
     backgroundColor: Colors.info,
     padding: Spacing.l,
   },
-  image: {
-    ...StyleSheet.absoluteFillObject,
-    resizeMode: 'contain',
-  },
   imageContainer: {
     ...VerticalMargin('s'),
-    width: Dimensions.get('window').width / 1.6,
-    height: 150,
-    borderRadius: Spacing.m,
+    width: 300,
+    height: 300,
     marginRight: Spacing.m,
+    borderWidth: 0.5,
+    borderColor: Colors.dark2,
     overflow: 'hidden',
   },
+  image: {
+    height: '80%',
+    width: '100%',
+    borderBottomColor: Colors.dark2,
+    borderBottomWidth: 0.5,
+  },
+
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  infoContainer: {
+    padding: Spacing.l,
+  },
+  name: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+    color: Colors.dark2,
+  },
+  priceLabel: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+    color: Colors.grey,
+  },
+  price: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+    color: Colors.grey,
   },
 });

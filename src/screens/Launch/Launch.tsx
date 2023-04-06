@@ -1,4 +1,4 @@
-import {useUserDetailsQuery} from '@/services/apis/profile.api';
+import {useUserDetailsQuery} from '@/services/apis/login.api';
 import ActivityIndicator from '@/ui/ActvityIndicator';
 import {get} from '@/utils/storage';
 import {useNavigation} from '@react-navigation/native';

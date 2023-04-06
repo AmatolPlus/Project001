@@ -1,29 +1,12 @@
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
-import {Fonts} from '@/utils/fonts';
 import moment from 'moment';
 import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
-import Button from './Button';
-import JoinEventConfirmModal from './JoinEventConfirmModal';
-import Snackbar from './SnackBar';
-import Text from './Text';
-
+import {styles} from './JoinEvent.styles';
+import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
+import {Button, Text} from '@/ui';
+import Snackbar from '@/ui/SnackBar';
+import {canJoinEvent} from '@/utils/event';
 const DISABLE_JOIN = "You don't have minimum amount in the wallet";
-
-const canJoinEvent = (
-  days: number,
-  occupancy: number,
-  thresholdOccupancy: number,
-) => {
-  if (occupancy < thresholdOccupancy) {
-    return true;
-  }
-  if (days <= 0) {
-    return true;
-  }
-  return false;
-};
 
 interface IJoinEvent {
   thresholdOccupancy: number;
@@ -87,13 +70,3 @@ export const JoinEvent = ({
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    padding: Spacing.m,
-  },
-  buttonText: {
-    ...Fonts.h3,
-    color: Colors.white,
-  },
-});

@@ -16,7 +16,6 @@ import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
 import Launch from '@/screens/Launch/Launch';
-import {Colors} from '@/utils/colors';
 
 const HeaderIcon = ({navigation}: any) => {
   return (
@@ -55,7 +54,8 @@ function App(): JSX.Element {
               component={LoginStack}
             />
             <MainStack.Screen
-              options={({navigation}) => ({
+              options={({navigation, route}: any) => ({
+                headerTitle: route?.params?.concept_name,
                 headerTitleStyle: {...Fonts.h1},
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;

@@ -5,7 +5,12 @@ import {View} from 'react-native';
 import {styles} from './Wallet.styles';
 import {Colors} from '@/utils/colors';
 
-const Wallet = ({wallet}: any) => (
+interface IWallet {
+  wallet: any;
+  onRefreshWallet: () => void;
+}
+
+const Wallet = ({wallet, onRefreshWallet}: IWallet) => (
   <View style={styles.walletContainer}>
     <Text style={styles.walletHeader}>Wallet Balance</Text>
     <Text style={styles.walletAmount}>
@@ -19,7 +24,9 @@ const Wallet = ({wallet}: any) => (
           throw new Error('Function not implemented.');
         }}
       />
-      <Text style={{color: Colors.info}}>Refresh Balance</Text>
+      <Text onPress={onRefreshWallet} style={{color: Colors.info}}>
+        Refresh Balance
+      </Text>
     </View>
   </View>
 );

@@ -1,10 +1,8 @@
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {Fonts, fontSize} from '@/utils/fonts';
-import {CenterItem, VerticalMargin, VerticalPadding} from '@/utils/spacing';
-import {Dimensions, StyleSheet} from 'react-native';
-
-let {width, height} = Dimensions.get('window');
+import {Fonts} from '@/utils/fonts';
+import {CenterItem, VerticalMargin} from '@/utils/spacing';
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -16,16 +14,15 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.m,
     padding: Spacing.xl,
+    justifyContent: 'space-between',
   },
   divider: {...VerticalMargin('m')},
   logout: {
+    alignSelf: 'flex-end',
     backgroundColor: Colors.danger,
     padding: Spacing.xs,
     borderRadius: BorderRadius.s,
-    position: 'absolute',
-    bottom: Spacing.xl,
     width: '100%',
-    left: Spacing.xl,
   },
   logoutText: {
     ...Fonts.h5,
