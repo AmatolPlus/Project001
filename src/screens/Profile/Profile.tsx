@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import {View} from 'react-native';
 
 import {getFullName} from '@/utils/getFullName';
 import {styles} from './Profile.styles';
@@ -11,7 +11,6 @@ import {Button, Text} from '@/ui';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
-import {Colors} from '@/utils/colors';
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
