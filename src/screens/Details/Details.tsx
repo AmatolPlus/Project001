@@ -8,8 +8,8 @@ import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
 
 import {Colors} from '@/utils/colors';
 import {styles} from './Details.styles';
+import {JoinEvent} from '@/components/JoinEvent/JointEvent';
 import Ticket from '@/ui/Ticket';
-import {JoinEvent} from '@/ui/JoinEvent';
 import PriceChart from '@/ui/PrizeChart';
 
 export default function Details() {
@@ -22,7 +22,6 @@ export default function Details() {
     () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
     [data?.joined_list_count, data?.total_competators],
   );
-  console.log(data);
   if (isLoading) {
     return <ActivityIndicator />;
   }

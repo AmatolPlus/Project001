@@ -5,9 +5,9 @@ import {CenterItem, HorizontalPadding, VerticalMargin} from '@/utils/spacing';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  Container: {
-    backgroundColor: Colors.light,
+  container: {
     ...CenterItem(),
+    backgroundColor: Colors.light,
     padding: Spacing.l,
   },
   info: {

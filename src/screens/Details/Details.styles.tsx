@@ -44,7 +44,8 @@ export const styles = StyleSheet.create({
     ...VerticalMargin('xs'),
   },
   desc: {
-    ...Fonts.h4,
+    ...Fonts.h5,
+    fontSize: fontSize.h4,
     ...VerticalMargin('xs'),
   },
   knowMore: {

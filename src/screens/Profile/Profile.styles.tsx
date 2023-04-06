@@ -1,25 +1,31 @@
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts} from '@/utils/fonts';
-import {CenterItem} from '@/utils/spacing';
+import {CenterItem, VerticalMargin} from '@/utils/spacing';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: Spacing.l,
+    padding: Spacing.xl,
     ...CenterItem(),
   },
-  text: {
-    ...Fonts.h1,
-    fontSize: 72,
-    textAlign: 'center',
+  card: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    borderRadius: BorderRadius.m,
+    padding: Spacing.xl,
+    justifyContent: 'space-between',
   },
-  button: {
-    backgroundColor: Colors.info,
-    padding: Spacing.l,
+  divider: {...VerticalMargin('m')},
+  logout: {
+    alignSelf: 'flex-end',
+    backgroundColor: Colors.danger,
+    padding: Spacing.xs,
+    borderRadius: BorderRadius.s,
+    width: '100%',
   },
-  buttonText: {
-    ...Fonts.h3,
+  logoutText: {
+    ...Fonts.h5,
     color: Colors.white,
   },
 });

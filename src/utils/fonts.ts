@@ -7,6 +7,7 @@ export const fontSize = {
   h6: 14,
   s1: 12,
   s2: 10,
+  title: 32,
 };
 
 export const Fonts = {

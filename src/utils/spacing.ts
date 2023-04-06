@@ -33,7 +33,6 @@ interface ICenterItem {
 function CenterItem(): ICenterItem {
   return {
     justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
   };
 }

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
 import {
@@ -83,7 +83,7 @@ const VerificationScreen = () => {
   }, [dispatch, navigation, otpForm, verify]);
 
   return (
-    <SafeAreaView style={styles.Container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Verfication Code</Text>
       <Text style={styles.info}>
         we have sent a verification code to your number
@@ -106,13 +106,11 @@ const VerificationScreen = () => {
           </View>
         )}
       />
-      <View>
-        <View style={styles.resendButtonContainer}>
-          <Text style={styles.resendButton} onPress={() => navigation.goBack()}>
-            Change Number ?
-          </Text>
-          <ResendOtp handleResend={handleResend} style={styles.resendButton} />
-        </View>
+      <View style={styles.resendButtonContainer}>
+        <Text style={styles.resendButton} onPress={() => navigation.goBack()}>
+          Change Number ?
+        </Text>
+        <ResendOtp handleResend={handleResend} style={styles.resendButton} />
       </View>
       <Button
         disabled={!handleDisabled() || isLoading}

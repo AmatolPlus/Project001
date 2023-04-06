@@ -1,3 +1,5 @@
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {IPrizeChart} from '@/types/PrizeChart';
 import {Colors} from '@/utils/colors';
 import {Spacing} from '@/utils/constants';
@@ -42,7 +44,14 @@ const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
             {renderRow()}
           </DataTable>
           <Card mode="contained" style={styles.card}>
-            <Text style={styles.cardText}>Prize is distributed as above</Text>
+            <View style={styles.cardContentContainer}>
+              <Ionicons
+                name="information-circle"
+                size={Spacing.xl}
+                color={Colors.white}
+              />
+              <Text style={styles.cardText}>Prize is distributed as above</Text>
+            </View>
           </Card>
         </View>
       </Modal>
@@ -64,12 +73,19 @@ const styles = StyleSheet.create({
   tableTitle: {...Fonts.h4},
   tableCell: {...Fonts.h5},
 
-  card: {padding: Spacing.l, backgroundColor: Colors.info},
+  card: {
+    padding: Spacing.l,
+    display: 'flex',
+    backgroundColor: Colors.info,
+    flexDirection: 'row',
+  },
   cardText: {
     ...Fonts.h3,
     color: Colors.white,
     fontSize: fontSize.h6,
+    marginLeft: Spacing.s,
   },
+  cardContentContainer: {flexDirection: 'row', alignItems: 'center'},
 });
 
 export default memo(PriceChart);
