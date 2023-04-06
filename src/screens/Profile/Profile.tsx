@@ -11,16 +11,27 @@ import {Button, Text} from '@/ui';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
+import {useNavigation} from '@react-navigation/native';
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
   const {data: wallet, refetch} = useWalletAmountQuery({});
-  const fullName = getFullName(user.first_name, user.last_name);
+  const navigation: any = useNavigation();
+
+  const fullName = getFullName(
+    user?.first_name ? user?.first_name : '',
+    user.last_name ? user.last_name : '',
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
         <View>
-          <ProfileInfo data={user} fullName={fullName} />
+          <ProfileInfo
+            navigation={navigation}
+            data={user}
+            fullName={fullName}
+          />
           <Divider style={styles.divider} />
           <Wallet wallet={wallet} onRefreshWallet={refetch} />
           <Divider style={styles.divider} />

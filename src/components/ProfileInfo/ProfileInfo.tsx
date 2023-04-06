@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Image, Text} from '@/ui';
 import {View} from 'react-native';
 import {styles} from './ProfileInfo.styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
+import {ScreenNames} from '@/utils/screenName';
 
-const ProfileInfo = ({data, fullName}: any) => {
+const ProfileInfo = ({data, fullName, navigation}: any) => {
+  const handleNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.edit);
+  }, [navigation]);
+
   return (
     <View>
       <View style={styles.infoContainer}>
@@ -23,6 +28,7 @@ const ProfileInfo = ({data, fullName}: any) => {
         </View>
         <View style={styles.iconContainer}>
           <Ionicons
+            onPress={() => handleNavigation()}
             name="ios-settings-outline"
             size={Spacing.xl}
             color={Colors.dark}

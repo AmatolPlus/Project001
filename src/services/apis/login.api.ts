@@ -38,6 +38,13 @@ export const loginService = createApi({
         url: 'auth/user/',
       }),
     }),
+    updateUserDetails: build.query({
+      query: body => ({
+        method: 'PUT',
+        url: 'auth/user/',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -46,6 +53,7 @@ const {
   useValidateOtpMutation,
   useUserDetailsQuery,
   useResendOtpMutation,
+  useUpdateUserDetailsQuery,
 } = loginService;
 const loginReducerPath = loginService.reducerPath;
 export {
@@ -53,6 +61,7 @@ export {
   useValidateOtpMutation,
   useResendOtpMutation,
   loginReducerPath,
+  useUpdateUserDetailsQuery,
   useUserDetailsQuery,
 };
 export type {ILoginRequest, IValidateRequest};
