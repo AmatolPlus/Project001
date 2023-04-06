@@ -6,7 +6,7 @@ import {contestService} from './apis/contests.api';
 import {walletService} from './apis/wallet.api';
 
 export const store = configureStore({
-  reducer,
+  reducer: reducer,
   middleware: gDM =>
     gDM().concat(
       loginService.middleware,

@@ -11,7 +11,6 @@ import {TouchableOpacity} from 'react-native';
 import {styles} from './Home.styles';
 import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import JoinTag from '@/components/JoinTag/JoinTag';
 
 export default function Home() {
   const navigation: any = useNavigation();
@@ -52,7 +51,7 @@ export default function Home() {
       <TouchableOpacity
         onPress={() => handleDetailNavigation(item)}
         style={styles.imageContainer}>
-        <JoinTag days={10} occupancy={1} thresholdOccupancy={100} />
+        {/* <JoinTag days={10} occupancy={1} thresholdOccupancy={100} /> */}
         <Image
           resizeMode={'cover'}
           style={styles.image}
