@@ -112,7 +112,7 @@ export default function Details() {
         </Section>
         {data?.joined_contest?.length ? (
           <Section>
-            <Text style={styles.eventDetailsHeader}>Participants</Text>
+            <Text style={styles.eventDetailsHeader}>Posts</Text>
             <Text style={styles.eventDetailsSubHeader}>
               Vote for your favourite posts
             </Text>
