@@ -73,20 +73,16 @@ export default function Details() {
         />
       </Card>
       <View style={styles.contestDetails}>
-        {canJoin ? (
-          <Chip
-            compact
-            textStyle={{color: Colors.white}}
-            style={{
-              backgroundColor: Colors.danger,
-              marginVertical: Spacing.m,
-            }}>
-            Join date for the contest ended on{' '}
-            {moment(data?.join_end_date).format('DD/MM/YYYY')}
-          </Chip>
-        ) : (
-          <></>
-        )}
+        <Chip
+          compact
+          textStyle={{color: canJoin ? Colors.dark2 : Colors.white}}
+          style={{
+            backgroundColor: canJoin ? Colors.light : Colors.danger,
+            marginVertical: Spacing.m,
+          }}>
+          Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
+          {moment(data?.join_end_date).format('DD/MM/YYYY')}
+        </Chip>
         <View style={styles.headerContainer}>
           <Section>
             <Text style={styles.title}>{data?.concept_name}</Text>

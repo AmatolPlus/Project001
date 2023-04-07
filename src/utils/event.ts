@@ -6,7 +6,7 @@ export const canJoinEvent = (
   if (occupancy < thresholdOccupancy) {
     return true;
   }
-  if (days <= 0) {
+  if (days > 0) {
     return true;
   }
   return false;
