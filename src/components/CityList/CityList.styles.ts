@@ -21,6 +21,7 @@ export const styles = StyleSheet.create({
   cityButton: {
     width: Dimensions.get('window').width / 2.8,
     height: Spacing.xl * 2,
+    backgroundColor: Colors.white,
   },
   stateButton: {
     width: Dimensions.get('window').width / 2.8,

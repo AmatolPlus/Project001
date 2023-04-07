@@ -5,8 +5,6 @@ import Address from '../Address/Address';
 import {View} from 'react-native';
 import {styles} from './AddressModal.style';
 import {Spacing} from '@/utils/constants';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateAddress} from '@/services/reducers/profile.slice';
 import {validateAddressForm} from '@/utils/addressConstants';
 import {Colors} from '@/utils/colors';
 import {

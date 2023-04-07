@@ -36,7 +36,8 @@ const SocialMediaModal = ({visible, onClose}: ISocialMediaModal) => {
 
   const handleSubmit = useCallback(() => {
     update(form);
-  }, [form, update]);
+    onClose();
+  }, [form, onClose, update]);
 
   return (
     <Portal>

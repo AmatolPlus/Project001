@@ -12,6 +12,7 @@ import {ScrollView} from 'react-native';
 
 const CitiesModal = ({visible, closeModal, onSelect, state}: any) => {
   let cities = getCitiesByState(state);
+
   const handleSelectState = (stateName: string) => {
     onSelect(stateName);
     closeModal();
@@ -42,7 +43,6 @@ const CitiesModal = ({visible, closeModal, onSelect, state}: any) => {
 
 const CitiesList = ({city, state, onChange}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
-
   const handleSelect = (cityName: React.SetStateAction<string>) => {
     onChange(cityName);
   };

@@ -1,9 +1,7 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import TextInput from '@/ui/TextInput';
 import {View} from 'react-native';
 import {styles} from './Address.styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateAddress} from '@/services/reducers/profile.slice';
 import StateList from '../StateList/StateList';
 import CitiesList from '../CityList/CityList';
 
@@ -15,6 +13,7 @@ interface AddressState {
 }
 
 const Address = ({form, onChange}: any) => {
+  console.log(JSON.stringify(form));
   const handleFormUpdate = (key: keyof AddressState, value: string) => {
     onChange(key, value);
   };

@@ -39,8 +39,9 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
   const handleSubmit = useCallback(() => {
     try {
       update(form);
+      onClose();
     } catch (error) {}
-  }, [form, update]);
+  }, [form, onClose, update]);
 
   const handleChange = (attribute: keyof FormData, value: string) => {
     setForm(prevState => ({
@@ -50,7 +51,6 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
   };
 
   useEffect(() => {
-    console.log(JSON.stringify(user));
     setForm(user);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
