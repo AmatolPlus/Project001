@@ -82,6 +82,12 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h3,
     marginBottom: Spacing.l,
   },
+  eventDetailsSubHeader: {
+    ...Fonts.h3,
+    color: Colors.grey,
+    fontSize: fontSize.h6,
+    marginBottom: Spacing.xs,
+  },
   termsHeaderContainer: {
     padding: Spacing.s,
     borderRadius: BorderRadius.m,
@@ -89,4 +95,26 @@ export const styles = StyleSheet.create({
   },
   termsHeader: {...Fonts.h4, marginBottom: Spacing.s},
   termsBody: {...Fonts.sub1, color: Colors.dark},
+  postCard: {
+    height: 250,
+    width: 200,
+    backgroundColor: Colors.light,
+    marginLeft: Spacing.xs,
+    borderColor: Colors.grey,
+    borderWidth: 1,
+  },
+  postCardImage: {
+    position: 'absolute',
+    bottom: 0,
+    height: 55,
+    width: '100%',
+    backgroundColor: Colors.white,
+    gap: 2,
+    padding: Spacing.xs,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
 });

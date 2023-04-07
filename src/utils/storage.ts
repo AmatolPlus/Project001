@@ -15,4 +15,11 @@ export function get(key = 'token') {
   } catch (error) {}
 }
 
+export function remove(key = 'token') {
+  try {
+    let token = storage.delete(key);
+    return token;
+  } catch (error) {}
+}
+
 export default storage;

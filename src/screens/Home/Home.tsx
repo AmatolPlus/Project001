@@ -11,12 +11,15 @@ import {TouchableOpacity} from 'react-native';
 import {styles} from './Home.styles';
 import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import JoinTag from '@/components/JoinTag/JoinTag';
+import {Fonts} from '@/utils/fonts';
 
 export default function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
   const {data, isError, isLoading}: any = useSectionQuery({});
 
+  console.log(JSON.stringify(data));
   useEffect(() => {
     if (data) {
       let formattedList: any = formatArray(data);
@@ -51,7 +54,7 @@ export default function Home() {
       <TouchableOpacity
         onPress={() => handleDetailNavigation(item)}
         style={styles.imageContainer}>
-        {/* <JoinTag days={10} occupancy={1} thresholdOccupancy={100} /> */}
+        <JoinTag isLive={!item?.contest_ended} />
         <Image
           resizeMode={'cover'}
           style={styles.image}
@@ -65,13 +68,21 @@ export default function Home() {
             <Text style={styles.priceLabel}>ENTRY FEE :</Text>
             {item.entry_price}
           </Text>
+          <Text style={{...Fonts.h5}}>
+            {item?.total_competators} People can join
+          </Text>
+          {item?.is_joined_by_me ? (
+            <Text style={{...Fonts.h5}}>JOINED</Text>
+          ) : (
+            <></>
+          )}
         </View>
       </TouchableOpacity>
     );
   };
 
   const renderHeader = ({section: {title, data, id}}: any) =>
-    data ? (
+    data.length ? (
       <View>
         <View style={styles.sectionHeader}>
           <Text style={styles.header}>{title}</Text>

@@ -1,29 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {canJoinEvent} from '@/utils/event';
+import React, {memo} from 'react';
 import {View} from 'react-native';
 import {Text} from '@/ui';
 import {styles} from './JoinTag.style';
 
 interface IJoinTag {
-  days: number;
-  occupancy: number;
-  thresholdOccupancy: number;
+  isLive: Boolean;
 }
 
-const JoinTag = ({days, occupancy, thresholdOccupancy}: IJoinTag) => {
-  const [live, setLive] = useState(true);
+const JoinTag = ({isLive}: IJoinTag) => {
+  if (!isLive) {
+    return <></>;
+  }
 
-  useEffect(() => {
-    setLive(canJoinEvent(days, occupancy, thresholdOccupancy));
-  }, [days, occupancy, thresholdOccupancy]);
-
-  return live ? (
+  return (
     <View style={styles.container}>
-      <Text style={styles.status}>Live</Text>
+      <Text style={styles.status}>Contest Live</Text>
     </View>
-  ) : (
-    <></>
   );
 };
 
-export default JoinTag;
+export default memo(JoinTag);

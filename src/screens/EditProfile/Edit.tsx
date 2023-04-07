@@ -8,6 +8,7 @@ import {Button} from 'react-native-paper';
 import {Text} from '@/ui';
 import {useUpdateUserDetailsQuery} from '@/services/apis/login.api';
 import {useSelector} from 'react-redux';
+import StateList from '@/components/StateList/StateList';
 
 export default function Edit() {
   const {update}: any = useUpdateUserDetailsQuery({});
@@ -25,6 +26,7 @@ export default function Edit() {
         <View style={styles.card}>
           <UserDetails />
           <Address />
+          <StateList visible={true} />
           <Social />
           <Button onPress={handleUpdate}>
             <Text>Update</Text>
