@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View} from 'react-native';
 
 import {getFullName} from '@/utils/getFullName';
@@ -12,6 +12,8 @@ import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import {useNavigation} from '@react-navigation/native';
+import {remove} from '@/utils/storage';
+import {ScreenNames} from '@/utils/screenName';
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
@@ -23,6 +25,11 @@ export default function Profile() {
     user.last_name ? user.last_name : '',
   );
 
+  const handleLogout = useCallback(() => {
+    remove('token');
+    navigation.navigate(ScreenNames.loginStack);
+  }, [navigation]);
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -33,7 +40,11 @@ export default function Profile() {
             fullName={fullName}
           />
           <Divider style={styles.divider} />
-          <Wallet wallet={wallet} onRefreshWallet={refetch} />
+          <Wallet
+            wallet={wallet}
+            onRefreshWallet={refetch}
+            onWithdraw={() => {}}
+          />
           <Divider style={styles.divider} />
           <View>
             <Text style={{...Fonts.h3}}>About me</Text>
@@ -81,7 +92,7 @@ export default function Profile() {
             </View>
           </View>
         </View>
-        <Button style={styles.logout}>
+        <Button style={styles.logout} onPress={handleLogout}>
           <Text style={styles.logoutText}>Logout</Text>
         </Button>
       </View>

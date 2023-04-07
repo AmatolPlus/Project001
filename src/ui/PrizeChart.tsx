@@ -13,17 +13,21 @@ import Modal from './Modal';
 import Text from './Text';
 
 const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
-  const renderRow = () =>
-    Object.keys(data).map((item): any => {
-      return (
-        <DataTable.Row key={item}>
-          <DataTable.Cell textStyle={styles.tableCell}>{item}</DataTable.Cell>
-          <DataTable.Cell textStyle={styles.tableCell}>
-            {data[item]}
-          </DataTable.Cell>
-        </DataTable.Row>
-      );
-    });
+  const renderRow = () => {
+    if (data) {
+      return Object.keys(data).map((item): any => {
+        return (
+          <DataTable.Row key={item}>
+            <DataTable.Cell textStyle={styles.tableCell}>{item}</DataTable.Cell>
+            <DataTable.Cell textStyle={styles.tableCell}>
+              {data[item]}
+            </DataTable.Cell>
+          </DataTable.Row>
+        );
+      });
+    }
+    return <></>;
+  };
 
   return (
     <Portal>

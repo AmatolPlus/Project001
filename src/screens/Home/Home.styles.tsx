@@ -44,8 +44,11 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   infoContainer: {
-    padding: Spacing.l,
+    gap: 4,
+    marginTop: Spacing.m,
+    paddingHorizontal: Spacing.l,
   },
+  eventInfo: {},
   name: {
     ...Fonts.h3,
     fontSize: fontSize.h6,

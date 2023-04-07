@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import {Image, Text} from '@/ui';
 import {View} from 'react-native';
 import {styles} from './ProfileInfo.styles';
@@ -39,4 +39,4 @@ const ProfileInfo = ({data, fullName, navigation}: any) => {
   );
 };
 
-export default ProfileInfo;
+export default memo(ProfileInfo);
