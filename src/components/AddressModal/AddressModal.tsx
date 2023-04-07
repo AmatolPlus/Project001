@@ -45,8 +45,8 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
         form?.address_detail?.state,
         form?.address_detail?.street,
         form?.address_detail?.postal_code,
-      ).message,
-    [form.address_detail],
+      )?.message,
+    [form?.address_detail],
   );
 
   const disabled = useMemo(
@@ -56,8 +56,8 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
         form?.address_detail?.state,
         form?.address_detail?.street,
         form?.address_detail?.postal_code,
-      ).valid,
-    [form.address_detail],
+      )?.valid,
+    [form?.address_detail],
   );
 
   useEffect(() => {

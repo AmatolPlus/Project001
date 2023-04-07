@@ -9,7 +9,7 @@ import {canJoinEvent} from '@/utils/event';
 import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
 
-const DISABLE_JOIN = "You don't have minimum amount in the wallet";
+const DISABLE_JOIN = 'Joining period for this event has ended';
 interface IJoinEvent {
   thresholdOccupancy: number;
   currentOccupancy: number;

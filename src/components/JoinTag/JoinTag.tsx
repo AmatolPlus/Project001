@@ -14,7 +14,7 @@ const JoinTag = ({isLive}: IJoinTag) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.status}>Contest Live</Text>
+      <Text style={styles.status}>Live</Text>
     </View>
   );
 };

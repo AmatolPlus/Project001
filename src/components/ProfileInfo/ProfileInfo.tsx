@@ -20,12 +20,12 @@ const ProfileInfo = ({data, fullName}: any) => {
         <View style={styles.info}>
           <Image
             resizeMode="contain"
-            source={{uri: data.profile_image_url}}
+            source={{uri: data?.profile_image_url}}
             style={styles.profileImage}
           />
           <View>
             <Text style={styles.name}>{fullName}</Text>
-            <Text style={styles.email}>{data.email}</Text>
+            <Text style={styles.email}>{data?.email}</Text>
           </View>
         </View>
         <View style={styles.iconContainer}>

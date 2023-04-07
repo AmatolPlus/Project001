@@ -52,11 +52,11 @@ export default function TabStack() {
               <TouchableOpacity
                 activeOpacity={1}
                 {...props}
-                onPress={() =>
-                  token
+                onPress={() => {
+                  token !== 'undefined'
                     ? navigation.navigate(ScreenNames.profile)
-                    : navigation.navigate(ScreenNames.loginStack)
-                }
+                    : navigation.navigate(ScreenNames.loginStack);
+                }}
               />
             );
           },

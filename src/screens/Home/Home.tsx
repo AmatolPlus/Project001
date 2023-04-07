@@ -13,6 +13,7 @@ import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import JoinTag from '@/components/JoinTag/JoinTag';
 import {Fonts} from '@/utils/fonts';
+import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsTag';
 
 export default function Home() {
   const navigation: any = useNavigation();
@@ -54,6 +55,10 @@ export default function Home() {
         onPress={() => handleDetailNavigation(item)}
         style={styles.imageContainer}>
         <JoinTag isLive={!item?.contest_ended} />
+        <MaxParticipantsTag
+          joined={item.joined_list_count}
+          total={item.total_competators}
+        />
         <Image
           resizeMode={'cover'}
           style={styles.image}
@@ -67,9 +72,7 @@ export default function Home() {
             <Text style={styles.priceLabel}>ENTRY FEE :</Text>
             {item.entry_price}
           </Text>
-          <Text style={{...Fonts.h5}}>
-            {item?.total_competators} People can join
-          </Text>
+
           {item?.is_joined_by_me ? (
             <Text style={{...Fonts.h5}}>JOINED</Text>
           ) : (

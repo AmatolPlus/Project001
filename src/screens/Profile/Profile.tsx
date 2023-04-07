@@ -25,10 +25,7 @@ export default function Profile() {
   const [addressModal, setShowAddressModal] = useState(false);
   const [socialMediaModal, setSocialMediaModal] = useState(false);
 
-  const fullName = getFullName(
-    user?.first_name ? user?.first_name : '',
-    user.last_name ? user.last_name : '',
-  );
+  const fullName = getFullName(user?.first_name, user?.last_name);
 
   const handleLogout = useCallback(() => {
     remove('token');
@@ -95,7 +92,7 @@ export default function Profile() {
                   }}>
                   contact on:{' '}
                 </Text>
-                {user.mobile_number}
+                {user?.mobile_number}
               </Text>
               <Text>
                 <Text
@@ -105,7 +102,7 @@ export default function Profile() {
                   }}>
                   Account type:{' '}
                 </Text>
-                {user.category}
+                {user?.category}
               </Text>
               <Text>
                 <Text
@@ -115,7 +112,7 @@ export default function Profile() {
                   }}>
                   Hobbies:{' '}
                 </Text>
-                {user.hobby}
+                {user?.hobby}
               </Text>
               <Text>
                 <Text
@@ -125,7 +122,7 @@ export default function Profile() {
                   }}>
                   Gender:{' '}
                 </Text>
-                {user.gender}
+                {user?.gender}
               </Text>
             </View>
           </View>
