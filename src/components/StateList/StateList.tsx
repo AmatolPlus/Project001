@@ -8,8 +8,6 @@ import Text from '../../ui/Text';
 import {Spacing} from '@/utils/constants';
 import {Portal} from 'react-native-paper';
 import {styles} from './StateList.styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateAddress} from '@/services/reducers/profile.slice';
 import {ScrollView} from 'react-native';
 
 const StatesModal = ({visible, closeModal, onSelect}: any) => {
@@ -41,17 +39,11 @@ const StatesModal = ({visible, closeModal, onSelect}: any) => {
   );
 };
 
-const StateList = () => {
+const StateList = ({state, onChange}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const dispatch = useDispatch();
-  const {profile} = useSelector(state => state?.profile);
 
   const handleSelect = (stateName: React.SetStateAction<string>) => {
-    dispatch(
-      updateAddress({
-        state: stateName,
-      }),
-    );
+    onChange('state', stateName);
   };
 
   const handleOpenModal = () => {
@@ -68,7 +60,7 @@ const StateList = () => {
         <TextInput
           mode={'flat'}
           style={styles.stateButton}
-          value={profile.address_detail.state}
+          value={state}
           onFocus={handleOpenModal}
           placeholder="Select a state"
           editable={false}

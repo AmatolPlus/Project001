@@ -19,7 +19,6 @@ export default function Home() {
   const [formattedData, setFormattedData] = useState([]);
   const {data, isError, isLoading}: any = useSectionQuery({});
 
-  console.log(JSON.stringify(data));
   useEffect(() => {
     if (data) {
       let formattedList: any = formatArray(data);

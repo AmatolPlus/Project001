@@ -81,57 +81,12 @@ const profileSlice = createSlice({
         },
       });
     },
-    updateFirstName: (state, action) => {
+    updateUserBio: (state, action) => {
       return (state = {
         ...state,
         profile: {
           ...state.profile,
-          first_name: action.payload,
-        },
-      });
-    },
-    updateLastName: (state, action) => {
-      return (state = {
-        ...state,
-        profile: {
-          ...state.profile,
-          last_name: action.payload,
-        },
-      });
-    },
-    updateEmail: (state, action) => {
-      return (state = {
-        ...state,
-        profile: {
-          ...state.profile,
-          email: action.payload,
-        },
-      });
-    },
-    updateGender: (state, action) => {
-      return (state = {
-        ...state,
-        profile: {
-          ...state.profile,
-          gender: action.payload,
-        },
-      });
-    },
-    updateHobby: (state, action) => {
-      return (state = {
-        ...state,
-        profile: {
-          ...state.profile,
-          hobby: action.payload,
-        },
-      });
-    },
-    updateBirthday: (state, action) => {
-      return (state = {
-        ...state,
-        profile: {
-          ...state.profile,
-          birthday: action.payload,
+          ...action.payload,
         },
       });
     },
@@ -139,12 +94,7 @@ const profileSlice = createSlice({
 });
 
 export const {
-  updateEmail,
-  updateFirstName,
-  updateLastName,
-  updateHobby,
-  updateBirthday,
-  updateGender,
+  updateUserBio,
   updateYoutube,
   updateInstagram,
   updateFacebook,

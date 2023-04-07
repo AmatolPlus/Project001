@@ -8,8 +8,6 @@ import {Spacing} from '@/utils/constants';
 import {Portal} from 'react-native-paper';
 import {styles} from './CityList.styles';
 import {getCitiesByState} from '@/utils/cities';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateAddress} from '@/services/reducers/profile.slice';
 import {ScrollView} from 'react-native';
 
 const CitiesModal = ({visible, closeModal, onSelect, state}: any) => {
@@ -42,17 +40,11 @@ const CitiesModal = ({visible, closeModal, onSelect, state}: any) => {
   );
 };
 
-const CitiesList = () => {
+const CitiesList = ({city, state, onChange}: any) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const dispatch = useDispatch();
-  const {profile} = useSelector(state => state.profile);
 
   const handleSelect = (cityName: React.SetStateAction<string>) => {
-    dispatch(
-      updateAddress({
-        city: cityName,
-      }),
-    );
+    onChange(cityName);
   };
 
   const handleOpenModal = () => {
@@ -67,7 +59,7 @@ const CitiesList = () => {
     <View>
       <TouchableOpacity onPress={handleOpenModal}>
         <TextInput
-          value={profile.address_detail.city}
+          value={city}
           mode={'flat'}
           onFocus={handleOpenModal}
           style={styles.cityButton}
@@ -76,7 +68,7 @@ const CitiesList = () => {
         />
       </TouchableOpacity>
       <CitiesModal
-        state={profile?.address_detail.state}
+        state={state}
         visible={modalVisible}
         closeModal={handleCloseModal}
         onSelect={handleSelect}

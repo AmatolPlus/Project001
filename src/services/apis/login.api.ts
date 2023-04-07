@@ -38,7 +38,7 @@ export const loginService = createApi({
         url: 'auth/user/',
       }),
     }),
-    updateUserDetails: build.query({
+    updateUserDetails: build.mutation({
       query: body => ({
         method: 'PUT',
         url: 'auth/user/',
@@ -53,7 +53,7 @@ const {
   useValidateOtpMutation,
   useUserDetailsQuery,
   useResendOtpMutation,
-  useUpdateUserDetailsQuery,
+  useUpdateUserDetailsMutation,
 } = loginService;
 const loginReducerPath = loginService.reducerPath;
 export {
@@ -61,7 +61,7 @@ export {
   useValidateOtpMutation,
   useResendOtpMutation,
   loginReducerPath,
-  useUpdateUserDetailsQuery,
+  useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 };
 export type {ILoginRequest, IValidateRequest};

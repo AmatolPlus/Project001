@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {Home, Profile} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {TouchableOpacity} from 'react-native';
 import {get} from '@/utils/storage';
 import {Colors} from '@/utils/colors';
@@ -34,7 +34,11 @@ export default function TabStack() {
         options={{
           tabBarIcon: HomeIcon,
           headerTitle: 'HighFive',
-          headerTitleStyle: {...Fonts.title, color: Colors.purple},
+          headerTitleStyle: {
+            ...Fonts.title,
+            fontSize: fontSize.title,
+            color: Colors.dark2,
+          },
         }}
         name={ScreenNames.home}
         component={Home}

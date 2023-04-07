@@ -1,5 +1,5 @@
 import {Button, Modal, Text} from '@/ui';
-import React, {memo, useEffect, useMemo} from 'react';
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {Portal} from 'react-native-paper';
 import Address from '../Address/Address';
 import {View} from 'react-native';
@@ -9,6 +9,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateAddress} from '@/services/reducers/profile.slice';
 import {validateAddressForm} from '@/utils/addressConstants';
 import {Colors} from '@/utils/colors';
+import {
+  useUpdateUserDetailsMutation,
+  useUserDetailsQuery,
+} from '@/services/apis/login.api';
 
 interface IAddressModal {
   visible: boolean;
@@ -16,42 +20,51 @@ interface IAddressModal {
 }
 
 const AddressModal = ({visible, onClose}: IAddressModal) => {
-  const {profile} = useSelector((state: any) => state.profile);
-  const dispatch = useDispatch();
+  const [form, setForm] = useState<any>({});
+  const [update]: any = useUpdateUserDetailsMutation({});
+  const {data: user} = useUserDetailsQuery({});
 
-  const handleUpdate = () => {
+  const handleUpdate = (key: string, value: string) => {
     try {
-      dispatch(
-        updateAddress({
-          ...profile.address_detail,
-        }),
-      );
-      onClose();
-      console.log(profile.address_detail);
+      setForm({
+        ...form,
+        address_detail: {
+          [key]: value,
+        },
+      });
+      //  onClose();
     } catch (error) {}
   };
+
+  const handleSubmit = useCallback(() => {
+    update(form);
+  }, [form, update]);
 
   const message = useMemo(
     () =>
       validateAddressForm(
-        profile.address_detail.city,
-        profile.address_detail.state,
-        profile.address_detail.street,
-        profile.address_detail.postal_code,
+        form?.address_detail?.city,
+        form?.address_detail?.state,
+        form?.address_detail?.street,
+        form?.address_detail?.postal_code,
       ).message,
-    [profile.address_detail],
+    [form.address_detail],
   );
 
   const disabled = useMemo(
     () =>
       validateAddressForm(
-        profile.address_detail.city,
-        profile.address_detail.state,
-        profile.address_detail.street,
-        profile.address_detail.postal_code,
+        form?.address_detail?.city,
+        form?.address_detail?.state,
+        form?.address_detail?.street,
+        form?.address_detail?.postal_code,
       ).valid,
-    [profile.address_detail],
+    [form.address_detail],
   );
+
+  useEffect(() => {
+    setForm(user);
+  }, [user]);
 
   return (
     <Portal>
@@ -60,7 +73,7 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
         style={{padding: Spacing.xl}}
         visible={visible}>
         <View style={styles.card}>
-          <Address />
+          <Address form={form} onChange={handleUpdate} />
           {disabled ? (
             <Text style={{color: Colors.danger}}>{message}</Text>
           ) : (
@@ -68,7 +81,7 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
           )}
           <Button
             disabled={!disabled}
-            onPress={handleUpdate}
+            onPress={handleSubmit}
             style={[
               styles.updateButton,
               {backgroundColor: !disabled ? Colors.grey : Colors.success},
