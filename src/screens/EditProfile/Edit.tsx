@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, ScrollView} from 'react-native';
 import {styles} from './Edit.styles';
 import Address from '@/components/Address/Address';
@@ -26,7 +26,6 @@ export default function Edit() {
         <View style={styles.card}>
           <UserDetails />
           <Address />
-          <StateList visible={true} />
           <Social />
           <Button onPress={handleUpdate}>
             <Text>Update</Text>

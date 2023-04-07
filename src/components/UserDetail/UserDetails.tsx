@@ -10,6 +10,7 @@ import {
 } from '@/services/reducers/profile.slice';
 import TextInput from '@/ui/TextInput';
 import {styles} from './UserDetails.styles';
+import {View} from 'react-native';
 
 const UserDetails = () => {
   const dispatch = useDispatch();
@@ -58,18 +59,21 @@ const UserDetails = () => {
 
   return (
     <>
-      <TextInput
-        label={'First Name'}
-        style={styles.input}
-        value={profile.first_name}
-        onChangeText={handleFirstName}
-      />
-      <TextInput
-        label={'Last Name'}
-        style={styles.input}
-        value={profile.last_name}
-        onChangeText={handleLastName}
-      />
+      <View style={styles.userNameContainer}>
+        <TextInput
+          label={'First Name'}
+          style={styles.username}
+          value={profile.first_name}
+          onChangeText={handleFirstName}
+        />
+        <TextInput
+          label={'Last Name'}
+          style={styles.username}
+          value={profile.last_name}
+          onChangeText={handleLastName}
+        />
+      </View>
+
       <TextInput
         label={'Email'}
         style={styles.input}

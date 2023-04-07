@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     padding: Spacing.l,
   },
   input: {
-    height: 40,
+    height: Spacing.xl * 2,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.grey,
@@ -15,4 +15,12 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.m,
     marginBottom: Spacing.m,
   },
+  stateContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: Spacing.m,
+  },
+  cityInput: {},
 });

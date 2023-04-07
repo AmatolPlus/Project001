@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 
 import {getFullName} from '@/utils/getFullName';
@@ -14,11 +14,13 @@ import {useUserDetailsQuery} from '@/services/apis/login.api';
 import {useNavigation} from '@react-navigation/native';
 import {remove} from '@/utils/storage';
 import {ScreenNames} from '@/utils/screenName';
+import AddressModal from '@/components/AddressModal/AddressModal';
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
   const {data: wallet, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
+  const [addressModal, setShowAddressModal] = useState(false);
 
   const fullName = getFullName(
     user?.first_name ? user?.first_name : '',
@@ -46,6 +48,15 @@ export default function Profile() {
             onWithdraw={() => {}}
           />
           <Divider style={styles.divider} />
+          <View style={{alignItems: 'flex-start'}}>
+            <Button onPress={() => setShowAddressModal(!addressModal)}>
+              <Text style={{textAlign: 'left'}}>Change Address</Text>
+              <AddressModal
+                onClose={() => setShowAddressModal(!addressModal)}
+                visible={addressModal}
+              />
+            </Button>
+          </View>
           <View>
             <Text style={{...Fonts.h3}}>About me</Text>
             <View style={{gap: Spacing.xs, marginTop: Spacing.m}}>

@@ -10,7 +10,12 @@ const profileSlice = createSlice({
       gender: '',
       hobby: '',
       birthday: '',
-      address_detail: {},
+      address_detail: {
+        state: 'Karnataka',
+        city: '',
+        street: '',
+        postal_code: '',
+      },
       facebook_detail: {
         facebook_page: false,
         facebook_link: '',

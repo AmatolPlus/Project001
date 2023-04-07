@@ -4,6 +4,8 @@ import {View} from 'react-native';
 import {styles} from './Address.styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateAddress} from '@/services/reducers/profile.slice';
+import StateList from '../StateList/StateList';
+import CitiesList from '../CityList/CityList';
 
 interface AddressState {
   street: string | undefined;
@@ -31,21 +33,17 @@ const Address = () => {
         value={profile?.address_detail?.street}
         style={styles.input}
         onChangeText={val => handleFormUpdate('street', val)}
-        placeholder="Street"
+        placeholder="Address"
       />
+      <View style={styles.stateContainer}>
+        <CitiesList />
+        <StateList />
+      </View>
+
       <TextInput
-        value={profile?.address_detail?.city}
-        style={styles.input}
-        onChangeText={val => handleFormUpdate('city', val)}
-        placeholder="City"
-      />
-      <TextInput
-        value={profile?.address_detail?.state}
-        style={styles.input}
-        onChangeText={val => handleFormUpdate('state', val)}
-        placeholder="State"
-      />
-      <TextInput
+        mode={'flat'}
+        maxLength={6}
+        keyboardType="number-pad"
         value={profile?.address_detail?.postal_code}
         style={styles.input}
         onChangeText={val => handleFormUpdate('postal_code', val)}

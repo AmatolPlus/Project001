@@ -18,6 +18,10 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     padding: Spacing.xl,
   },
+  cityButton: {
+    width: Dimensions.get('window').width / 2.8,
+    height: Spacing.xl * 2,
+  },
   stateButton: {
     width: Dimensions.get('window').width / 2.8,
     height: 50,

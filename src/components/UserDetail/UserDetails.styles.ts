@@ -15,4 +15,11 @@ export const styles = StyleSheet.create({
     paddingHorizontal: Spacing.m,
     marginBottom: Spacing.m,
   },
+  userNameContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  username: {
+    width: '40%',
+  },
 });

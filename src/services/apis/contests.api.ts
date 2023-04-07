@@ -42,6 +42,13 @@ export const contestService = createApi({
         body,
       }),
     }),
+    likeContest: build.mutation({
+      query: body => ({
+        method: 'POST',
+        url: 'contest/like/',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -50,6 +57,7 @@ const {
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
+  useLikeContestMutation,
   useMoreContestsQuery,
 } = contestService;
 
@@ -58,6 +66,7 @@ const contestReducerPath = contestService.reducerPath;
 export {
   useContestDetailQuery,
   useMoreContestsQuery,
+  useLikeContestMutation,
   useSectionQuery,
   useContestListQuery,
   useJoinContestMutation,
