@@ -44,11 +44,7 @@ export default function Profile() {
     <View style={styles.container}>
       <View style={styles.card}>
         <View>
-          <ProfileInfo
-            navigation={navigation}
-            data={user}
-            fullName={fullName}
-          />
+          <ProfileInfo data={user} fullName={fullName} />
           <Divider style={styles.divider} />
           <Wallet
             wallet={wallet}

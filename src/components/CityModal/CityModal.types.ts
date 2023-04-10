@@ -1,6 +1,6 @@
 export interface ICityModal {
   visible: boolean;
   closeModal: () => void;
-  onSelect: () => string;
+  onSelect: any;
   state: string;
 }

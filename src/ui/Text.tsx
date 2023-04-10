@@ -5,14 +5,16 @@ import {StyleSheet} from 'react-native';
 import {Text as RPText} from 'react-native-paper';
 import {IText} from '../types/Text';
 
-const Text = ({style = {}, ...props}: IText) => (
-  <RPText style={(styles.textStyle, {...style})} {...props}>
-    {props.children}
-  </RPText>
-);
+const Text = ({style = {}, color, ...props}: IText) => {
+  const styles = StyleSheet.create({
+    textStyle: {...Fonts.h5, color: Colors.dark},
+  });
 
-const styles = StyleSheet.create({
-  textStyle: {color: Colors.dark, ...Fonts.h5},
-});
+  return (
+    <RPText style={(styles.textStyle, {...style})} {...props}>
+      {props.children}
+    </RPText>
+  );
+};
 
 export default Text;

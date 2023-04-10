@@ -17,6 +17,7 @@ import Ticket from '@/ui/Ticket';
 import PriceChart from '@/ui/PrizeChart';
 import PostCard from '@/components/PostCard/PostCard';
 import {canJoinEvent} from '@/utils/event';
+import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
 
 export default function Details() {
   const {params}: any = useRoute();
@@ -36,7 +37,7 @@ export default function Details() {
     async (item: any) => {
       if (!item?.is_liked_by_me) {
         await like({
-          contest_id: item?.contest,
+          contest: item?.contest,
         });
         refetch();
       }
@@ -135,7 +136,13 @@ export default function Details() {
         </Section>
         {data?.joined_contest?.length ? (
           <Section>
-            <Text style={styles.eventDetailsHeader}>Posts</Text>
+            <View style={styles.eventHeaderContainer}>
+              <View>
+                <Text style={styles.eventDetailsHeader}>Posts</Text>
+                <ParticipantsList participants={32} />
+              </View>
+              <Text color={Colors.info}>More</Text>
+            </View>
             <Text style={styles.eventDetailsSubHeader}>
               Vote for your favourite posts
             </Text>
