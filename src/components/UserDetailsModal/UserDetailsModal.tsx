@@ -34,14 +34,15 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
     gender: '',
   });
   const [update]: any = useUpdateUserDetailsMutation({});
-  const {data: user} = useUserDetailsQuery({});
+  const {data: user, refetch} = useUserDetailsQuery({});
 
   const handleSubmit = useCallback(() => {
     try {
       update(form);
+      refetch();
       onClose();
     } catch (error) {}
-  }, [form, onClose, update]);
+  }, [form, onClose, refetch, update]);
 
   const handleChange = (attribute: keyof FormData, value: string) => {
     setForm(prevState => ({

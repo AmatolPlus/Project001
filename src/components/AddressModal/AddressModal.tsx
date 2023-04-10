@@ -19,7 +19,7 @@ interface IAddressModal {
 
 const AddressModal = ({visible, onClose}: IAddressModal) => {
   const [form, setForm] = useState<any>({});
-  const [update]: any = useUpdateUserDetailsMutation({});
+  const [update, {error}]: any = useUpdateUserDetailsMutation({});
   const {data: user} = useUserDetailsQuery({});
 
   const handleUpdate = (key: string, value: string) => {
@@ -27,16 +27,17 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
       setForm({
         ...form,
         address_detail: {
+          ...form?.address_detail,
           [key]: value,
         },
       });
-      //  onClose();
-    } catch (error) {}
+    } catch (e) {}
   };
 
   const handleSubmit = useCallback(() => {
     update(form);
-  }, [form, update]);
+    onClose();
+  }, [form, onClose, update]);
 
   const message = useMemo(
     () =>

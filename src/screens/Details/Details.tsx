@@ -3,7 +3,10 @@ import {ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
 
-import {useContestDetailQuery} from '@/services/apis/contests.api';
+import {
+  useContestDetailQuery,
+  useLikeContestMutation,
+} from '@/services/apis/contests.api';
 import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
 import {Colors} from '@/utils/colors';
 import {styles} from './Details.styles';
@@ -21,7 +24,8 @@ export default function Details() {
   const {params}: any = useRoute();
   const id = params?.id;
   const [isPrizeChartShown, setPriceChartShown] = useState(false);
-  const {data, isError, isLoading}: any = useContestDetailQuery(id);
+  const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
+  const [like] = useLikeContestMutation({});
 
   const progress = useMemo(
     () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
@@ -29,11 +33,18 @@ export default function Details() {
   );
 
   const handleJoinEvent = useCallback(() => {}, []);
-  const handleLike = useCallback((item: any) => {
-    if (item?.is_liked_by_me) {
-      //apiCall
-    }
-  }, []);
+
+  const handleLike = useCallback(
+    async (item: any) => {
+      if (!item?.is_liked_by_me) {
+        await like({
+          contest_id: item?.contest,
+        });
+        refetch();
+      }
+    },
+    [like, refetch],
+  );
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -43,17 +54,19 @@ export default function Details() {
     return <></>;
   }
 
-  const renderPosts = ({item}: any) => (
-    <PostCard
-      likeCount={item?.like_count}
-      liked={item?.is_liked_by_me}
-      contestImage={item?.contest_image_url}
-      caption={item?.img_caption}
-      onLike={() => {
-        handleLike(item);
-      }}
-    />
-  );
+  const renderPosts = ({item}: any) => {
+    return (
+      <PostCard
+        likeCount={item?.like_count}
+        liked={item?.is_liked_by_me}
+        contestImage={item?.contest_image_url}
+        caption={item?.img_caption}
+        onLike={() => {
+          handleLike(item);
+        }}
+      />
+    );
+  };
   const canJoin = canJoinEvent(
     data?.join_validity_in_days,
     data?.joined_list_count,
@@ -150,7 +163,6 @@ export default function Details() {
         currentOccupancy={data?.joined_list_count}
         joinEndDate={data?.join_end_date}
         joinStartDate={data?.publish_on}
-        threshold={data?.total_competators}
         onJoinEvent={handleJoinEvent}
       />
       <PriceChart

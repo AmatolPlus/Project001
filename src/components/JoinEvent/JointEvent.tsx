@@ -1,6 +1,6 @@
 import {Colors} from '@/utils/colors';
 import moment from 'moment';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Button, Text} from '@/ui';
@@ -15,7 +15,6 @@ interface IJoinEvent {
   currentOccupancy: number;
   joinEndDate: string;
   joinStartDate: string;
-  threshold: number;
   onJoinEvent: () => void;
 }
 

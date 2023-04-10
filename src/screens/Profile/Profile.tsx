@@ -56,7 +56,7 @@ export default function Profile() {
             onWithdraw={() => {}}
           />
           <Divider style={styles.divider} />
-          {/* <Pressable onPress={handleAddressChange}>
+          <Pressable onPress={handleAddressChange}>
             <Text style={{textAlign: 'left', color: Colors.info}}>
               Change Address
             </Text>
@@ -64,7 +64,7 @@ export default function Profile() {
               onClose={() => setShowAddressModal(!addressModal)}
               visible={addressModal}
             />
-          </Pressable> */}
+          </Pressable>
           <Pressable
             style={{marginTop: Spacing.m}}
             onPress={handleSocialChange}>

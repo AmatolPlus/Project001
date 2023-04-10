@@ -18,6 +18,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     padding: Spacing.xl,
   },
+
   stateButton: {
     width: Dimensions.get('window').width / 2.8,
     height: 50,

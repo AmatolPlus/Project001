@@ -1,9 +1,9 @@
-import React, {memo} from 'react';
+import React, {memo, useState} from 'react';
 import TextInput from '@/ui/TextInput';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {styles} from './Address.styles';
-import StateList from '../StateList/StateList';
-import CitiesList from '../CityList/CityList';
+import StateModal from '../StatesModal/StateModal';
+import CityModal from '../CityModal/CityModal';
 
 interface AddressState {
   street: string | undefined;
@@ -13,9 +13,28 @@ interface AddressState {
 }
 
 const Address = ({form, onChange}: any) => {
-  console.log(JSON.stringify(form));
+  let [modals, setModals] = useState({
+    stateModal: false,
+    citiesModal: false,
+  });
+  console.log(JSON.stringify(form.address_detail));
+
   const handleFormUpdate = (key: keyof AddressState, value: string) => {
     onChange(key, value);
+  };
+
+  const handleOpenModal = (key: string, value: boolean) => {
+    setModals({
+      ...modals,
+      [key]: value,
+    });
+  };
+
+  const handleCloseModal = (key: string, value: boolean) => {
+    setModals({
+      ...modals,
+      [key]: value,
+    });
   };
 
   return (
@@ -27,15 +46,26 @@ const Address = ({form, onChange}: any) => {
         placeholder="Address"
       />
       <View style={styles.stateContainer}>
-        <CitiesList
-          city={form?.address_detail?.city}
-          state={form?.address_detail?.state}
-          onChange={(city: string) => handleFormUpdate('city', city)}
-        />
-        <StateList
-          state={form?.address_detail?.state}
-          onChange={(state: string) => handleFormUpdate('state', state)}
-        />
+        <TouchableOpacity onPress={() => handleOpenModal('stateModal', true)}>
+          <TextInput
+            mode={'flat'}
+            style={styles.stateButton}
+            value={form?.address_detail?.state}
+            onFocus={() => handleOpenModal('stateModal', true)}
+            placeholder="Select a state"
+            editable={false}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleOpenModal('citiesModal', true)}>
+          <TextInput
+            mode={'flat'}
+            style={styles.stateButton}
+            value={form?.address_detail?.city}
+            onFocus={() => handleOpenModal('citiesModal', true)}
+            placeholder="Select a city"
+            editable={false}
+          />
+        </TouchableOpacity>
       </View>
 
       <TextInput
@@ -46,6 +76,17 @@ const Address = ({form, onChange}: any) => {
         style={styles.input}
         onChangeText={val => handleFormUpdate('postal_code', val)}
         placeholder="Postal Code"
+      />
+      <StateModal
+        visible={modals.stateModal}
+        closeModal={async () => handleCloseModal('stateModal', false)}
+        onSelect={(state: any) => handleFormUpdate('state', state)}
+      />
+      <CityModal
+        state={form?.address_detail?.state}
+        visible={modals.citiesModal}
+        closeModal={async () => handleCloseModal('citiesModal', false)}
+        onSelect={(city: any) => handleFormUpdate('city', city)}
       />
     </View>
   );
