@@ -9,20 +9,7 @@ import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
-
-interface IUserDetailsModal {
-  visible: boolean;
-  onClose: () => void;
-}
-
-export interface FormData {
-  first_name: string;
-  last_name: string;
-  email: string;
-  hobby: string;
-  birthday: string;
-  gender: string;
-}
+import {FormData, IUserDetailsModal} from './UserDetailModal.types';
 
 const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
   const [form, setForm] = useState<FormData>({
@@ -53,7 +40,6 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
 
   useEffect(() => {
     setForm(user);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return (

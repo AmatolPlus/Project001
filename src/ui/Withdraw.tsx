@@ -1,9 +1,7 @@
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
 import {Fonts} from '@/utils/fonts';
 import React, {useCallback, useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import Button from './Button';
 import Chip from './Chip';
 import Snackbar from './SnackBar';
 import Text from './Text';
@@ -58,9 +56,7 @@ export const Withdraw = ({currentAmount, threshold, onWithdraw}: IWithdraw) => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    // padding: Spacing.xs,
-  },
+  button: {},
   buttonText: {
     ...Fonts.sub1,
     color: Colors.white,

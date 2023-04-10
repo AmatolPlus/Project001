@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     padding: Spacing.xs,
     right: 0,
     backgroundColor: Colors.dark,
-    // elevation: 2,
     bottom: Spacing.xl,
     position: 'absolute',
     alignItems: 'center',

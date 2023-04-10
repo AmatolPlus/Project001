@@ -11,15 +11,11 @@ import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
-
-interface IAddressModal {
-  visible: boolean;
-  onClose: () => void;
-}
+import {IAddressModal} from './AddressModal.types';
 
 const AddressModal = ({visible, onClose}: IAddressModal) => {
   const [form, setForm] = useState<any>({});
-  const [update, {error}]: any = useUpdateUserDetailsMutation({});
+  const [update]: any = useUpdateUserDetailsMutation({});
   const {data: user} = useUserDetailsQuery({});
 
   const handleUpdate = (key: string, value: string) => {

@@ -8,12 +8,12 @@ import {Portal} from 'react-native-paper';
 import {styles} from './CityList.styles';
 import {getCitiesByState} from '@/utils/cities';
 import {ScrollView} from 'react-native';
+import {ICityModal} from './CityModal.types';
 
-const CitiesModal = ({visible, closeModal, onSelect, state}: any) => {
+const CitiesModal = ({visible, closeModal, onSelect, state}: ICityModal) => {
   let cities = getCitiesByState(state);
 
   const handleSelectCity = (cityName: string) => {
-    console.log('logged');
     onSelect(cityName);
     closeModal();
   };
@@ -40,41 +40,5 @@ const CitiesModal = ({visible, closeModal, onSelect, state}: any) => {
     </Portal>
   );
 };
-
-// const CitiesList = ({city, state, onChange}: any) => {
-//   const [modalVisible, setModalVisible] = useState(false);
-//   const handleSelect = (cityName: React.SetStateAction<string>) => {
-//     onChange(cityName);
-//   };
-
-//   const handleOpenModal = () => {
-//     setModalVisible(true);
-//   };
-
-//   const handleCloseModal = () => {
-//     setModalVisible(false);
-//   };
-
-//   return (
-//     <View>
-//       <TouchableOpacity onPress={handleOpenModal}>
-//         <TextInput
-//           value={city}
-//           mode={'flat'}
-//           onFocus={handleOpenModal}
-//           style={styles.cityButton}
-//           placeholder="Select a city"
-//           editable={false}
-//         />
-//       </TouchableOpacity>
-//       <CitiesModal
-//         state={state}
-//         visible={modalVisible}
-//         closeModal={handleCloseModal}
-//         onSelect={handleSelect}
-//       />
-//     </View>
-//   );
-// };
 
 export default memo(CitiesModal);

@@ -49,9 +49,7 @@ const LoginScreen = () => {
           auth_token,
         });
       }
-    } catch (e) {
-      // setErr(JSON.stringify(e));
-    }
+    } catch (e) {}
   };
 
   const handleNavigation = useCallback(() => {

@@ -1,6 +1,6 @@
+import {width} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {Dimensions} from 'react-native';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     marginBottom: Spacing.m,
   },
   stateButton: {
-    width: Dimensions.get('window').width / 2.8,
+    width: width / 2.8,
     height: 50,
     backgroundColor: Colors.white,
   },

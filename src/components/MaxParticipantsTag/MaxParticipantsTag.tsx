@@ -2,13 +2,9 @@ import React, {memo} from 'react';
 import {View} from 'react-native';
 import {Text} from '@/ui';
 import {styles} from './MaxParticipantsTag.styles';
+import {IMaxParticipants} from './MaxParticipants.types';
 
-interface IJoinTag {
-  total: number;
-  joined: number;
-}
-
-const MaxParticipantsTag = ({total, joined}: IJoinTag) => {
+const MaxParticipantsTag = ({total, joined}: IMaxParticipants) => {
   return (
     <View style={styles.container}>
       <Text style={styles.status}>{total - joined} SPOTS OPEN</Text>

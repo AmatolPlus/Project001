@@ -1,11 +1,10 @@
+import {height} from '@/utils/Dimension';
 import {BorderTopRadius} from '@/utils/borders';
 import {Colors} from '@/utils/colors';
 import {Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin, VerticalMargin} from '@/utils/spacing';
-import {Dimensions, StyleSheet} from 'react-native';
-
-const {height} = Dimensions.get('window');
+import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {

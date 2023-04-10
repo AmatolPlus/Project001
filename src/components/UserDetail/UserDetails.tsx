@@ -6,16 +6,9 @@ import {Button, Text} from '@/ui';
 
 import {validateUserDetails} from '@/utils/validateUserDetails';
 import {Colors} from '@/utils/colors';
+import {IuserDetails} from './UserDetail.types';
 
-const UserDetails = ({
-  form,
-  onChange,
-  onSubmit,
-}: {
-  form: FormData | any;
-  onChange: (key: any, value: any) => void;
-  onSubmit: () => void;
-}) => {
+const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
   const disabled = useMemo(() => {
     return !validateUserDetails(
       form?.first_name,

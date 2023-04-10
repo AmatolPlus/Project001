@@ -4,12 +4,7 @@ import {Withdraw} from '@/ui/Withdraw';
 import {View} from 'react-native';
 import {styles} from './Wallet.styles';
 import {Colors} from '@/utils/colors';
-
-interface IWallet {
-  wallet: any;
-  onRefreshWallet: () => void;
-  onWithdraw: () => void;
-}
+import {IWallet} from './Wallet.types';
 
 const Wallet = ({wallet, onWithdraw, onRefreshWallet}: IWallet) => (
   <View style={styles.walletContainer}>

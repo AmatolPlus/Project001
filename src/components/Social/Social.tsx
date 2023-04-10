@@ -2,8 +2,9 @@ import React from 'react';
 
 import TextInput from '@/ui/TextInput';
 import {styles} from './Social.styles';
+import {ISocial} from './Social.types';
 
-const Social = ({form, onChange}: any) => (
+const Social = ({form, onChange}: ISocial) => (
   <>
     <TextInput
       label={'Youtube Link'}

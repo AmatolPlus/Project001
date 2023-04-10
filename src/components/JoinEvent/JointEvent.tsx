@@ -8,15 +8,9 @@ import Snackbar from '@/ui/SnackBar';
 import {canJoinEvent} from '@/utils/event';
 import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
+import {IJoinEvent} from './JoinEvent.types';
 
 const DISABLE_JOIN = 'Joining period for this event has ended';
-interface IJoinEvent {
-  thresholdOccupancy: number;
-  currentOccupancy: number;
-  joinEndDate: string;
-  joinStartDate: string;
-  onJoinEvent: () => void;
-}
 
 export const JoinEvent = ({
   joinStartDate,

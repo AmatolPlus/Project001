@@ -1,13 +1,14 @@
 import React from 'react';
-import {Dimensions, View} from 'react-native';
+import {View} from 'react-native';
 import Button from './Button';
 import Modal from './Modal';
 import Text from './Text';
 import {Colors} from '@/utils/colors';
 import {Portal} from 'react-native-paper';
 import {Spacing} from '@/utils/constants';
+import {height} from '@/utils/Dimension';
 
-const {height} = Dimensions.get('window');
+height;
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;

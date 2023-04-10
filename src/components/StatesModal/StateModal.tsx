@@ -8,12 +8,7 @@ import {Spacing} from '@/utils/constants';
 import {Portal} from 'react-native-paper';
 import {styles} from './StateList.styles';
 import {ScrollView} from 'react-native';
-
-interface IStateModal {
-  visible: boolean;
-  closeModal: () => {};
-  onSelect: any;
-}
+import {IStateModal} from './StateModal.types';
 
 const StatesModal = ({visible, closeModal, onSelect}: IStateModal) => {
   const handleSelectState = (stateName: string) => {
@@ -43,41 +38,5 @@ const StatesModal = ({visible, closeModal, onSelect}: IStateModal) => {
     </Portal>
   );
 };
-
-// const StateList = ({state, onChange}: any) => {
-//   const [modalVisible, setModalVisible] = useState(false);
-
-//   const handleSelect = (stateName: React.SetStateAction<string>) => {
-//     onChange('state', stateName);
-//   };
-
-//   const handleOpenModal = () => {
-//     setModalVisible(true);
-//   };
-
-//   const handleCloseModal = () => {
-//     setModalVisible(false);
-//   };
-
-//   return (
-//     <View>
-//       <TouchableOpacity onPress={handleOpenModal}>
-//         <TextInput
-//           mode={'flat'}
-//           style={styles.stateButton}
-//           value={state}
-//           onFocus={handleOpenModal}
-//           placeholder="Select a state"
-//           editable={false}
-//         />
-//       </TouchableOpacity>
-//       <StatesModal
-//         visible={modalVisible}
-//         closeModal={handleCloseModal}
-//         onSelect={handleSelect}
-//       />
-//     </View>
-//   );
-// };
 
 export default memo(StatesModal);

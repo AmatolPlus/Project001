@@ -1,5 +1,4 @@
 function getCitiesByState(stateName: string) {
-  // Object containing the list of cities by state
   const citiesByState = {
     'Andhra Pradesh': [
       'Visakhapatnam',

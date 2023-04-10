@@ -1,13 +1,15 @@
 import React, {memo, useCallback, useState} from 'react';
-import {Image, Text} from '@/ui';
 import {View} from 'react-native';
-import {styles} from './ProfileInfo.styles';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import {styles} from './ProfileInfo.styles';
+import {Image, Text} from '@/ui';
 import {Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
 import UserDetailsModal from '../UserDetailsModal/UserDetailsModal';
+import {IProfileInfo} from './ProfileInfo.types';
 
-const ProfileInfo = ({data, fullName}: any) => {
+const ProfileInfo = ({data, fullName}: IProfileInfo) => {
   const [userModal, setShowUserModal] = useState(false);
 
   const handleModal = useCallback(() => {

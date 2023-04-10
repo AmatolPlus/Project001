@@ -117,4 +117,17 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
   },
+  note: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: Spacing.m,
+    justifyContent: 'space-between',
+    marginVertical: Spacing.m,
+    flexDirection: 'row',
+  },
+  noteTextContainer: {width: '70%'},
+  noteDate: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+  },
 });
