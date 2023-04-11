@@ -1,5 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {Pressable, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {getFullName} from '@/utils/getFullName';
 import {styles} from './Profile.styles';
@@ -11,12 +12,13 @@ import {Button, Text} from '@/ui';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
-import {useNavigation} from '@react-navigation/native';
 import {remove} from '@/utils/storage';
 import {ScreenNames} from '@/utils/screenName';
 import AddressModal from '@/components/AddressModal/AddressModal';
 import {Colors} from '@/utils/colors';
 import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
+import {TransactionModal} from '@/components/TransactionModal/TransactionModal';
+import {data} from '@/utils/mockData';
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
@@ -24,6 +26,7 @@ export default function Profile() {
   const navigation: any = useNavigation();
   const [addressModal, setShowAddressModal] = useState(false);
   const [socialMediaModal, setSocialMediaModal] = useState(false);
+  const [transactionModal, setTransactionModal] = useState(false);
 
   const fullName = getFullName(user?.first_name, user?.last_name);
 
@@ -40,6 +43,10 @@ export default function Profile() {
     setSocialMediaModal(!socialMediaModal);
   }, [socialMediaModal]);
 
+  const handleTransactionChange = useCallback(() => {
+    setTransactionModal(!transactionModal);
+  }, [transactionModal]);
+
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -51,6 +58,7 @@ export default function Profile() {
             onRefreshWallet={refetch}
             onWithdraw={() => {}}
           />
+
           <Divider style={styles.divider} />
           <Pressable onPress={handleAddressChange}>
             <Text style={{textAlign: 'left', color: Colors.info}}>
@@ -74,6 +82,18 @@ export default function Profile() {
             <SocialMediaModal
               visible={socialMediaModal}
               onClose={handleSocialChange}
+            />
+          </Pressable>
+          <Pressable
+            style={{marginTop: Spacing.m}}
+            onPress={handleTransactionChange}>
+            <Text style={{textAlign: 'left', color: Colors.info}}>
+              Transaction History
+            </Text>
+            <TransactionModal
+              data={data}
+              onClose={() => handleTransactionChange()}
+              visible={transactionModal}
             />
           </Pressable>
           <Divider style={styles.divider} />
