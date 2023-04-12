@@ -11,6 +11,7 @@ import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
 import styles from './Login.styles';
 import {fontSize} from '@/utils/fonts';
+import ResetPassword from '@/components/ResetPassword/ResetPassword';
 
 const LoginScreen = () => {
   const [loginForm, setForm] = useState<ILoginRequest>({
@@ -92,23 +93,28 @@ const LoginScreen = () => {
         label={'Phone Number'}
         keyboardType={'phone-pad'}
       />
-      <Button
-        loading={isLoading}
-        onPress={handleLogin}
-        buttonColor={Colors.success}
-        disabled={!isValid()}
-        style={[
-          styles.loginButton,
-          {backgroundColor: isValid() ? Colors.success : Colors.dark},
-        ]}>
-        <Text
-          style={{
-            color: isValid() ? Colors.dark : Colors.white,
-            ...styles.loginButtonText,
-          }}>
-          {'Sign In'}
-        </Text>
-      </Button>
+      <View>
+        <View style={styles.loginButtonContainer}>
+          <ResetPassword />
+          <Button
+            loading={isLoading}
+            onPress={handleLogin}
+            buttonColor={Colors.success}
+            disabled={!isValid()}
+            style={[
+              styles.loginButton,
+              {backgroundColor: isValid() ? Colors.success : Colors.dark},
+            ]}>
+            <Text
+              style={{
+                color: isValid() ? Colors.dark : Colors.white,
+                ...styles.loginButtonText,
+              }}>
+              {'Sign In'}
+            </Text>
+          </Button>
+        </View>
+      </View>
     </View>
   );
 };

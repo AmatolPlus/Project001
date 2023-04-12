@@ -22,11 +22,16 @@ let styles = StyleSheet.create({
     borderRadius: BorderRadius.l,
     margin: Spacing.s,
   },
+  loginButtonContainer: {
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginLeft: Spacing.m,
+  },
   loginButton: {
     borderRadius: Spacing.xs,
     marginTop: Spacing.s,
-
-    alignSelf: 'flex-end',
   },
   loginButtonText: {
     ...Fonts.h3,
