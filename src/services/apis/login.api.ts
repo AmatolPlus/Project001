@@ -45,6 +45,13 @@ export const loginService = createApi({
         body,
       }),
     }),
+    updatePassword: build.mutation({
+      query: body => ({
+        method: 'POST',
+        url: 'auth/password_change/',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -53,6 +60,7 @@ const {
   useValidateOtpMutation,
   useUserDetailsQuery,
   useResendOtpMutation,
+  useUpdatePasswordMutation,
   useUpdateUserDetailsMutation,
 } = loginService;
 const loginReducerPath = loginService.reducerPath;
@@ -60,6 +68,7 @@ export {
   useLoginMutation,
   useValidateOtpMutation,
   useResendOtpMutation,
+  useUpdatePasswordMutation,
   loginReducerPath,
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,

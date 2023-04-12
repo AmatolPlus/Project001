@@ -19,6 +19,7 @@ import {Colors} from '@/utils/colors';
 import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
 import {TransactionModal} from '@/components/TransactionModal/TransactionModal';
 import {data} from '@/utils/mockData';
+import PasswordModal from '@/components/PasswordModal/PasswordModal';
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
@@ -27,8 +28,11 @@ export default function Profile() {
   const [addressModal, setShowAddressModal] = useState(false);
   const [socialMediaModal, setSocialMediaModal] = useState(false);
   const [transactionModal, setTransactionModal] = useState(false);
+  const [passwordModal, setPasswordModal] = useState(false);
 
   const fullName = getFullName(user?.first_name, user?.last_name);
+
+  console.log(user);
 
   const handleLogout = useCallback(() => {
     remove('token');
@@ -46,6 +50,10 @@ export default function Profile() {
   const handleTransactionChange = useCallback(() => {
     setTransactionModal(!transactionModal);
   }, [transactionModal]);
+
+  const handlePasswordChange = useCallback(() => {
+    setPasswordModal(!passwordModal);
+  }, [passwordModal]);
 
   return (
     <View style={styles.container}>
@@ -94,6 +102,17 @@ export default function Profile() {
               data={data}
               onClose={() => handleTransactionChange()}
               visible={transactionModal}
+            />
+          </Pressable>
+          <Pressable
+            style={{marginTop: Spacing.m}}
+            onPress={handlePasswordChange}>
+            <Text style={{textAlign: 'left', color: Colors.info}}>
+              Change PIN
+            </Text>
+            <PasswordModal
+              onClose={() => handlePasswordChange()}
+              visible={passwordModal}
             />
           </Pressable>
           <Divider style={styles.divider} />
