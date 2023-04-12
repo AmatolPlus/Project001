@@ -28,4 +28,9 @@ export const styles = StyleSheet.create({
     ...Fonts.h5,
     color: Colors.white,
   },
+  userBio:{
+      ...Fonts.h3,
+      fontSize: fontSize.h6,
+    }
+  
 });
