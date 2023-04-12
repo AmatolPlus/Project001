@@ -1,11 +1,10 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {View} from 'react-native';
-import {Button, Portal} from 'react-native-paper';
+import {Portal} from 'react-native-paper';
 
-import {Modal, Text} from '@/ui';
+import {Button, TextInput, Modal, Text} from '@/ui';
 import {IPasswordModal} from './PasswordModal.types';
 import {styles} from './PasswordModal.styles';
-import TextInput from '@/ui/TextInput';
 import {validatePassword} from '@/utils/validatePassword';
 import {Colors} from '@/utils/colors';
 import {useUpdatePasswordMutation} from '@/services/apis/login.api';
@@ -18,7 +17,7 @@ const PasswordModal = ({visible, onClose}: IPasswordModal) => {
   });
   const [valid, setValid] = useState(false);
   const isValid = validatePassword(password);
-  const [update, {error}] = useUpdatePasswordMutation({});
+  const [update, {error}]: any = useUpdatePasswordMutation({});
 
   const handlePasswordChange = (key: string, value: string) => {
     setPassword({
@@ -34,12 +33,12 @@ const PasswordModal = ({visible, onClose}: IPasswordModal) => {
   const handleSubmit = useCallback(async () => {
     setValid(false);
     try {
-      await update(password);
-      if (!error) {
+      let data = await update(password);
+      if (!data?.error) {
         onClose();
       }
     } catch (error) {}
-  }, [error, onClose, password, update]);
+  }, [onClose, password, update]);
 
   return (
     <Portal>
@@ -69,7 +68,7 @@ const PasswordModal = ({visible, onClose}: IPasswordModal) => {
 
           <Button
             onPress={() => (valid ? handleSubmit() : null)}
-            buttonColor={valid ? Colors.success : Colors.danger}
+            buttonColor={valid ? Colors.success : Colors.grey}
             style={styles.updateButton}>
             <Text style={styles.updateText}>{'Confirm'}</Text>
           </Button>
