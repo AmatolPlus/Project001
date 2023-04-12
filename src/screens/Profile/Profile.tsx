@@ -32,8 +32,6 @@ export default function Profile() {
 
   const fullName = getFullName(user?.first_name, user?.last_name);
 
-  console.log(user);
-
   const handleLogout = useCallback(() => {
     remove('token');
     navigation.navigate(ScreenNames.loginStack);
