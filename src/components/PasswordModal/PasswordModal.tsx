@@ -28,7 +28,6 @@ const PasswordModal = ({visible, onClose}: IPasswordModal) => {
   };
 
   useEffect(() => {
-    console.log(isValid.error);
     setValid(isValid.valid);
   }, [isValid]);
 

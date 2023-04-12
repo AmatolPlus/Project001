@@ -11,7 +11,6 @@ const Address = ({form, onChange}: any) => {
     stateModal: false,
     citiesModal: false,
   });
-  console.log(JSON.stringify(form.address_detail));
 
   const handleFormUpdate = (key: keyof AddressState, value: string) => {
     onChange(key, value);
