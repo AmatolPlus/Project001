@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
-import {SectionList, View} from 'react-native';
+import {Alert, BackHandler, SectionList, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 import {ActivityIndicator, Image, Text} from '@/ui';
@@ -13,13 +13,16 @@ import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import JoinTag from '@/components/JoinTag/JoinTag';
 import {Fonts} from '@/utils/fonts';
+import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsTag';
+import {useBackHandler} from '@/hooks/useBackHandler';
 
 export default function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
   const {data, isError, isLoading}: any = useSectionQuery({});
 
-  console.log(JSON.stringify(data));
+  useBackHandler();
+
   useEffect(() => {
     if (data) {
       let formattedList: any = formatArray(data);
@@ -55,6 +58,10 @@ export default function Home() {
         onPress={() => handleDetailNavigation(item)}
         style={styles.imageContainer}>
         <JoinTag isLive={!item?.contest_ended} />
+        <MaxParticipantsTag
+          joined={item.joined_list_count}
+          total={item.total_competators}
+        />
         <Image
           resizeMode={'cover'}
           style={styles.image}
@@ -68,9 +75,7 @@ export default function Home() {
             <Text style={styles.priceLabel}>ENTRY FEE :</Text>
             {item.entry_price}
           </Text>
-          <Text style={{...Fonts.h5}}>
-            {item?.total_competators} People can join
-          </Text>
+
           {item?.is_joined_by_me ? (
             <Text style={{...Fonts.h5}}>JOINED</Text>
           ) : (

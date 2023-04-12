@@ -1,12 +1,10 @@
-import {Colors} from '@/utils/colors';
-import {BorderRadius, Spacing} from '@/utils/constants';
-import {VerticalMargin} from '@/utils/spacing';
 import {StyleSheet} from 'react-native';
 
+import {height, width} from '@/utils/Dimension';
+import {Colors} from '@/utils/colors';
+import {BorderRadius, Spacing} from '@/utils/constants';
+
 export const styles = StyleSheet.create({
-  container: {
-    padding: Spacing.l,
-  },
   card: {
     width: '100%',
     height: '100%',
@@ -15,5 +13,16 @@ export const styles = StyleSheet.create({
     padding: Spacing.xl,
     justifyContent: 'space-between',
   },
-  divider: {...VerticalMargin('m')},
+  modalContainer: {
+    height: height,
+    width: width,
+    backgroundColor: Colors.white,
+    padding: Spacing.xl,
+  },
+
+  stateButton: {
+    width: width / 2.8,
+    height: 50,
+    backgroundColor: Colors.white,
+  },
 });

@@ -10,7 +10,7 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from './src/utils/theme';
 import {LoginStack, TabStack} from './src/routes';
 import {store} from '@/services/store.config';
-import {ContestList, Details, Edit} from '@/screens';
+import {ContestList, Details} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
@@ -64,7 +64,6 @@ function App(): JSX.Element {
               name={ScreenNames.details}
               component={Details}
             />
-            <MainStack.Screen name={ScreenNames.edit} component={Edit} />
             <MainStack.Screen
               name={ScreenNames.contestList}
               component={ContestList}

@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
   input: {
     height: 40,
     backgroundColor: Colors.white,
-    borderWidth: 1,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,
     paddingHorizontal: Spacing.m,

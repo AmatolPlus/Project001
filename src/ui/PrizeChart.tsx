@@ -1,16 +1,16 @@
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, {memo} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {DataTable, Portal} from 'react-native-paper';
 
 import {IPrizeChart} from '@/types/PrizeChart';
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin} from '@/utils/spacing';
-import React, {memo} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Dimensions} from 'react-native';
-import {Card, DataTable, Portal} from 'react-native-paper';
 import Modal from './Modal';
 import Text from './Text';
+import Section from './Section';
+import {width} from '@/utils/Dimension';
 
 const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
   const renderRow = () => {
@@ -47,16 +47,19 @@ const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
             </DataTable.Header>
             {renderRow()}
           </DataTable>
-          <Card mode="contained" style={styles.card}>
-            <View style={styles.cardContentContainer}>
-              <Ionicons
-                name="information-circle"
-                size={Spacing.xl}
-                color={Colors.white}
-              />
-              <Text style={styles.cardText}>Prize is distributed as above</Text>
-            </View>
-          </Card>
+          <View style={styles.cardContentContainer}>
+            <Section style={styles.termsHeaderContainer}>
+              <Text style={styles.termsHeader}>
+                Prizepool will depend on how many slots are filled
+              </Text>
+              <Text style={styles.termsBody}>
+                I Confirm that i have read consent and agree to HighFive's user
+                agreement & privacy policy. I am legal age & understand that i
+                can change my communication preferences anytime in my account
+                settings.
+              </Text>
+            </Section>
+          </View>
         </View>
       </Modal>
     </Portal>
@@ -65,7 +68,7 @@ const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: Dimensions.get('window').width - Spacing.l,
+    width: width - Spacing.l,
     alignSelf: 'center',
     padding: Spacing.m,
   },
@@ -73,6 +76,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     ...HorizontalMargin('m'),
     alignSelf: 'center',
+    borderRadius: BorderRadius.m,
   },
   tableTitle: {...Fonts.h4},
   tableCell: {...Fonts.h5},
@@ -89,7 +93,18 @@ const styles = StyleSheet.create({
     fontSize: fontSize.h6,
     marginLeft: Spacing.s,
   },
-  cardContentContainer: {flexDirection: 'row', alignItems: 'center'},
+  cardContentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  termsHeaderContainer: {
+    borderRadius: BorderRadius.m,
+    backgroundColor: Colors.warning,
+    padding: Spacing.s,
+    width: '100%',
+  },
+  termsHeader: {...Fonts.h4, marginBottom: Spacing.s},
+  termsBody: {...Fonts.sub1, color: Colors.dark},
 });
 
 export default memo(PriceChart);

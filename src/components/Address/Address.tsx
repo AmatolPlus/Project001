@@ -1,55 +1,86 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo, useState} from 'react';
 import TextInput from '@/ui/TextInput';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {styles} from './Address.styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {updateAddress} from '@/services/reducers/profile.slice';
+import StateModal from '../StatesModal/StateModal';
+import CityModal from '../CityModal/CityModal';
+import {AddressState} from './Address.types';
 
-interface AddressState {
-  street: string | undefined;
-  city: string | undefined;
-  state: string | undefined;
-  postal_code: string | undefined;
-}
-
-const Address = () => {
-  const {profile}: any = useSelector(state => state);
-
-  const dispatch = useDispatch();
+const Address = ({form, onChange}: any) => {
+  let [modals, setModals] = useState({
+    stateModal: false,
+    citiesModal: false,
+  });
+  console.log(JSON.stringify(form.address_detail));
 
   const handleFormUpdate = (key: keyof AddressState, value: string) => {
-    dispatch(
-      updateAddress({
-        [key]: value,
-      }),
-    );
+    onChange(key, value);
+  };
+
+  const handleOpenModal = (key: string, value: boolean) => {
+    setModals({
+      ...modals,
+      [key]: value,
+    });
+  };
+
+  const handleCloseModal = (key: string, value: boolean) => {
+    setModals({
+      ...modals,
+      [key]: value,
+    });
   };
 
   return (
     <View>
       <TextInput
-        value={profile?.address_detail?.street}
+        value={form?.address_detail?.street}
         style={styles.input}
         onChangeText={val => handleFormUpdate('street', val)}
-        placeholder="Street"
+        placeholder="Address"
       />
+      <View style={styles.stateContainer}>
+        <TouchableOpacity onPress={() => handleOpenModal('stateModal', true)}>
+          <TextInput
+            mode={'flat'}
+            style={styles.stateButton}
+            value={form?.address_detail?.state}
+            onFocus={() => handleOpenModal('stateModal', true)}
+            placeholder="Select a state"
+            editable={false}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => handleOpenModal('citiesModal', true)}>
+          <TextInput
+            mode={'flat'}
+            style={styles.stateButton}
+            value={form?.address_detail?.city}
+            onFocus={() => handleOpenModal('citiesModal', true)}
+            placeholder="Select a city"
+            editable={false}
+          />
+        </TouchableOpacity>
+      </View>
+
       <TextInput
-        value={profile?.address_detail?.city}
-        style={styles.input}
-        onChangeText={val => handleFormUpdate('city', val)}
-        placeholder="City"
-      />
-      <TextInput
-        value={profile?.address_detail?.state}
-        style={styles.input}
-        onChangeText={val => handleFormUpdate('state', val)}
-        placeholder="State"
-      />
-      <TextInput
-        value={profile?.address_detail?.postal_code}
+        mode={'flat'}
+        maxLength={6}
+        keyboardType="number-pad"
+        value={form?.address_detail?.postal_code}
         style={styles.input}
         onChangeText={val => handleFormUpdate('postal_code', val)}
         placeholder="Postal Code"
+      />
+      <StateModal
+        visible={modals.stateModal}
+        closeModal={async () => handleCloseModal('stateModal', false)}
+        onSelect={(state: any) => handleFormUpdate('state', state)}
+      />
+      <CityModal
+        state={form?.address_detail?.state}
+        visible={modals.citiesModal}
+        closeModal={async () => handleCloseModal('citiesModal', false)}
+        onSelect={(city: any) => handleFormUpdate('city', city)}
       />
     </View>
   );

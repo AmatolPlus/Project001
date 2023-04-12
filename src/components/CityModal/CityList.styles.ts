@@ -1,6 +1,6 @@
+import {height, width} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {Dimensions} from 'react-native';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -12,23 +12,19 @@ export const styles = StyleSheet.create({
     padding: Spacing.xl,
     justifyContent: 'space-between',
   },
-  input: {
-    borderWidth: 1,
-    borderColor: Colors.light,
-    borderRadius: Spacing.xs,
-    padding: Spacing.s,
-    height: Spacing.xl,
-    marginBottom: Spacing.s,
-  },
   modalContainer: {
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
+    height: height,
+    width: width,
     backgroundColor: Colors.white,
     padding: Spacing.xl,
   },
+  cityButton: {
+    width: width / 2.8,
+    height: Spacing.xl * 2,
+    backgroundColor: Colors.white,
+  },
   stateButton: {
-    paddingVertical: Spacing.s,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.light,
+    width: width / 2.8,
+    height: 50,
   },
 });

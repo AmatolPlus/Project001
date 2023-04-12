@@ -80,7 +80,6 @@ export const styles = StyleSheet.create({
   eventDetailsHeader: {
     ...Fonts.h1,
     fontSize: fontSize.h3,
-    marginBottom: Spacing.l,
   },
   eventDetailsSubHeader: {
     ...Fonts.h3,
@@ -116,5 +115,23 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
+  },
+  note: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: Spacing.m,
+    justifyContent: 'space-between',
+    marginVertical: Spacing.m,
+    flexDirection: 'row',
+  },
+  noteTextContainer: {width: '70%'},
+  noteDate: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+  },
+  eventHeaderContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: Spacing.m,
   },
 });

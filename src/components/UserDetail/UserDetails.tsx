@@ -1,101 +1,82 @@
-import React, {useCallback} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  updateBirthday,
-  updateEmail,
-  updateFirstName,
-  updateGender,
-  updateHobby,
-  updateLastName,
-} from '@/services/reducers/profile.slice';
+import React, {memo, useMemo} from 'react';
 import TextInput from '@/ui/TextInput';
 import {styles} from './UserDetails.styles';
+import {View} from 'react-native';
+import {Button, Text} from '@/ui';
 
-const UserDetails = () => {
-  const dispatch = useDispatch();
-  const {profile}: any = useSelector(state => state);
+import {validateUserDetails} from '@/utils/validateUserDetails';
+import {Colors} from '@/utils/colors';
+import {IuserDetails} from './UserDetail.types';
 
-  const handleFirstName = useCallback(
-    (val: string) => {
-      dispatch(updateFirstName(val));
-    },
-    [dispatch],
-  );
-
-  const handleLastName = useCallback(
-    (val: string) => {
-      dispatch(updateLastName(val));
-    },
-    [dispatch],
-  );
-
-  const handleEmail = useCallback(
-    (val: string) => {
-      dispatch(updateEmail(val));
-    },
-    [dispatch],
-  );
-
-  const handleGender = useCallback(
-    (val: string) => {
-      dispatch(updateGender(val));
-    },
-    [dispatch],
-  );
-  const handleHobby = useCallback(
-    (val: string) => {
-      dispatch(updateHobby(val));
-    },
-    [dispatch],
-  );
-
-  const handleBirthday = useCallback(
-    (val: string) => {
-      dispatch(updateBirthday(val));
-    },
-    [dispatch],
-  );
+const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
+  const disabled = useMemo(() => {
+    return !validateUserDetails(
+      form?.first_name,
+      form?.last_name,
+      form?.gender,
+      form?.hobby,
+      form?.birthday,
+      form?.email,
+    );
+  }, [form]);
 
   return (
-    <>
-      <TextInput
-        label={'First Name'}
-        style={styles.input}
-        value={profile.first_name}
-        onChangeText={handleFirstName}
-      />
-      <TextInput
-        label={'Last Name'}
-        style={styles.input}
-        value={profile.last_name}
-        onChangeText={handleLastName}
-      />
-      <TextInput
-        label={'Email'}
-        style={styles.input}
-        value={profile.email}
-        onChangeText={handleEmail}
-      />
-      <TextInput
-        label={'Gender'}
-        style={styles.input}
-        value={profile.gender}
-        onChangeText={handleGender}
-      />
-      <TextInput
-        label={'Hobby'}
-        style={styles.input}
-        value={profile.hobby}
-        onChangeText={handleHobby}
-      />
-      <TextInput
-        label={'Birthday'}
-        style={styles.input}
-        value={profile.birthday}
-        onChangeText={handleBirthday}
-      />
-    </>
+    <View style={styles.container}>
+      <View>
+        <View style={styles.userNameContainer}>
+          <TextInput
+            label={'First Name'}
+            style={styles.username}
+            value={form?.first_name}
+            onChangeText={value => onChange('first_name', value)}
+          />
+          <TextInput
+            label={'Last Name'}
+            style={styles.username}
+            value={form?.last_name}
+            onChangeText={value => onChange('last_name', value)}
+          />
+        </View>
+
+        <TextInput
+          label={'Email'}
+          style={styles.input}
+          value={form?.email}
+          onChangeText={value => onChange('email', value)}
+        />
+        <TextInput
+          label={'Gender'}
+          style={styles.input}
+          value={form?.gender}
+          onChangeText={value => onChange('gender', value)}
+        />
+        <TextInput
+          label={'Hobby'}
+          style={styles.input}
+          value={form?.hobby}
+          onChangeText={value => onChange('hobby', value)}
+        />
+        <TextInput
+          label={'Birthday'}
+          style={styles.input}
+          value={form?.birthday}
+          onChangeText={value => onChange('birthday', value)}
+        />
+      </View>
+      <View>
+        <Button
+          disabled={disabled}
+          style={[
+            styles.updateButton,
+            {backgroundColor: disabled ? Colors.danger : Colors.success},
+          ]}
+          textColor={Colors.white}
+          onPress={onSubmit}>
+          <Text style={styles.updateText}>Update</Text>
+        </Button>
+      </View>
+    </View>
   );
 };
 
-export default UserDetails;
+export default memo(UserDetails);

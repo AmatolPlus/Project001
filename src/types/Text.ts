@@ -5,4 +5,5 @@ import {TextProps} from 'react-native-paper';
 export interface IText extends TextProps<Text> {
   style?: TextStyle;
   children: React.ReactNode;
+  color?: string;
 }

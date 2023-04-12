@@ -1,4 +1,4 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';

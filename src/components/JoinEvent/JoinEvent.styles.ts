@@ -5,13 +5,11 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    marginVertical: Spacing.m,
+    width: '100%',
   },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.xs,
-    marginVertical: Spacing.xs,
   },
   deadlineAlert: {
     ...Fonts.h5,
@@ -20,11 +18,9 @@ export const styles = StyleSheet.create({
     color: Colors.danger,
   },
   button: {
-    padding: Spacing.m,
     borderRadius: BorderRadius.xs,
   },
   buttonText: {
-    ...Fonts.h3,
     color: Colors.white,
   },
 });

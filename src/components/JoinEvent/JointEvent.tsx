@@ -1,6 +1,6 @@
 import {Colors} from '@/utils/colors';
 import moment from 'moment';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Button, Text} from '@/ui';
@@ -8,16 +8,9 @@ import Snackbar from '@/ui/SnackBar';
 import {canJoinEvent} from '@/utils/event';
 import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
+import {IJoinEvent} from './JoinEvent.types';
 
-const DISABLE_JOIN = "You don't have minimum amount in the wallet";
-interface IJoinEvent {
-  thresholdOccupancy: number;
-  currentOccupancy: number;
-  joinEndDate: string;
-  joinStartDate: string;
-  threshold: number;
-  onJoinEvent: () => void;
-}
+const DISABLE_JOIN = 'Joining period for this event has ended';
 
 export const JoinEvent = ({
   joinStartDate,
@@ -26,35 +19,26 @@ export const JoinEvent = ({
   thresholdOccupancy,
   onJoinEvent,
 }: IJoinEvent) => {
-  const [isDisabled, setDisabled] = useState(true);
   const [isOpen, setOpen] = useState(false);
   const [showSnackbar, setSnackbar] = useState(false);
-
-  const [joinDateExpired, setJoinDateExpired] = useState(false);
-
-  useEffect(() => {
-    let days = moment(joinStartDate).diff(joinEndDate, 'days');
-    if (days < 0) {
-      setJoinDateExpired(true);
-    }
-    setDisabled(canJoinEvent(days, currentOccupancy, thresholdOccupancy));
-  }, [joinEndDate, joinStartDate, currentOccupancy, thresholdOccupancy]);
+  const days = moment(joinStartDate).diff(joinEndDate, 'days');
+  const canJoin = canJoinEvent(days, currentOccupancy, thresholdOccupancy);
 
   const handleJoin = useCallback(() => {
     onJoinEvent();
   }, [onJoinEvent]);
 
   const handleToggleModal = useCallback(() => {
-    if (isDisabled) {
+    if (!canJoin) {
       setSnackbar(true);
     } else {
       setOpen(!isOpen);
     }
-  }, [isDisabled, isOpen]);
+  }, [canJoin, isOpen]);
 
   return (
     <View style={styles.container}>
-      {joinDateExpired ? (
+      {!canJoin ? (
         <View style={styles.iconContainer}>
           <AntDesign name="infocirlceo" size={18} color={Colors.danger} />
           <Text style={styles.deadlineAlert}>
@@ -68,7 +52,7 @@ export const JoinEvent = ({
         onPress={handleToggleModal}
         style={[
           styles.button,
-          {backgroundColor: isDisabled ? Colors.grey : Colors.success},
+          {backgroundColor: !canJoin ? Colors.grey : Colors.success},
         ]}>
         <Text style={styles.buttonText}>Join</Text>
       </Button>
