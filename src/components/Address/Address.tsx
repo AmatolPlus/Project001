@@ -11,7 +11,6 @@ const Address = ({form, onChange}: any) => {
     stateModal: false,
     citiesModal: false,
   });
-  console.log(JSON.stringify(form.address_detail));
 
   const handleFormUpdate = (key: keyof AddressState, value: string) => {
     onChange(key, value);
@@ -52,7 +51,6 @@ const Address = ({form, onChange}: any) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleOpenModal('citiesModal', true)}>
           <TextInput
-            mode={'flat'}
             style={styles.stateButton}
             value={form?.address_detail?.city}
             onFocus={() => handleOpenModal('citiesModal', true)}
@@ -63,7 +61,6 @@ const Address = ({form, onChange}: any) => {
       </View>
 
       <TextInput
-        mode={'flat'}
         maxLength={6}
         keyboardType="number-pad"
         value={form?.address_detail?.postal_code}

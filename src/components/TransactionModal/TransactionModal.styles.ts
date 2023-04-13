@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     borderColor: Colors.grey,
     padding: Spacing.m,
   },
-
+  link: {textAlign: 'left', color: Colors.info},
   cardItemsContainer: {
     alignItems: 'center',
     flexDirection: 'row',
