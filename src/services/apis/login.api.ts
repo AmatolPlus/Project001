@@ -45,6 +45,17 @@ export const loginService = createApi({
         body,
       }),
     }),
+    resetPassword: build.mutation({
+      query: body => ({
+        method: 'Post',
+        url: 'auth/reset_password/',
+        body,
+      }),
+    }),
+    confirmResetPassword: build.mutation({
+      query: body => ({
+        method: 'Post',
+        url: 'auth/reset_password/confirm/',
     updatePassword: build.mutation({
       query: body => ({
         method: 'POST',
@@ -62,6 +73,8 @@ const {
   useResendOtpMutation,
   useUpdatePasswordMutation,
   useUpdateUserDetailsMutation,
+  useResetPasswordMutation,
+  useConfirmResetPasswordMutation,
 } = loginService;
 const loginReducerPath = loginService.reducerPath;
 export {
@@ -72,5 +85,7 @@ export {
   loginReducerPath,
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
+  useResetPasswordMutation,
+  useConfirmResetPasswordMutation,
 };
 export type {ILoginRequest, IValidateRequest};
