@@ -5,7 +5,7 @@ import {StyleSheet} from 'react-native';
 import {Text as RPText} from 'react-native-paper';
 import {IText} from '../types/Text';
 
-const Text = ({style = {}, color, ...props}: IText) => {
+const Text = ({style = {}, ...props}: IText) => {
   const styles = StyleSheet.create({
     textStyle: {...Fonts.h5, color: Colors.dark},
   });

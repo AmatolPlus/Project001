@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Button from './Button';
 import Modal from './Modal';
 import Text from './Text';
@@ -23,23 +23,12 @@ const JoinEventConfirmModal = ({
   return (
     <Portal>
       <Modal visible={isOpen}>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-            height: height / 1.6,
-            marginHorizontal: Spacing.l,
-            justifyContent: 'space-between',
-            padding: Spacing.xl,
-          }}>
+        <View style={styles.container}>
           <View>
             <Text>YET to develop</Text>
             <Text>100 </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              gap: 15,
-            }}>
+          <View style={styles.buttonContainer}>
             <Button buttonColor={Colors.success} onPress={onConfirm}>
               <Text>Confirm</Text>
             </Button>
@@ -52,5 +41,19 @@ const JoinEventConfirmModal = ({
     </Portal>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: Colors.white,
+    height: height / 1.6,
+    marginHorizontal: Spacing.l,
+    justifyContent: 'space-between',
+    padding: Spacing.xl,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 15,
+  },
+});
 
 export default JoinEventConfirmModal;

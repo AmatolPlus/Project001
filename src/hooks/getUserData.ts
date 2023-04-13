@@ -1,8 +1,7 @@
-import React from 'react';
 import {useSelector} from 'react-redux';
 
 const useGetUser = () => {
-  const {userData} = useSelector(store => store.login);
+  const {userData} = useSelector((store: any): any => store.login);
 
   return {userData};
 };
