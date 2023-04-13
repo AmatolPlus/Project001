@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
-import {Alert, BackHandler, SectionList, View} from 'react-native';
+import {SectionList, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 import {ActivityIndicator, Image, Text} from '@/ui';
@@ -15,11 +15,14 @@ import JoinTag from '@/components/JoinTag/JoinTag';
 import {Fonts} from '@/utils/fonts';
 import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsTag';
 import {useBackHandler} from '@/hooks/useBackHandler';
+import {useUserDetailsQuery} from '@/services/apis/login.api';
+import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 
 export default function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
   const {data, isError, isLoading}: any = useSectionQuery({});
+  const {data: user}: any = useUserDetailsQuery({});
 
   useBackHandler();
 
@@ -117,6 +120,7 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
+      {!user?.password_configured && <PasswordCheck />}
       <SectionList
         sections={formattedData}
         showsVerticalScrollIndicator={false}

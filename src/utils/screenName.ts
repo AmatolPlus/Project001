@@ -1,6 +1,7 @@
 export enum ScreenNames {
   mainStack = 'Main',
   loginStack = 'Login',
+  loginWithPin = 'loginWithPin',
   launch = 'Launch',
   login = 'LoginScreen',
   verifcation = 'VerificationScreen',

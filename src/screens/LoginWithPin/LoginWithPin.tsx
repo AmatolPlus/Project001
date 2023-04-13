@@ -4,30 +4,33 @@ import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Button, TextInput, Text} from '@/ui';
-import {FormState} from './LoginTypes';
+import {FormState, ILoginRequest} from './LoginWithPin.types';
 import {appConfig} from '@/utils/appConfig';
-import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
+import {useLoginWithPinMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
-import styles from './Login.styles';
+import styles from './LoginWithPin.styles';
 import {fontSize} from '@/utils/fonts';
+import {saveUserInfo} from '@/services/reducers/login.slice';
+import {useDispatch} from 'react-redux';
+import {set} from '@/utils/storage';
+import ResetPassword from '@/components/ResetPassword/ResetPassword';
 
-const LoginScreen = () => {
+const LoginWithPin = () => {
   const [loginForm, setForm] = useState<ILoginRequest>({
-    username: undefined,
     mobile_number: undefined,
-    country_code: undefined,
-    referral_code: undefined,
+    password: undefined,
   });
   const navigation: any = useNavigation();
-  const [login, {isLoading, error, isError}] = useLoginMutation();
+  const [login, {isLoading, error}]: any = useLoginWithPinMutation();
+  let dispatch = useDispatch();
 
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
-    const nameRegex = /^[a-zA-Z]{3,}$/;
+
     let status =
       phoneRegex.test(`${loginForm?.mobile_number}`) &&
-      nameRegex.test(`${loginForm?.username}`);
+      loginForm?.password?.length >= 6;
     return status;
   }
 
@@ -35,8 +38,6 @@ const LoginScreen = () => {
     setForm((prevState: any) => ({
       ...prevState,
       [key]: value,
-      country_code: '+91',
-      referral_code: '',
     }));
   };
 
@@ -44,10 +45,10 @@ const LoginScreen = () => {
     try {
       const {data}: any = await login(loginForm);
       if (data) {
-        const {auth_token} = data;
-        navigation.navigate(ScreenNames.verifcation, {
-          auth_token,
-        });
+        let {token} = data;
+        dispatch(saveUserInfo(data));
+        set('token', token);
+        navigation.replace(ScreenNames.mainStack);
       }
     } catch (e) {}
   };
@@ -55,18 +56,6 @@ const LoginScreen = () => {
   const handleMainScreenNavigation = useCallback(() => {
     navigation.navigate(ScreenNames.mainStack);
   }, [navigation]);
-
-  const handleLoginWithPinNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.loginWithPin);
-  }, [navigation]);
-
-  if (isError) {
-    return (
-      <>
-        <Text>{JSON.stringify(error)}</Text>
-      </>
-    );
-  }
 
   return (
     <View style={styles.container}>
@@ -84,20 +73,21 @@ const LoginScreen = () => {
           outlineColor={Colors.grey}
           selectionColor={Colors.dark}
           activeOutlineColor={Colors.dark}
-          onChangeText={val => handleFormUpdate('username', val)}
+          onChangeText={val => handleFormUpdate('mobile_number', val)}
           style={styles.input}
-          label={'Name'}
+          label={'Mobile Number'}
         />
         <TextInput
           mode="outlined"
           outlineColor={Colors.grey}
           activeOutlineColor={Colors.dark}
-          onChangeText={val => handleFormUpdate('mobile_number', val)}
+          onChangeText={val => handleFormUpdate('password', val)}
           style={styles.input}
-          label={'Phone Number'}
+          label={'password'}
           keyboardType={'phone-pad'}
         />
       </View>
+      {error && <Text style={styles.error}>{error?.data?.details}</Text>}
       <View>
         <Button
           loading={isLoading}
@@ -110,27 +100,18 @@ const LoginScreen = () => {
           ]}>
           <Text
             style={{
-              color: isValid() ? Colors.white : Colors.white,
+              color: isValid() ? Colors.dark : Colors.white,
               ...styles.loginButtonText,
             }}>
-            {'Login with OTP'}
+            {'Login'}
           </Text>
         </Button>
+        <View style={styles.resetPasswordContainer}>
+          <ResetPassword />
+        </View>
       </View>
-      <Button
-        onPress={handleLoginWithPinNavigation}
-        buttonColor={Colors.success}
-        style={[styles.loginButton, {backgroundColor: Colors.success}]}>
-        <Text
-          style={{
-            color: Colors.white,
-            ...styles.loginButtonText,
-          }}>
-          {'Login In With PIN'}
-        </Text>
-      </Button>
     </View>
   );
 };
 
-export default LoginScreen;
+export default LoginWithPin;

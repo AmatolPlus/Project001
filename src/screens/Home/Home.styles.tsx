@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   container: {
     padding: Spacing.l,
     flex: 1,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.light,
     paddingBottom: Spacing.xl,
   },
   listContainer: {

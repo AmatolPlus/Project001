@@ -1,5 +1,5 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {Pressable, View} from 'react-native';
+import {Pressable, ToastAndroid, View} from 'react-native';
 import {Portal} from 'react-native-paper';
 
 import {Button, TextInput, Modal, Text} from '@/ui';
@@ -7,8 +7,10 @@ import {styles} from './ChangePasswordModal.styles';
 import {validatePassword} from '@/utils/validatePassword';
 import {Colors} from '@/utils/colors';
 import {useUpdatePasswordMutation} from '@/services/apis/login.api';
+import {IChangePassword} from './ChangePasswordModal.types';
+import {ScreenNames} from '@/utils/screenName';
 
-const ChangePasswordModal = () => {
+const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   const [password, setPassword] = useState({
     old_password: '',
     password1: '',
@@ -20,8 +22,15 @@ const ChangePasswordModal = () => {
   const [update, {error}]: any = useUpdatePasswordMutation({});
 
   const handleToggleChangePasswordModal = useCallback(() => {
-    setPasswordModal(!passwordModal);
-  }, [passwordModal]);
+    if (type === 'component') {
+      setPasswordModal(!passwordModal);
+    } else {
+      ToastAndroid.show(
+        'Enter the New Password before You Proceed',
+        ToastAndroid.LONG,
+      );
+    }
+  }, [passwordModal, type]);
 
   const handlePasswordChange = (key: string, value: string) => {
     setPassword({
@@ -29,6 +38,12 @@ const ChangePasswordModal = () => {
       [key]: value,
     });
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      setPasswordModal(isOpen);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     setValid(isValid.valid);
@@ -41,16 +56,28 @@ const ChangePasswordModal = () => {
         let data = await update(password);
         if (!data?.error) {
           handleToggleChangePasswordModal();
+          type === 'modal' && navigation.replace(ScreenNames.mainStack);
         }
-      } catch (error) {}
+      } catch (eror) {
+        console.log(eror);
+      }
     }
-  }, [handleToggleChangePasswordModal, password, update, valid]);
+  }, [
+    handleToggleChangePasswordModal,
+    navigation,
+    password,
+    type,
+    update,
+    valid,
+  ]);
 
   return (
     <View>
-      <Pressable onPress={handleToggleChangePasswordModal}>
-        <Text style={styles.link}>Change PIN</Text>
-      </Pressable>
+      {type === 'component' && (
+        <Pressable onPress={handleToggleChangePasswordModal}>
+          <Text style={styles.link}>Change PIN</Text>
+        </Pressable>
+      )}
       <Portal>
         <Modal
           style={styles.modal}
@@ -58,19 +85,25 @@ const ChangePasswordModal = () => {
           onDismiss={handleToggleChangePasswordModal}>
           <View style={styles.card}>
             <View>
+              {type === 'component' && (
+                <TextInput
+                  keyboardType={'number-pad'}
+                  onChangeText={val =>
+                    handlePasswordChange('old_password', val)
+                  }
+                  style={styles.input}
+                  placeholder="Old Password"
+                />
+              )}
               <TextInput
-                keyboardType={'number-pad'}
-                onChangeText={val => handlePasswordChange('old_password', val)}
-                style={styles.input}
-                placeholder="Old Password"
-              />
-              <TextInput
+                mode="outlined"
                 keyboardType={'number-pad'}
                 onChangeText={val => handlePasswordChange('password1', val)}
                 style={styles.input}
                 placeholder="New Password"
               />
               <TextInput
+                mode="outlined"
                 keyboardType={'number-pad'}
                 onChangeText={val => handlePasswordChange('password2', val)}
                 style={styles.input}

@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaView, TouchableOpacity, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {StackActions, useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {
   CodeField,
   Cursor,
@@ -19,9 +19,9 @@ import {
 import {saveUserInfo} from '@/services/reducers/login.slice';
 import {styles} from './Verification.styles';
 import Text from '@/ui/Text';
-import {ScreenNames} from '@/utils/screenName';
 import Snackbar from '@/ui/SnackBar';
 import {ResendOtp} from '@/ui/ResendOtp';
+import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 
 const CELL_COUNT = 6;
 
@@ -37,7 +37,8 @@ const VerificationScreen = () => {
   const value = otpForm.otp;
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const dispatch = useDispatch();
-  const [verify, {isLoading, error}] = useValidateOtpMutation();
+  const [verify, {isLoading, error}]: any = useValidateOtpMutation();
+  const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [resend] = useResendOtpMutation();
   const [OTPStatus, setOTPStatus] = useState('');
 
@@ -46,6 +47,10 @@ const VerificationScreen = () => {
       setSnackbar(true);
     }
   }, [error]);
+
+  const handleToggleChangePasswordModal = useCallback(() => {
+    setShowChangePasswordModal(!showChangePasswordModal);
+  }, [showChangePasswordModal]);
 
   const handleFormUpdate = (key: keyof OtpState, formValue: string) => {
     setForm(prevState => ({
@@ -76,11 +81,11 @@ const VerificationScreen = () => {
       if (data) {
         let token = data?.token;
         dispatch(saveUserInfo(data));
-        set('token', token);
-        navigation.dispatch(StackActions.replace(ScreenNames.mainStack));
+        await set('token', token);
+        handleToggleChangePasswordModal();
       }
     } catch (e) {}
-  }, [dispatch, navigation, otpForm, verify]);
+  }, [dispatch, handleToggleChangePasswordModal, otpForm, verify]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -126,6 +131,11 @@ const VerificationScreen = () => {
         visible={showSnackbar}>
         {error?.data.details || OTPStatus}
       </Snackbar>
+      <ChangePasswordModal
+        type={'modal'}
+        isOpen={showChangePasswordModal}
+        navigation={navigation}
+      />
     </SafeAreaView>
   );
 };

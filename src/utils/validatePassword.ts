@@ -3,12 +3,8 @@ type ValidationResult = {
   error?: string;
 };
 
-const validatePassword = ({
-  old_password,
-  password1,
-  password2,
-}: any): ValidationResult => {
-  if (!old_password || !password1 || !password2) {
+const validatePassword = ({password1, password2}: any): ValidationResult => {
+  if (!password1 || !password2) {
     return {valid: false, error: 'All fields are required.'};
   }
 
