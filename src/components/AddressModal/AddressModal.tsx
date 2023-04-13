@@ -11,12 +11,17 @@ import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
-import {IAddressModal} from './AddressModal.types';
+import {Pressable} from 'react-native';
 
-const AddressModal = ({visible, onClose}: IAddressModal) => {
+const AddressModal = () => {
   const [form, setForm] = useState<any>({});
+  const [addressModal, setShowAddressModal] = useState(false);
   const [update]: any = useUpdateUserDetailsMutation({});
   const {data: user} = useUserDetailsQuery({});
+
+  const handleToggleAddressModal = useCallback(() => {
+    setShowAddressModal(!addressModal);
+  }, [addressModal]);
 
   const handleUpdate = (key: string, value: string) => {
     try {
@@ -32,8 +37,8 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
 
   const handleSubmit = useCallback(() => {
     update(form);
-    onClose();
-  }, [form, onClose, update]);
+    handleToggleAddressModal();
+  }, [form, handleToggleAddressModal, update]);
 
   const message = useMemo(
     () =>
@@ -62,30 +67,35 @@ const AddressModal = ({visible, onClose}: IAddressModal) => {
   }, [user]);
 
   return (
-    <Portal>
-      <Modal
-        onDismiss={onClose}
-        style={{padding: Spacing.xl}}
-        visible={visible}>
-        <View style={styles.card}>
-          <Address form={form} onChange={handleUpdate} />
-          {disabled ? (
-            <Text style={{color: Colors.danger}}>{message}</Text>
-          ) : (
-            <></>
-          )}
-          <Button
-            disabled={!disabled}
-            onPress={handleSubmit}
-            style={[
-              styles.updateButton,
-              {backgroundColor: !disabled ? Colors.grey : Colors.success},
-            ]}>
-            <Text style={styles.updateText}>Update</Text>
-          </Button>
-        </View>
-      </Modal>
-    </Portal>
+    <View>
+      <Pressable onPress={handleToggleAddressModal}>
+        <Text style={styles.link}>Change Address</Text>
+      </Pressable>
+      <Portal>
+        <Modal
+          onDismiss={handleToggleAddressModal}
+          style={{padding: Spacing.xl}}
+          visible={addressModal}>
+          <View style={styles.card}>
+            <Address form={form} onChange={handleUpdate} />
+            {disabled ? (
+              <Text style={{color: Colors.danger}}>{message}</Text>
+            ) : (
+              <></>
+            )}
+            <Button
+              disabled={!disabled}
+              onPress={handleSubmit}
+              style={[
+                styles.updateButton,
+                {backgroundColor: !disabled ? Colors.grey : Colors.success},
+              ]}>
+              <Text style={styles.updateText}>Update</Text>
+            </Button>
+          </View>
+        </Modal>
+      </Portal>
+    </View>
   );
 };
 

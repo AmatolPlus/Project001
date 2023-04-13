@@ -40,4 +40,5 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h5,
     marginTop: Spacing.l,
   },
+  link: {textAlign: 'left', marginTop: Spacing.m, color: Colors.info},
 });

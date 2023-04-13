@@ -1,6 +1,6 @@
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {CenterItem, VerticalMargin} from '@/utils/spacing';
 import {StyleSheet} from 'react-native';
 
@@ -28,9 +28,12 @@ export const styles = StyleSheet.create({
     ...Fonts.h5,
     color: Colors.white,
   },
-  userBio:{
-      ...Fonts.h3,
-      fontSize: fontSize.h6,
-    }
-  
+  header: {
+    ...Fonts.h3,
+  },
+  userBioContainer: {gap: Spacing.xs, marginTop: Spacing.m},
+  userBio: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+  },
 });

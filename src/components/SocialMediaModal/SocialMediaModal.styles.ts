@@ -24,4 +24,5 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h5,
     color: Colors.white,
   },
+  link: {textAlign: 'left', marginTop: Spacing.m, color: Colors.info},
 });
