@@ -10,23 +10,23 @@ export const loginService = createApi({
   reducerPath: 'login',
   baseQuery,
   tagTypes: ['Login'],
-  endpoints: build => ({
+  endpoints: (build: { mutation: (arg0: { query: ((body: any) => { method: string; url: string; body: any; }) | ((body: any) => { method: string; url: string; body: any; }) | ((body: any) => { method: string; url: string; body: any; }) | ((body: any) => { method: string; url: string; body: any; }) | ((body: any) => { method: string; url: string; }) | ((body: any) => { method: string; url: string; body: any; }) | ((body: any) => { method: string; url: string; body: any; }); }) => any; query: (arg0: { query: () => { method: string; url: string; }; }) => any; }) => ({
     login: build.mutation<any, ILoginRequest>({
-      query: body => ({
+      query: (body: any) => ({
         method: 'POST',
         url: 'auth/login/',
         body,
       }),
     }),
     validateOtp: build.mutation<any, IValidateRequest>({
-      query: body => ({
+      query: (body: any) => ({
         method: 'POST',
         url: 'auth/validate_otp/',
         body,
       }),
     }),
     resendOtp: build.mutation<any, IResendRequest>({
-      query: body => ({
+      query: (body: any) => ({
         method: 'POST',
         url: 'auth/resend_otp/',
         body,
@@ -39,28 +39,28 @@ export const loginService = createApi({
       }),
     }),
     updateUserDetails: build.mutation({
-      query: body => ({
+      query: (body: any) => ({
         method: 'PUT',
         url: 'auth/user/',
         body,
       }),
     }),
     resetPassword: build.mutation({
-      query: body => ({
+      query: (body: any) => ({
         method: 'Post',
         url: 'auth/reset_password/',
         body,
       }),
     }),
     confirmResetPassword: build.mutation({
-      query: body => ({
+      query: (body: any) => ({
         method: 'Post',
         url: 'auth/reset_password/confirm/',
         body,
       }),
     }),
     updatePassword: build.mutation({
-      query: body => ({
+      query: (body: any) => ({
         method: 'POST',
         url: 'auth/password_change/',
         body,
