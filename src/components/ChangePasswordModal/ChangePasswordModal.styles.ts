@@ -20,13 +20,13 @@ export const styles = StyleSheet.create({
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,
     height: Spacing.xl * 2,
-    marginTop: Spacing.m,
+    marginBottom: Spacing.l,
     paddingHorizontal: Spacing.m,
   },
   updateButton: {
     borderRadius: BorderRadius.xs,
     padding: Spacing.s,
-    marginTop: Spacing.m,
+    marginTop: Spacing.l,
   },
   updateText: {
     ...Fonts.h3,

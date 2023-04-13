@@ -56,12 +56,20 @@ export const loginService = createApi({
       query: (body: any) => ({
         method: 'Post',
         url: 'auth/reset_password/confirm/',
-      })
+        body,
+      }),
     }),
     updatePassword: build.mutation({
       query: (body: any) => ({
         method: 'POST',
         url: 'auth/password_change/',
+        body,
+      }),
+    }),
+    loginWithPin: build.mutation({
+      query: body => ({
+        method: 'POST',
+        url: 'auth/login/password/',
         body,
       }),
     }),
@@ -77,8 +85,11 @@ const {
   useUpdateUserDetailsMutation,
   useResetPasswordMutation,
   useConfirmResetPasswordMutation,
+  useLoginWithPinMutation,
 } = loginService;
+
 const loginReducerPath = loginService.reducerPath;
+
 export {
   useLoginMutation,
   useValidateOtpMutation,
@@ -89,5 +100,6 @@ export {
   useUserDetailsQuery,
   useResetPasswordMutation,
   useConfirmResetPasswordMutation,
+  useLoginWithPinMutation,
 };
 export type {ILoginRequest, IValidateRequest};

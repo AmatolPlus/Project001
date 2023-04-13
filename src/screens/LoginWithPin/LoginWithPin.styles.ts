@@ -40,6 +40,16 @@ let styles = StyleSheet.create({
     top: Spacing.l,
     right: Spacing.l,
   },
+  error: {
+    color: Colors.danger,
+    ...Fonts.h3,
+    textAlign: 'center',
+    fontSize: fontSize.h5,
+    ...VerticalMargin('m'),
+  },
+  resetPasswordContainer: {
+    marginTop: Spacing.m,
+  },
 });
 
 export default styles;

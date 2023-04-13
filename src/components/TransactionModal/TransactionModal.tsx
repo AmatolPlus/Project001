@@ -9,9 +9,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Spacing} from '@/utils/constants';
 import {data} from '@/utils/mockData';
 
-function formatHistory(data: []) {
-  if (data) {
-    let itemList = data.map(
+function formatHistory(history: []) {
+  if (history) {
+    let itemList = history.map(
       (obj: {
         history: any;
         date: string;
