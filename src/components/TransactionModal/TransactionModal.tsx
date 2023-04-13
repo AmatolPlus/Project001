@@ -1,13 +1,13 @@
 import {Image, Modal, Text} from '@/ui';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
-import {ITransactionModal} from './TransactionModal.types';
-import {SectionList, View} from 'react-native';
+import {Pressable, SectionList, View} from 'react-native';
 import {styles} from './TransactionModal.styles';
 import moment from 'moment';
 import {Colors} from '@/utils/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Spacing} from '@/utils/constants';
+import {data} from '@/utils/mockData';
 
 function formatHistory(data: []) {
   if (data) {
@@ -35,19 +35,20 @@ function formatHistory(data: []) {
   }
 }
 
-export const TransactionModal = ({
-  visible,
-  onClose,
-  data,
-}: ITransactionModal) => {
+const TransactionModal = () => {
   let [formattedData, setFormattedData] = useState([]);
+  const [transactionModal, setTransactionModal] = useState(false);
+
+  const handleToggleTransactionModal = useCallback(() => {
+    setTransactionModal(!transactionModal);
+  }, [transactionModal]);
 
   useEffect(() => {
     if (data) {
       let formattedList: any = formatHistory(data);
       setFormattedData(formattedList);
     }
-  }, [data]);
+  }, []);
 
   const renderHistory = ({item}: any) => {
     return (
@@ -96,29 +97,40 @@ export const TransactionModal = ({
   );
 
   return (
-    <Portal>
-      <Modal onDismiss={onClose} visible={visible}>
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <Text style={styles.header}>Transaction History</Text>
-            <AntDesign
-              name="closecircleo"
-              onPress={onClose}
-              size={Spacing.xl}
-              color={Colors.dark}
-            />
-          </View>
+    <View>
+      <Pressable
+        style={{marginTop: Spacing.m}}
+        onPress={handleToggleTransactionModal}>
+        <Text style={styles.link}>Transaction History</Text>
+      </Pressable>
+      <Portal>
+        <Modal
+          onDismiss={handleToggleTransactionModal}
+          visible={transactionModal}>
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <Text style={styles.header}>Transaction History</Text>
+              <AntDesign
+                name="closecircleo"
+                onPress={handleToggleTransactionModal}
+                size={Spacing.xl}
+                color={Colors.dark}
+              />
+            </View>
 
-          <View style={styles.listContainer}>
-            <SectionList
-              showsVerticalScrollIndicator={false}
-              renderSectionHeader={renderHeader}
-              sections={formattedData}
-              renderItem={renderHistory}
-            />
+            <View style={styles.listContainer}>
+              <SectionList
+                showsVerticalScrollIndicator={false}
+                renderSectionHeader={renderHeader}
+                sections={formattedData}
+                renderItem={renderHistory}
+              />
+            </View>
           </View>
-        </View>
-      </Modal>
-    </Portal>
+        </Modal>
+      </Portal>
+    </View>
   );
 };
+
+export default TransactionModal;
