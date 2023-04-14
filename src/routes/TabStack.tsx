@@ -20,12 +20,12 @@ const HomeIcon = ({color, size}: any) => (
 );
 
 export default function TabStack() {
-  const [token, setToken] = useState('');
+  const [sessionToken, setSessionToken] = useState('');
   const Tab = createBottomTabNavigator();
 
   useEffect(() => {
     let token = get('token');
-    setToken(`${token}`);
+    setSessionToken(`${token}`);
   }, []);
 
   return (
@@ -56,7 +56,7 @@ export default function TabStack() {
                 activeOpacity={1}
                 {...props}
                 onPress={() => {
-                  token !== 'undefined'
+                  sessionToken !== 'undefined'
                     ? navigation.navigate(ScreenNames.profile)
                     : navigation.navigate(ScreenNames.loginStack);
                 }}
