@@ -22,6 +22,7 @@ import Text from '@/ui/Text';
 import Snackbar from '@/ui/SnackBar';
 import {ResendOtp} from '@/ui/ResendOtp';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+import {ScreenNames} from '@/utils/screenName';
 
 const CELL_COUNT = 6;
 
@@ -82,10 +83,14 @@ const VerificationScreen = () => {
         let token = data?.token;
         dispatch(saveUserInfo(data));
         await set('token', token);
-        handleToggleChangePasswordModal();
+        if (!data?.password_configure) {
+          handleToggleChangePasswordModal();
+        } else {
+          navigation.replace(ScreenNames.mainStack);
+        }
       }
     } catch (e) {}
-  }, [dispatch, handleToggleChangePasswordModal, otpForm, verify]);
+  }, [dispatch, handleToggleChangePasswordModal, navigation, otpForm, verify]);
 
   return (
     <SafeAreaView style={styles.container}>
