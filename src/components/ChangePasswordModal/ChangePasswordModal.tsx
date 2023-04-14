@@ -87,6 +87,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
             <View>
               {type === 'component' && (
                 <TextInput
+                  mode="outlined"
                   keyboardType={'number-pad'}
                   onChangeText={val =>
                     handlePasswordChange('old_password', val)
