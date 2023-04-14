@@ -58,9 +58,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
           handleToggleChangePasswordModal();
           type === 'modal' && navigation.replace(ScreenNames.mainStack);
         }
-      } catch (eror) {
-        console.log(eror);
-      }
+      } catch (e) {}
     }
   }, [
     handleToggleChangePasswordModal,
@@ -70,6 +68,10 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     update,
     valid,
   ]);
+
+  if (error) {
+    return <></>;
+  }
 
   return (
     <View>
