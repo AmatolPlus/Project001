@@ -7,6 +7,7 @@ import {FlashList} from '@shopify/flash-list';
 
 import {
   useContestDetailQuery,
+  useJoinContestMutation,
   useLikeContestMutation,
 } from '@/services/apis/contests.api';
 import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
@@ -18,6 +19,8 @@ import PriceChart from '@/ui/PrizeChart';
 import PostCard from '@/components/PostCard/PostCard';
 import {canJoinEvent} from '@/utils/event';
 import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
+import RazorPayCheckout from 'react-native-razorpay';
+import {useUserDetailsQuery} from '@/services/apis/login.api';
 
 export default function Details() {
   const {params}: any = useRoute();
@@ -25,8 +28,44 @@ export default function Details() {
   const [isPrizeChartShown, setPriceChartShown] = useState(false);
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [like] = useLikeContestMutation({});
+  const [joinEvent]: any = useJoinContestMutation({});
+  const {data: user} = useUserDetailsQuery({});
 
-  const handleJoinEvent = useCallback(() => {}, []);
+  const handleRazorPayPayment = useCallback(
+    async (response: any) => {
+      await RazorPayCheckout.open({
+        description: 'Join Contest Payment',
+        image: data?.sample_image_url,
+        name: data?.concept_name,
+        key: response?.data?.key,
+        prefill: {
+          email: user?.email,
+          contact: user?.mobile_number,
+        },
+        amount: response?.data?.amount,
+        currency: response?.data?.currency,
+        order_id: response?.data?.order_id,
+        theme: {
+          color: Colors.success,
+        },
+      }).catch(e => e);
+    },
+    [
+      data?.concept_name,
+      data?.sample_image_url,
+      user?.email,
+      user?.mobile_number,
+    ],
+  );
+
+  const handleJoinEvent = useCallback(async () => {
+    try {
+      joinEvent({
+        contest: 'e61d9a72-f316-48be-ad9d-f7142e03eab2',
+        use_wallet: true,
+      }).then(handleRazorPayPayment);
+    } catch (e) {}
+  }, [handleRazorPayPayment, joinEvent]);
 
   const progress = useMemo(
     () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
@@ -107,6 +146,8 @@ export default function Details() {
               joinEndDate={data?.join_end_date}
               joinStartDate={data?.publish_on}
               onJoinEvent={handleJoinEvent}
+              entryFee={data.entry_price}
+              contestName={data.concept_name}
             />
           </View>
         </View>
