@@ -1,6 +1,6 @@
 export interface IChangePassword {
   type: ChangePasswordType;
-  isOpen: boolean;
+  isOpen?: boolean;
   navigation?: any;
 }
 

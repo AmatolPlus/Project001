@@ -12,15 +12,14 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,
-    paddingHorizontal: Spacing.m,
-    marginBottom: Spacing.m,
+    marginBottom: Spacing.s,
   },
   stateContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: Spacing.m,
+    marginBottom: Spacing.s,
   },
   stateButton: {
     width: width / 2.8,

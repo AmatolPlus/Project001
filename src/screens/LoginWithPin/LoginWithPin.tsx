@@ -68,24 +68,26 @@ const LoginWithPin = () => {
       />
       <View>
         <Text style={styles.title}>{appConfig.name}</Text>
-        <TextInput
-          mode="outlined"
-          outlineColor={Colors.grey}
-          selectionColor={Colors.dark}
-          activeOutlineColor={Colors.dark}
-          onChangeText={val => handleFormUpdate('mobile_number', val)}
-          style={styles.input}
-          label={'Mobile Number'}
-        />
-        <TextInput
-          mode="outlined"
-          outlineColor={Colors.grey}
-          activeOutlineColor={Colors.dark}
-          onChangeText={val => handleFormUpdate('password', val)}
-          style={styles.input}
-          label={'password'}
-          keyboardType={'phone-pad'}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            mode="outlined"
+            outlineColor={Colors.grey}
+            selectionColor={Colors.dark}
+            activeOutlineColor={Colors.dark}
+            onChangeText={val => handleFormUpdate('mobile_number', val)}
+            style={styles.input}
+            label={'Mobile Number'}
+          />
+          <TextInput
+            mode="outlined"
+            outlineColor={Colors.grey}
+            activeOutlineColor={Colors.dark}
+            onChangeText={val => handleFormUpdate('password', val)}
+            style={styles.input}
+            label={'Password'}
+            keyboardType={'phone-pad'}
+          />
+        </View>
       </View>
       {error && <Text style={styles.error}>{error?.data?.details}</Text>}
       <View>

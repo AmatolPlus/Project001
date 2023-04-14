@@ -29,7 +29,10 @@ export default function TabStack() {
   }, []);
 
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarHideOnKeyboard: true,
+      }}>
       <Tab.Screen
         options={{
           tabBarIcon: HomeIcon,
