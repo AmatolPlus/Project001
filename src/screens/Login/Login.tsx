@@ -38,30 +38,20 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    if (!hasUserConfiguredPassword) {
-      try {
-        const {data}: any = await login(loginForm);
-        if (data) {
-          const {auth_token} = data;
-          navigation.navigate(ScreenNames.verifcation, {
-            auth_token,
-          });
-        }
-      } catch (e) {}
-    } else {
-      handleLoginWithPinNavigation();
-    }
+    try {
+      const {data}: any = await login(loginForm);
+      if (data) {
+        const {auth_token} = data;
+        navigation.navigate(ScreenNames.verifcation, {
+          auth_token,
+        });
+      }
+    } catch (e) {}
   };
 
   const handleMainScreenNavigation = useCallback(() => {
     navigation.navigate(ScreenNames.mainStack);
   }, [navigation]);
-
-  const handleLoginWithPinNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.loginWithPin, {
-      mobile_number: loginForm.mobile_number,
-    });
-  }, [loginForm.mobile_number, navigation]);
 
   if (isError) {
     return (
