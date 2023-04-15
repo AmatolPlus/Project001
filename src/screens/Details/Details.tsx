@@ -6,6 +6,7 @@ import moment from 'moment';
 import {FlashList} from '@shopify/flash-list';
 
 import {
+  useConfirmPaymentMutation,
   useContestDetailQuery,
   useJoinContestMutation,
   useLikeContestMutation,
@@ -29,11 +30,20 @@ export default function Details() {
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [like] = useLikeContestMutation({});
   const [joinEvent]: any = useJoinContestMutation({});
+  const [confirmPayment]: any = useConfirmPaymentMutation({});
   const {data: user} = useUserDetailsQuery({});
+
+  const handleConfirmPayment = useCallback(
+    (res: any) => {
+      let data: any = confirmPayment(res);
+      console.log(data);
+    },
+    [confirmPayment],
+  );
 
   const handleRazorPayPayment = useCallback(
     async (response: any) => {
-      await RazorPayCheckout.open({
+      let result = await RazorPayCheckout.open({
         description: 'Join Contest Payment',
         image: data?.sample_image_url,
         name: data?.concept_name,
@@ -49,10 +59,14 @@ export default function Details() {
           color: Colors.success,
         },
       }).catch(e => e);
+      if (result?.razorpay_payment_id) {
+        handleConfirmPayment(result);
+      }
     },
     [
       data?.concept_name,
       data?.sample_image_url,
+      handleConfirmPayment,
       user?.email,
       user?.mobile_number,
     ],
