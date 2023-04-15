@@ -6,16 +6,20 @@ import {CenterItem, VerticalMargin} from '../../utils/spacing';
 
 let styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.light,
-    padding: Spacing.xl * 2,
     ...CenterItem(),
+    backgroundColor: Colors.light,
+    padding: Spacing.l,
   },
   title: {
-    textAlign: 'left',
-    alignSelf: 'flex-start',
-    color: Colors.purple,
-    ...Fonts.title,
+    alignSelf: 'center',
+    ...Fonts.h1,
   },
+  info: {
+    textAlign: 'center',
+    ...Fonts.h5,
+    ...VerticalMargin('l'),
+  },
+
   inputContainer: {
     ...VerticalMargin('s'),
   },
@@ -29,6 +33,8 @@ let styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'space-between',
     marginLeft: Spacing.m,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   loginButton: {
     borderRadius: Spacing.xs,
@@ -52,6 +58,26 @@ let styles = StyleSheet.create({
   },
   resetPasswordContainer: {
     marginTop: Spacing.m,
+  },
+  codeFieldRoot: {
+    width: '100%',
+  },
+  cellRoot: {
+    ...CenterItem(),
+    width: 48,
+    display: 'flex',
+    backgroundColor: Colors.white,
+    height: 60,
+    margin: Spacing.xs,
+    borderRadius: Spacing.xl,
+  },
+  cellText: {
+    ...Fonts.h1,
+    color: Colors.dark,
+    textAlign: 'center',
+  },
+  focusCell: {
+    backgroundColor: Colors.white,
   },
 });
 

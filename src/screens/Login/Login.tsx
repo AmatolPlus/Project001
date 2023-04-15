@@ -20,7 +20,8 @@ const LoginScreen = () => {
   });
   const navigation: any = useNavigation();
   const [login, {isLoading, error, isError}] = useLoginMutation();
-
+  const [hasUserConfiguredPassword, setHasUserConfiguredPassword] =
+    useState(true);
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
     let status = phoneRegex.test(`${loginForm?.mobile_number}`);
@@ -37,15 +38,19 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    try {
-      const {data}: any = await login(loginForm);
-      if (data) {
-        const {auth_token} = data;
-        navigation.navigate(ScreenNames.verifcation, {
-          auth_token,
-        });
-      }
-    } catch (e) {}
+    if (!hasUserConfiguredPassword) {
+      try {
+        const {data}: any = await login(loginForm);
+        if (data) {
+          const {auth_token} = data;
+          navigation.navigate(ScreenNames.verifcation, {
+            auth_token,
+          });
+        }
+      } catch (e) {}
+    } else {
+      handleLoginWithPinNavigation();
+    }
   };
 
   const handleMainScreenNavigation = useCallback(() => {
@@ -53,8 +58,10 @@ const LoginScreen = () => {
   }, [navigation]);
 
   const handleLoginWithPinNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.loginWithPin);
-  }, [navigation]);
+    navigation.navigate(ScreenNames.loginWithPin, {
+      mobile_number: loginForm.mobile_number,
+    });
+  }, [loginForm.mobile_number, navigation]);
 
   if (isError) {
     return (
@@ -102,22 +109,10 @@ const LoginScreen = () => {
               color: isValid() ? Colors.white : Colors.white,
               ...styles.loginButtonText,
             }}>
-            {'Login with OTP'}
+            {'Login'}
           </Text>
         </Button>
       </View>
-      <Button
-        onPress={handleLoginWithPinNavigation}
-        buttonColor={Colors.success}
-        style={[styles.loginButton, {backgroundColor: Colors.success}]}>
-        <Text
-          style={{
-            color: Colors.white,
-            ...styles.loginButtonText,
-          }}>
-          {'Login In With PIN'}
-        </Text>
-      </Button>
     </View>
   );
 };
