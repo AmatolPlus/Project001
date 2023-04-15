@@ -34,9 +34,8 @@ export default function Details() {
   const {data: user} = useUserDetailsQuery({});
 
   const handleConfirmPayment = useCallback(
-    (res: any) => {
-      let data: any = confirmPayment(res);
-      console.log(data);
+    async (res: any) => {
+      await confirmPayment(res);
     },
     [confirmPayment],
   );
