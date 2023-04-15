@@ -20,8 +20,6 @@ const LoginScreen = () => {
   });
   const navigation: any = useNavigation();
   const [login, {isLoading, error, isError}] = useLoginMutation();
-  const [hasUserConfiguredPassword, setHasUserConfiguredPassword] =
-    useState(true);
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
     let status = phoneRegex.test(`${loginForm?.mobile_number}`);
