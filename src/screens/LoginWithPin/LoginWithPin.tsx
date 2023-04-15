@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -40,10 +40,10 @@ const LoginWithPin = () => {
     return status;
   }
 
-  const handleFormUpdate = (key: keyof FormState, value: string) => {
+  const handleFormUpdate = (key: keyof FormState, string: string) => {
     setForm((prevState: any) => ({
       ...prevState,
-      [key]: value,
+      [key]: string,
     }));
   };
 
