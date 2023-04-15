@@ -76,7 +76,7 @@ const LoginWithPin = () => {
         size={fontSize.h1}
         color={Colors.dark}
       />
-      <Text style={styles.title}>Verify Your PIN</Text>
+      <Text style={styles.title}>Login Your PIN</Text>
       <Text style={styles.info}>
         Please enter your unique PIN in the designated field below to access
         your account
@@ -115,10 +115,9 @@ const LoginWithPin = () => {
           ]}>
           <Text
             style={{
-              color: isValid() ? Colors.dark : Colors.white,
               ...styles.loginButtonText,
             }}>
-            {'Verify'}
+            {'Login'}
           </Text>
         </Button>
       </View>

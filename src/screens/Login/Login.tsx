@@ -20,8 +20,6 @@ const LoginScreen = () => {
   });
   const navigation: any = useNavigation();
   const [login, {isLoading, error, isError}] = useLoginMutation();
-  const [hasUserConfiguredPassword, setHasUserConfiguredPassword] =
-    useState(true);
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
     let status = phoneRegex.test(`${loginForm?.mobile_number}`);
@@ -37,31 +35,31 @@ const LoginScreen = () => {
     }));
   };
 
-  const handleLogin = async () => {
-    if (!hasUserConfiguredPassword) {
-      try {
-        const {data}: any = await login(loginForm);
-        if (data) {
-          const {auth_token} = data;
-          navigation.navigate(ScreenNames.verifcation, {
-            auth_token,
-          });
-        }
-      } catch (e) {}
-    } else {
-      handleLoginWithPinNavigation();
-    }
-  };
-
-  const handleMainScreenNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.mainStack);
-  }, [navigation]);
-
   const handleLoginWithPinNavigation = useCallback(() => {
     navigation.navigate(ScreenNames.loginWithPin, {
       mobile_number: loginForm.mobile_number,
     });
   }, [loginForm.mobile_number, navigation]);
+
+  const handleLogin = useCallback(async () => {
+    try {
+      const {data}: any = await login(loginForm);
+      if (data) {
+        const {auth_token, pin_required} = await data;
+        if (!pin_required) {
+          navigation.navigate(ScreenNames.verifcation, {
+            auth_token,
+          });
+        } else {
+          handleLoginWithPinNavigation();
+        }
+      }
+    } catch (e) {}
+  }, [handleLoginWithPinNavigation, login, loginForm, navigation]);
+
+  const handleMainScreenNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.mainStack);
+  }, [navigation]);
 
   if (isError) {
     return (
