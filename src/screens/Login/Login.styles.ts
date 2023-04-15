@@ -16,10 +16,12 @@ let styles = StyleSheet.create({
     color: Colors.purple,
     ...Fonts.title,
   },
+  inputContainer: {
+    ...VerticalMargin('m'),
+  },
   input: {
     ...Fonts.h5,
     width: '100%',
-    ...VerticalMargin('s'),
     borderRadius: BorderRadius.l,
   },
   loginButtonContainer: {

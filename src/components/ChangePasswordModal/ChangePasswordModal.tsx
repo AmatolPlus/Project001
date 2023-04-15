@@ -17,20 +17,20 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     password2: '',
   });
   const [valid, setValid] = useState(false);
-  const [passwordModal, setPasswordModal] = useState(false);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
   const isValid = validatePassword(password);
   const [update, {error}]: any = useUpdatePasswordMutation({});
 
   const handleToggleChangePasswordModal = useCallback(() => {
     if (type === 'component') {
-      setPasswordModal(!passwordModal);
+      setShowPasswordModal(!showPasswordModal);
     } else {
       ToastAndroid.show(
         'Enter the New Password before You Proceed',
         ToastAndroid.LONG,
       );
     }
-  }, [passwordModal, type]);
+  }, [showPasswordModal, type]);
 
   const handlePasswordChange = (key: string, value: string) => {
     setPassword({
@@ -41,7 +41,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
 
   useEffect(() => {
     if (isOpen) {
-      setPasswordModal(isOpen);
+      setShowPasswordModal(isOpen);
     }
   }, [isOpen]);
 
@@ -58,9 +58,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
           handleToggleChangePasswordModal();
           type === 'modal' && navigation.replace(ScreenNames.mainStack);
         }
-      } catch (eror) {
-        console.log(eror);
-      }
+      } catch (e) {}
     }
   }, [
     handleToggleChangePasswordModal,
@@ -70,6 +68,10 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     update,
     valid,
   ]);
+
+  if (error) {
+    return <></>;
+  }
 
   return (
     <View>
@@ -81,12 +83,13 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
       <Portal>
         <Modal
           style={styles.modal}
-          visible={passwordModal}
+          visible={showPasswordModal}
           onDismiss={handleToggleChangePasswordModal}>
           <View style={styles.card}>
             <View>
               {type === 'component' && (
                 <TextInput
+                  mode="outlined"
                   keyboardType={'number-pad'}
                   onChangeText={val =>
                     handlePasswordChange('old_password', val)

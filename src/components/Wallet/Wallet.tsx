@@ -1,12 +1,12 @@
 import React, {memo} from 'react';
-import {Text} from '@/ui';
+import {Button, Text} from '@/ui';
 import {Withdraw} from '@/ui/Withdraw';
 import {View} from 'react-native';
 import {styles} from './Wallet.styles';
 import {Colors} from '@/utils/colors';
 import {IWallet} from './Wallet.types';
 
-const Wallet = ({wallet, onWithdraw, onRefreshWallet}: IWallet) => (
+const Wallet = ({wallet, onWithdraw, loading, onRefreshWallet}: IWallet) => (
   <View style={styles.walletContainer}>
     <Text style={styles.walletHeader}>Wallet Balance</Text>
     <Text style={styles.walletAmount}>
@@ -14,9 +14,12 @@ const Wallet = ({wallet, onWithdraw, onRefreshWallet}: IWallet) => (
     </Text>
     <View style={styles.withdrawButtonContainer}>
       <Withdraw currentAmount={0} threshold={0} onWithdraw={onWithdraw} />
-      <Text onPress={onRefreshWallet} style={{color: Colors.info}}>
+      <Button
+        textColor={Colors.info}
+        onPress={onRefreshWallet}
+        loading={loading}>
         Refresh Balance
-      </Text>
+      </Button>
     </View>
   </View>
 );

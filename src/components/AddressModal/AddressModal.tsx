@@ -86,10 +86,10 @@ const AddressModal = () => {
             <Button
               disabled={!disabled}
               onPress={handleSubmit}
-              style={[
-                styles.updateButton,
-                {backgroundColor: !disabled ? Colors.grey : Colors.success},
-              ]}>
+              style={{
+                ...styles.updateButton,
+                backgroundColor: !disabled ? Colors.grey : Colors.success,
+              }}>
               <Text style={styles.updateText}>Update</Text>
             </Button>
           </View>

@@ -1,4 +1,4 @@
-import {View} from 'react-native';
+import {ToastAndroid, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {Modal, TextInput, Button, Text} from '@/ui';
 import {styles} from './ResetPassword.styles';
@@ -53,13 +53,14 @@ const ResetPassword = () => {
     });
     if (!data?.error) {
       handleModal();
-    } else {
-      null;
+    }
+    if (data) {
+      ToastAndroid.show('Password Changed Successfully', ToastAndroid.LONG);
     }
   }, [confirm, handleModal, resetValue]);
 
   let isMobileNumberValid =
-    resetValue.mobile_number.trim().length !== 10 ? true : false;
+    resetValue.mobile_number.trim().length !== 10 ? false : true;
 
   let isFormValid =
     resetValue.otp.trim().length !== 0 &&
@@ -71,7 +72,7 @@ const ResetPassword = () => {
   return (
     <View>
       <Text onPress={handleModal} style={styles.link}>
-        Reset Password
+        Forgot Password ?
       </Text>
       <Portal>
         <Modal onDismiss={handleModal} style={styles.modal} visible={visible}>

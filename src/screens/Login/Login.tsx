@@ -14,7 +14,6 @@ import {fontSize} from '@/utils/fonts';
 
 const LoginScreen = () => {
   const [loginForm, setForm] = useState<ILoginRequest>({
-    username: undefined,
     mobile_number: undefined,
     country_code: undefined,
     referral_code: undefined,
@@ -24,10 +23,7 @@ const LoginScreen = () => {
 
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
-    const nameRegex = /^[a-zA-Z]{3,}$/;
-    let status =
-      phoneRegex.test(`${loginForm?.mobile_number}`) &&
-      nameRegex.test(`${loginForm?.username}`);
+    let status = phoneRegex.test(`${loginForm?.mobile_number}`);
     return status;
   }
 
@@ -79,24 +75,17 @@ const LoginScreen = () => {
       />
       <View>
         <Text style={styles.title}>{appConfig.name}</Text>
-        <TextInput
-          mode="outlined"
-          outlineColor={Colors.grey}
-          selectionColor={Colors.dark}
-          activeOutlineColor={Colors.dark}
-          onChangeText={val => handleFormUpdate('username', val)}
-          style={styles.input}
-          label={'Name'}
-        />
-        <TextInput
-          mode="outlined"
-          outlineColor={Colors.grey}
-          activeOutlineColor={Colors.dark}
-          onChangeText={val => handleFormUpdate('mobile_number', val)}
-          style={styles.input}
-          label={'Phone Number'}
-          keyboardType={'phone-pad'}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            mode="outlined"
+            outlineColor={Colors.grey}
+            activeOutlineColor={Colors.dark}
+            onChangeText={val => handleFormUpdate('mobile_number', val)}
+            style={styles.input}
+            label={'Phone Number'}
+            keyboardType={'phone-pad'}
+          />
+        </View>
       </View>
       <View>
         <Button

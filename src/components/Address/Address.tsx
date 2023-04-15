@@ -33,6 +33,7 @@ const Address = ({form, onChange}: any) => {
   return (
     <View>
       <TextInput
+        mode="outlined"
         value={form?.address_detail?.street}
         style={styles.input}
         onChangeText={val => handleFormUpdate('street', val)}
@@ -41,7 +42,7 @@ const Address = ({form, onChange}: any) => {
       <View style={styles.stateContainer}>
         <TouchableOpacity onPress={() => handleOpenModal('stateModal', true)}>
           <TextInput
-            mode={'flat'}
+            mode="outlined"
             style={styles.stateButton}
             value={form?.address_detail?.state}
             onFocus={() => handleOpenModal('stateModal', true)}
@@ -51,6 +52,7 @@ const Address = ({form, onChange}: any) => {
         </TouchableOpacity>
         <TouchableOpacity onPress={() => handleOpenModal('citiesModal', true)}>
           <TextInput
+            mode="outlined"
             style={styles.stateButton}
             value={form?.address_detail?.city}
             onFocus={() => handleOpenModal('citiesModal', true)}
@@ -61,6 +63,7 @@ const Address = ({form, onChange}: any) => {
       </View>
 
       <TextInput
+        mode="outlined"
         maxLength={6}
         keyboardType="number-pad"
         value={form?.address_detail?.postal_code}

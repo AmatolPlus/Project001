@@ -11,8 +11,8 @@ import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 
 import {Button, Divider, Text} from '@/ui';
-import Wallet from '@/components/Wallet';
 
+import Wallet from '@/components/Wallet';
 import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
 import AddressModal from '@/components/AddressModal/AddressModal';
 import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
@@ -21,7 +21,7 @@ import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePassword
 
 export default function Profile() {
   const {data: user} = useUserDetailsQuery({});
-  const {data: wallet, refetch} = useWalletAmountQuery({});
+  const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
 
   const fullName = getFullName(user?.first_name, user?.last_name);
@@ -41,18 +41,19 @@ export default function Profile() {
             wallet={wallet}
             onRefreshWallet={refetch}
             onWithdraw={() => {}}
+            loading={isLoading}
           />
           <Divider style={styles.divider} />
           <AddressModal />
           <SocialMediaModal />
-          <ChangePasswordModal />
+          <ChangePasswordModal type="component" />
           <TransactionModal />
           <Divider style={styles.divider} />
           <View>
             <Text style={styles.header}>About me</Text>
             <View style={styles.userBioContainer}>
               <Text>
-                <Text style={styles.userBio}>contact on: </Text>
+                <Text style={styles.userBio}>Contact on: </Text>
                 {user?.mobile_number}
               </Text>
               <Text>

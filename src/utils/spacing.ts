@@ -26,7 +26,6 @@ function HorizontalMargin(value: SpacingType) {
 
 interface ICenterItem {
   justifyContent: 'center';
-  alignItems: 'center';
   flex: number;
 }
 
