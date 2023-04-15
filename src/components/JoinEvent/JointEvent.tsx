@@ -9,11 +9,14 @@ import {canJoinEvent} from '@/utils/event';
 import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
 import {IJoinEvent} from './JoinEvent.types';
+import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 
 const DISABLE_JOIN = 'Joining period for this event has ended';
 
 export const JoinEvent = ({
   joinStartDate,
+  contestName,
+  entryFee,
   joinEndDate,
   currentOccupancy,
   thresholdOccupancy,
@@ -23,6 +26,7 @@ export const JoinEvent = ({
   const [showSnackbar, setSnackbar] = useState(false);
   const days = moment(joinStartDate).diff(joinEndDate, 'days');
   const canJoin = canJoinEvent(days, currentOccupancy, thresholdOccupancy);
+  const {data: wallet} = useWalletAmountQuery({});
 
   const handleJoin = useCallback(() => {
     onJoinEvent();
@@ -58,6 +62,9 @@ export const JoinEvent = ({
       </Button>
 
       <JoinEventConfirmModal
+        contestName={contestName}
+        wallet={wallet?.earned_amount}
+        entryFee={entryFee}
         isOpen={isOpen}
         onClose={handleToggleModal}
         onConfirm={handleJoin}

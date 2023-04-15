@@ -35,7 +35,7 @@ export const contestService = createApi({
         url: `contest/?contest_category=${id}`,
       }),
     }),
-    joinContest: build.mutation<any, IContestBody>({
+    joinContest: build.mutation<any, any>({
       query: body => ({
         method: 'POST',
         url: 'contest/join_contest/',
