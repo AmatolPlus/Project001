@@ -35,17 +35,27 @@ const LoginScreen = () => {
     }));
   };
 
-  const handleLogin = async () => {
+  const handleLoginWithPinNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.loginWithPin, {
+      mobile_number: loginForm.mobile_number,
+    });
+  }, [loginForm.mobile_number, navigation]);
+
+  const handleLogin = useCallback(async () => {
     try {
       const {data}: any = await login(loginForm);
       if (data) {
-        const {auth_token} = data;
-        navigation.navigate(ScreenNames.verifcation, {
-          auth_token,
-        });
+        const {auth_token, pin_required} = await data;
+        if (!pin_required) {
+          navigation.navigate(ScreenNames.verifcation, {
+            auth_token,
+          });
+        } else {
+          handleLoginWithPinNavigation();
+        }
       }
     } catch (e) {}
-  };
+  }, [handleLoginWithPinNavigation, login, loginForm, navigation]);
 
   const handleMainScreenNavigation = useCallback(() => {
     navigation.navigate(ScreenNames.mainStack);

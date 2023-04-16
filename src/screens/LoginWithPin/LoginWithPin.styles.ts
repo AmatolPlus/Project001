@@ -43,6 +43,7 @@ let styles = StyleSheet.create({
   loginButtonText: {
     ...Fonts.h3,
     fontSize: fontSize.h4,
+    color: Colors.white,
   },
   close: {
     position: 'absolute',
