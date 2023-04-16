@@ -42,6 +42,13 @@ export const contestService = createApi({
         body,
       }),
     }),
+    confirmPayment: build.mutation<any, any>({
+      query: body => ({
+        method: 'POST',
+        url: 'payment/confirm/',
+        body,
+      }),
+    }),
     likeContest: build.mutation({
       query: body => ({
         method: 'POST',
@@ -57,6 +64,7 @@ const {
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
+  useConfirmPaymentMutation,
   useLikeContestMutation,
   useMoreContestsQuery,
 } = contestService;
@@ -69,6 +77,7 @@ export {
   useLikeContestMutation,
   useSectionQuery,
   useContestListQuery,
+  useConfirmPaymentMutation,
   useJoinContestMutation,
   contestReducerPath,
 };
