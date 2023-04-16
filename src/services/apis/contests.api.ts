@@ -60,6 +60,7 @@ export const contestService = createApi({
 });
 
 const {
+  useConfirmPaymentMutation,
   useContestDetailQuery,
   useContestListQuery,
   useSectionQuery,
@@ -75,6 +76,7 @@ export {
   useContestDetailQuery,
   useMoreContestsQuery,
   useLikeContestMutation,
+  useConfirmPaymentMutation,
   useSectionQuery,
   useContestListQuery,
   useConfirmPaymentMutation,

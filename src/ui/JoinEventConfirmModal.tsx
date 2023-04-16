@@ -25,7 +25,7 @@ const JoinEventConfirmModal = ({
 }: IJoinEventModal) => {
   return (
     <Portal>
-      <Modal visible={isOpen}>
+      <Modal onDismiss={onClose} visible={isOpen}>
         <OrderSummary
           onConfirm={onConfirm}
           onClose={onClose}
