@@ -65,7 +65,6 @@ const {
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
-  useConfirmPaymentMutation,
   useLikeContestMutation,
   useMoreContestsQuery,
 } = contestService;
@@ -76,7 +75,6 @@ export {
   useContestDetailQuery,
   useMoreContestsQuery,
   useLikeContestMutation,
-  useConfirmPaymentMutation,
   useSectionQuery,
   useContestListQuery,
   useConfirmPaymentMutation,
