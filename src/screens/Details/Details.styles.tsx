@@ -41,12 +41,13 @@ export const styles = StyleSheet.create({
   },
   title: {
     ...Fonts.h2,
-    ...VerticalMargin('xs'),
   },
   desc: {
     ...Fonts.h5,
     fontSize: fontSize.h4,
-    ...VerticalMargin('xs'),
+  },
+  more: {
+    color: Colors.info,
   },
   knowMore: {
     flexDirection: 'row',
@@ -68,8 +69,14 @@ export const styles = StyleSheet.create({
     color: Colors.white,
     marginBottom: Spacing.m,
   },
-  button: {position: 'absolute', borderRadius: BorderRadius.s, right: 0},
-  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.white},
+
+  prizeLinkContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.info},
   eventAttendees: {justifyContent: 'space-between', flexDirection: 'row'},
   eventAttendeesText: {...Fonts.h6, ...VerticalMargin('s')},
   joinedCount: {
@@ -80,6 +87,11 @@ export const styles = StyleSheet.create({
   eventDetailsHeader: {
     ...Fonts.h1,
     fontSize: fontSize.h3,
+  },
+  eventDetailsSubHeaderContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
   },
   eventDetailsSubHeader: {
     ...Fonts.h3,
@@ -123,6 +135,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginVertical: Spacing.m,
     flexDirection: 'row',
+    backgroundColor: Colors.light,
   },
   noteTextContainer: {width: '70%'},
   noteDate: {
@@ -132,6 +145,7 @@ export const styles = StyleSheet.create({
   eventHeaderContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: Spacing.m,
   },
 });

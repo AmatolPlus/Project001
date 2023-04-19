@@ -10,7 +10,7 @@ const useBackHandler = () => {
         [
           {
             text: 'Exit',
-            onPress: () => BackHandler.exitApp,
+            onPress: () => BackHandler.exitApp(),
           },
           {
             text: 'Cancel',

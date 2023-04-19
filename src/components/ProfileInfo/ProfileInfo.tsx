@@ -9,6 +9,9 @@ import {Colors} from '@/utils/colors';
 import UserDetailsModal from '../UserDetailsModal/UserDetailsModal';
 import {IProfileInfo} from './ProfileInfo.types';
 
+const USER_IMAGE_PLACEHOLDER =
+  'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
+
 const ProfileInfo = ({data, fullName}: IProfileInfo) => {
   const [userModal, setShowUserModal] = useState(false);
 
@@ -22,7 +25,7 @@ const ProfileInfo = ({data, fullName}: IProfileInfo) => {
         <View style={styles.info}>
           <Image
             resizeMode="contain"
-            source={{uri: data?.profile_image_url}}
+            source={{uri: data?.profile_image_url || USER_IMAGE_PLACEHOLDER}}
             style={styles.profileImage}
           />
           <View>

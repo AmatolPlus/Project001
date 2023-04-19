@@ -48,7 +48,6 @@ const LoginWithPin = () => {
   };
 
   const handleLogin = async () => {
-    console.log(loginForm);
     try {
       const {data}: any = await login({
         ...loginForm,

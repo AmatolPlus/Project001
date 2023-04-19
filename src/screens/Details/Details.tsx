@@ -1,10 +1,10 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, TouchableOpacity, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
 import moment from 'moment';
 import {FlashList} from '@shopify/flash-list';
-
+import Entypo from 'react-native-vector-icons/Entypo';
 import {
   useConfirmPaymentMutation,
   useContestDetailQuery,
@@ -22,6 +22,7 @@ import {canJoinEvent} from '@/utils/event';
 import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
 import RazorPayCheckout from 'react-native-razorpay';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
+import {fontSize} from '@/utils/fonts';
 
 export default function Details() {
   const {params}: any = useRoute();
@@ -32,12 +33,20 @@ export default function Details() {
   const [joinEvent]: any = useJoinContestMutation({});
   const [confirmPayment]: any = useConfirmPaymentMutation({});
   const {data: user} = useUserDetailsQuery({});
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleToggleText = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   const handleConfirmPayment = useCallback(
     async (res: any) => {
-      await confirmPayment(res);
+      const status = await confirmPayment(res);
+      if (status?.data?.details === 'success') {
+        refetch();
+      }
     },
-    [confirmPayment],
+    [confirmPayment, refetch],
   );
 
   const handleRazorPayPayment = useCallback(
@@ -71,19 +80,25 @@ export default function Details() {
     ],
   );
 
+  // is joined by me not updating
+
   const handleJoinEvent = useCallback(async () => {
     try {
       joinEvent({
-        contest: 'e61d9a72-f316-48be-ad9d-f7142e03eab2',
+        contest: id,
         use_wallet: true,
       }).then(handleRazorPayPayment);
     } catch (e) {}
-  }, [handleRazorPayPayment, joinEvent]);
+  }, [handleRazorPayPayment, id, joinEvent]);
 
   const progress = useMemo(
     () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
     [data?.joined_list_count, data?.total_competators],
   );
+
+  const handlePrizeChartToggle = useCallback(() => {
+    setPriceChartShown(!isPrizeChartShown);
+  }, [isPrizeChartShown]);
 
   const handleLike = useCallback(
     async (item: any) => {
@@ -119,7 +134,7 @@ export default function Details() {
     );
   };
   const canJoin = canJoinEvent(
-    data?.join_validity_in_days,
+    data?.join_end_date,
     data?.joined_list_count,
     data?.total_competators,
   );
@@ -136,70 +151,27 @@ export default function Details() {
           style={styles.image}
         />
       </Card>
-      <View style={styles.contestDetails}>
-        <View
-          style={[
-            styles.note,
-            {
-              backgroundColor: canJoin ? Colors.light : Colors.danger,
-            },
-          ]}>
-          <View style={styles.noteTextContainer}>
-            <Text style={{color: canJoin ? Colors.dark2 : Colors.white}}>
-              Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
-              <Text style={styles.noteDate}>
-                {moment(data?.join_end_date).format('DD MMM YYYY')}
-              </Text>
-            </Text>
-          </View>
-          <View>
-            <JoinEvent
-              thresholdOccupancy={data?.total_competators}
-              currentOccupancy={data?.joined_list_count}
-              joinEndDate={data?.join_end_date}
-              joinStartDate={data?.publish_on}
-              onJoinEvent={handleJoinEvent}
-              entryFee={data.entry_price}
-              contestName={data.concept_name}
-            />
-          </View>
-        </View>
-
-        <View style={styles.headerContainer}>
-          <Section>
-            <Text style={styles.title}>{data?.concept_name}</Text>
-          </Section>
-          <Button
-            buttonColor={Colors.info}
-            style={styles.button}
-            onPress={() => setPriceChartShown(!isPrizeChartShown)}>
-            <Text style={styles.buttonText}>View Prize Chart</Text>
-          </Button>
-        </View>
-        <Section>
-          <Text style={styles.desc}>{data?.contest_desc}</Text>
-        </Section>
-        <Section>
-          <View style={styles.eventAttendees}>
-            <Text style={styles.eventAttendeesText}>Event Attendees</Text>
-            <Text style={styles.joinedCount}>
-              {data?.joined_list_count + '/' + data?.total_competators}
-            </Text>
-          </View>
-          <ProgressBar progress={progress} color={Colors.success} />
-        </Section>
+      <View>
         {data?.joined_contest?.length ? (
           <Section>
             <View style={styles.eventHeaderContainer}>
               <View>
                 <Text style={styles.eventDetailsHeader}>Posts</Text>
-                <ParticipantsList participants={32} />
               </View>
-              <Text color={Colors.info}>More</Text>
+              <ParticipantsList data={data?.joined_contest} participants={32} />
             </View>
-            <Text style={styles.eventDetailsSubHeader}>
-              Vote for your favourite posts
-            </Text>
+            <View style={styles.eventDetailsSubHeaderContainer}>
+              <Text style={styles.eventDetailsSubHeader}>
+                Vote for your favourite posts
+              </Text>
+              <View>
+                <Entypo
+                  name="chevron-small-right"
+                  size={fontSize.h1}
+                  color={Colors.info}
+                />
+              </View>
+            </View>
             <FlashList
               data={data?.joined_contest}
               estimatedItemSize={200}
@@ -211,6 +183,70 @@ export default function Details() {
         ) : (
           <></>
         )}
+      </View>
+      <View>
+        <View style={styles.headerContainer}>
+          <View style={styles.prizeLinkContainer}>
+            <Section>
+              <Text style={styles.title}>{data?.concept_name}</Text>
+            </Section>
+            <Button onPress={handlePrizeChartToggle}>
+              <Text style={styles.buttonText}>View Prize Chart</Text>
+            </Button>
+          </View>
+        </View>
+        <Section>
+          <Text numberOfLines={isExpanded ? undefined : 2} style={styles.desc}>
+            {data?.contest_desc}
+          </Text>
+          {data?.desc?.length > 20 || !isExpanded ? (
+            <TouchableOpacity onPress={handleToggleText}>
+              <Text style={styles.more}>More</Text>
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={handleToggleText}>
+              <Text style={styles.more}>Less</Text>
+            </TouchableOpacity>
+          )}
+        </Section>
+        <Section>
+          <View style={styles.eventAttendees}>
+            <Text style={styles.eventAttendeesText}>Event Attendees</Text>
+            <Text style={styles.joinedCount}>
+              {data?.joined_list_count + '/' + data?.total_competators}
+            </Text>
+          </View>
+          <ProgressBar progress={progress} color={Colors.success} />
+        </Section>
+      </View>
+      <View style={styles.contestDetails}>
+        <View
+          style={[
+            styles.note,
+            {
+              opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+            },
+          ]}>
+          <View style={styles.noteTextContainer}>
+            <Text style={{color: Colors.dark2}}>
+              Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
+              <Text style={styles.noteDate}>
+                {moment(data?.join_end_date).format('DD MMM YYYY')}
+              </Text>
+            </Text>
+          </View>
+          <View>
+            <JoinEvent
+              thresholdOccupancy={data?.total_competators}
+              currentOccupancy={data?.joined_list_count}
+              joinEndDate={data?.join_end_date}
+              onJoinEvent={handleJoinEvent}
+              entryFee={data.entry_price}
+              contestName={data.concept_name}
+            />
+          </View>
+        </View>
+
         <Section>
           <Text style={styles.eventDetailsHeader}>Event Details</Text>
           <Ticket

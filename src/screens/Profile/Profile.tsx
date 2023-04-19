@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {View} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import {getFullName} from '@/utils/getFullName';
 import {styles} from './Profile.styles';
@@ -28,7 +28,12 @@ export default function Profile() {
 
   const handleLogout = useCallback(() => {
     remove('token');
-    navigation.navigate(ScreenNames.loginStack);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{name: ScreenNames.loginStack}],
+      }),
+    );
   }, [navigation]);
 
   return (

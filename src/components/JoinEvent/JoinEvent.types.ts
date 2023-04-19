@@ -4,6 +4,5 @@ export interface IJoinEvent {
   joinEndDate: string;
   entryFee: string | number;
   contestName: string;
-  joinStartDate: string;
   onJoinEvent: () => void;
 }
