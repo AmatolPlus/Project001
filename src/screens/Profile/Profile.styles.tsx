@@ -10,7 +10,6 @@ export const styles = StyleSheet.create({
     ...CenterItem(),
   },
   card: {
-    flex: 1,
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.m,
     padding: Spacing.xl,

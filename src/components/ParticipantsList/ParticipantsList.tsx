@@ -6,6 +6,8 @@ import {styles} from './ParticipantsList.styles';
 import {Portal} from 'react-native-paper';
 import {getFullName} from '@/utils/getFullName';
 import {FlashList} from '@shopify/flash-list';
+import {Colors} from '@/utils/colors';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const USER_IMAGE_PLACEHOLDER =
   'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
@@ -39,7 +41,17 @@ const ParticipantsList = ({participants, data}: any) => {
   }, []);
 
   const renderHeader = useCallback(() => {
-    return <Text style={styles.header}>{'Participants List'}</Text>;
+    return (
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>{'Participants List'}</Text>
+        <AntDesign
+          name="close"
+          size={24}
+          color={Colors.dark}
+          onPress={handleModal}
+        />
+      </View>
+    );
   }, []);
 
   return (

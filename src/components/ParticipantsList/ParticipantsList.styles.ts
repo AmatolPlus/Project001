@@ -15,6 +15,12 @@ export const styles = StyleSheet.create({
     borderRadius: BorderRadius.m,
     backgroundColor: Colors.white,
   },
+  headerContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+    flexDirection: 'row',
+  },
   header: {
     ...Fonts.h1,
   },

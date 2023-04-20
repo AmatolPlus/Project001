@@ -20,13 +20,13 @@ export const contestService = createApi({
     contestDetail: build.query({
       query: id => ({
         method: 'GET',
-        url: `contest/${id}`,
+        url: `contest/${id}/`,
       }),
     }),
     section: build.query({
       query: () => ({
         method: 'GET',
-        url: 'contest/section',
+        url: 'contest/section/',
       }),
     }),
     moreContests: build.query({
@@ -56,11 +56,30 @@ export const contestService = createApi({
         body,
       }),
     }),
+    uploadImage: build.mutation({
+      query: (body: any) => {
+        const formData: any = new FormData();
+        formData.append('file', {
+          uri: body?.file?.uri,
+          type: body?.file?.type,
+          name: body?.file?.fileName || 'image.jpg',
+        });
+        return {
+          method: 'POST',
+          url: 'storage/image/',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      },
+    }),
   }),
 });
 
 const {
   useConfirmPaymentMutation,
+  useUploadImageMutation,
   useContestDetailQuery,
   useContestListQuery,
   useSectionQuery,
@@ -75,6 +94,7 @@ export {
   useContestDetailQuery,
   useMoreContestsQuery,
   useLikeContestMutation,
+  useUploadImageMutation,
   useSectionQuery,
   useContestListQuery,
   useConfirmPaymentMutation,

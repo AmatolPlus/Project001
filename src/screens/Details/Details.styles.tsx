@@ -91,11 +91,13 @@ export const styles = StyleSheet.create({
   eventDetailsSubHeaderContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     flex: 1,
   },
   eventDetailsSubHeader: {
     ...Fonts.h3,
     color: Colors.grey,
+    marginLeft: 0,
     fontSize: fontSize.h6,
     marginBottom: Spacing.xs,
   },

@@ -17,14 +17,16 @@ import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsT
 import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
+import {useStoragePermission} from '@/hooks/getStoragePermission';
 
-export default function Home() {
+function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
   const {data, isError, isLoading}: any = useSectionQuery({});
   const {data: user}: any = useUserDetailsQuery({});
 
   useBackHandler();
+  useStoragePermission();
 
   useEffect(() => {
     if (data) {
@@ -131,3 +133,5 @@ export default function Home() {
     </View>
   );
 }
+
+export default Home;

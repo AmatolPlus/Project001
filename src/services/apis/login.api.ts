@@ -38,6 +38,13 @@ export const loginService = createApi({
         url: 'auth/user/',
       }),
     }),
+    uploadProfilePic: build.mutation({
+      query: body => ({
+        method: 'POST',
+        url: 'auth/user/upload_profile_image/',
+        body,
+      }),
+    }),
     updateUserDetails: build.mutation({
       query: body => ({
         method: 'PUT',

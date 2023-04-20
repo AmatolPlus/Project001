@@ -54,27 +54,6 @@ export default function Profile() {
           <ChangePasswordModal type="component" />
           <TransactionModal />
           <Divider style={styles.divider} />
-          <View>
-            <Text style={styles.header}>About me</Text>
-            <View style={styles.userBioContainer}>
-              <Text>
-                <Text style={styles.userBio}>Contact on: </Text>
-                {user?.mobile_number}
-              </Text>
-              <Text>
-                <Text style={styles.userBio}>Account type: </Text>
-                {user?.category}
-              </Text>
-              <Text>
-                <Text style={styles.userBio}>Hobbies: </Text>
-                {user?.hobby}
-              </Text>
-              <Text>
-                <Text style={styles.userBio}>Gender: </Text>
-                {user?.gender}
-              </Text>
-            </View>
-          </View>
         </View>
         <Button style={styles.logout} onPress={handleLogout}>
           <Text style={styles.logoutText}>Logout</Text>

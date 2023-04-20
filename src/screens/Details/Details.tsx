@@ -158,7 +158,10 @@ export default function Details() {
               <View>
                 <Text style={styles.eventDetailsHeader}>Posts</Text>
               </View>
-              <ParticipantsList data={data?.joined_contest} participants={32} />
+              <ParticipantsList
+                data={data?.joined_contest}
+                participants={data?.joined_contest?.length}
+              />
             </View>
             <View style={styles.eventDetailsSubHeaderContainer}>
               <Text style={styles.eventDetailsSubHeader}>
@@ -199,15 +202,16 @@ export default function Details() {
           <Text numberOfLines={isExpanded ? undefined : 2} style={styles.desc}>
             {data?.contest_desc}
           </Text>
-          {data?.desc?.length > 20 || !isExpanded ? (
-            <TouchableOpacity onPress={handleToggleText}>
-              <Text style={styles.more}>More</Text>
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={handleToggleText}>
-              <Text style={styles.more}>Less</Text>
-            </TouchableOpacity>
-          )}
+          {data?.contest_desc?.length > 75 &&
+            (!isExpanded ? (
+              <Text onPress={handleToggleText} style={styles.more}>
+                More
+              </Text>
+            ) : (
+              <Text onPress={handleToggleText} style={styles.more}>
+                Less
+              </Text>
+            ))}
         </Section>
         <Section>
           <View style={styles.eventAttendees}>
@@ -246,7 +250,6 @@ export default function Details() {
             />
           </View>
         </View>
-
         <Section>
           <Text style={styles.eventDetailsHeader}>Event Details</Text>
           <Ticket

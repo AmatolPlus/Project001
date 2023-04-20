@@ -11,6 +11,7 @@ import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
 import styles from './Login.styles';
 import {fontSize} from '@/utils/fonts';
+import {useBackHandler} from '@/hooks/useBackHandler';
 
 const LoginScreen = () => {
   const [loginForm, setForm] = useState<ILoginRequest>({
@@ -25,6 +26,8 @@ const LoginScreen = () => {
     let status = phoneRegex.test(`${loginForm?.mobile_number}`);
     return status;
   }
+
+  useBackHandler();
 
   const handleFormUpdate = (key: keyof FormState, value: string) => {
     setForm((prevState: any) => ({

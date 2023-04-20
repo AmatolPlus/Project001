@@ -26,10 +26,6 @@ export const JoinEvent = ({
   );
   const {data: wallet} = useWalletAmountQuery({});
 
-  const handleJoin = useCallback(() => {
-    onJoinEvent();
-  }, [onJoinEvent]);
-
   const handleToggleModal = useCallback(() => {
     if (!canJoin) {
       ToastAndroid.show(DISABLE_JOIN, ToastAndroid.LONG);
@@ -37,6 +33,11 @@ export const JoinEvent = ({
       setOpen(!isOpen);
     }
   }, [canJoin, isOpen]);
+
+  const handleJoin = useCallback(() => {
+    onJoinEvent();
+    handleToggleModal();
+  }, [handleToggleModal, onJoinEvent]);
 
   return (
     <View style={styles.container}>

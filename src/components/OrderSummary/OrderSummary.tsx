@@ -1,12 +1,14 @@
-import {Button, Divider, Text} from '@/ui';
+import {Button, Divider, Image, Text} from '@/ui';
 import React, {memo} from 'react';
 import {View} from 'react-native';
 import {styles} from './OrderSummary.styles';
 import {Colors} from '@/utils/colors';
+import {height} from '@/utils/Dimension';
 
 const OrderSummary = ({
   onConfirm,
   contestName,
+  imageUrl,
   entryFee,
   wallet_amount,
   onClose,
@@ -14,6 +16,10 @@ const OrderSummary = ({
   return (
     <View style={styles.container}>
       <View>
+        <Image
+          source={{uri: imageUrl}}
+          style={{height: 20, width: 20, borderRadius: 100}}
+        />
         <View>
           <View style={styles.nameContainer}>
             <Text style={styles.name}>{contestName.toUpperCase()}</Text>

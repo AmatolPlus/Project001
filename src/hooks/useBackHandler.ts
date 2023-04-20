@@ -1,28 +1,55 @@
-import {useEffect} from 'react';
+import {useFocusEffect} from '@react-navigation/native';
+import React from 'react';
 import {Alert, BackHandler} from 'react-native';
 
-const useBackHandler = () => {
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => {
-      Alert.alert(
-        'You are exiting the app',
-        '',
-        [
-          {
-            text: 'Exit',
-            onPress: () => BackHandler.exitApp(),
-          },
-          {
-            text: 'Cancel',
-            onPress: () => {},
-            style: 'cancel',
-          },
-        ],
-        {cancelable: true},
+export const useBackHandler = () => {
+  const handleBackPress = () => {
+    Alert.alert(
+      'You are exiting the app',
+      '',
+      [
+        {
+          text: 'Exit',
+          onPress: () => BackHandler.exitApp(),
+        },
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+      ],
+      {cancelable: true},
+    );
+    return true;
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const backHandler = BackHandler.addEventListener(
+        'hardwareBackPress',
+        handleBackPress,
       );
-      return true;
-    });
-  }, []);
+      return () => backHandler.remove();
+    }, []),
+  );
 };
 
-export {useBackHandler};
+// BackHandler.addEventListener('hardwareBackPress', () => {
+//   Alert.alert(
+//     'You are exiting the app',
+//     '',
+//     [
+//       {
+//         text: 'Exit',
+//         onPress: () => BackHandler.exitApp(),
+//       },
+//       {
+//         text: 'Cancel',
+//         onPress: () => {},
+//         style: 'cancel',
+//       },
+//     ],
+//     {cancelable: true},
+//   );
+//   return true;
+// });

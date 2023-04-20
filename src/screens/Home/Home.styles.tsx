@@ -4,11 +4,13 @@ import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {VerticalMargin} from '@/utils/spacing';
+import {height, width} from '@/utils/Dimension';
 
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.l,
-    flex: 1,
+    height: height,
+    width: width,
     backgroundColor: Colors.light,
     paddingBottom: Spacing.xl,
   },
