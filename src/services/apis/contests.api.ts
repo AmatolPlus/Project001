@@ -59,6 +59,7 @@ export const contestService = createApi({
     uploadImage: build.mutation({
       query: (body: any) => {
         const formData: any = new FormData();
+        formData.append('title', body?.title);
         formData.append('file', {
           uri: body?.file?.uri,
           type: body?.file?.type,

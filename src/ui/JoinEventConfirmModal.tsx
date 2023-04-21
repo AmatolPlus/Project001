@@ -12,6 +12,7 @@ import Image from './Image';
 import {Fonts} from '@/utils/fonts';
 import {useUploadImageMutation} from '@/services/apis/contests.api';
 import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+import TextInput from './TextInput';
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;
@@ -29,40 +30,61 @@ const JoinEventConfirmModal = ({
   contestName,
   wallet,
 }: IJoinEventModal) => {
-  const [image, setImage] = useState<any>();
   const [imageUrl, setImageUrl] = useState();
+  const [uploadPost, setPost]: any = useState({
+    imageUrl: undefined,
+    caption: undefined,
+  });
   const [upload, {isLoading}] = useUploadImageMutation();
   const [hasImageUploaded, setImageUploaded] = useState(false);
+
+  const handlePostChange = useCallback(
+    (key: string, value: string): any => {
+      setPost({
+        ...uploadPost,
+        [key]: value,
+      });
+    },
+    [uploadPost],
+  );
+
+  const handleCaptionChange = useCallback(
+    (val: string) => {
+      handlePostChange('caption', val);
+    },
+    [handlePostChange],
+  );
 
   const pickImageCamera = useCallback(() => {
     launchCamera({
       mediaType: 'photo',
       quality: 0.8,
     }).then((result: any) => {
-      setImage(result.assets[0]);
+      handlePostChange('imageUrl', result?.assets[0]);
     });
-  }, []);
+  }, [handlePostChange]);
 
   const pickImageFromLibrary = useCallback(async () => {
     launchImageLibrary({
       mediaType: 'photo',
       quality: 1,
     }).then((result: any) => {
-      setImage(result?.assets[0]);
+      handlePostChange('imageUrl', result?.assets[0]);
     });
-  }, []);
+  }, [handlePostChange]);
 
   const uploadImage = useCallback(async () => {
     try {
       let data: any = await upload({
-        file: image,
+        file: uploadPost.imageUrl,
+        title: uploadPost.caption,
       });
       if (data?.data?.details === 'Success') {
         setImageUrl(data?.data?.url);
         setImageUploaded(!hasImageUploaded);
       }
     } catch (e) {}
-  }, [hasImageUploaded, image, upload]);
+  }, [hasImageUploaded, upload, uploadPost.caption, uploadPost.imageUrl]);
 
   return (
     <Portal>
@@ -70,13 +92,24 @@ const JoinEventConfirmModal = ({
         {!hasImageUploaded ? (
           <View style={styles.container}>
             <Text style={styles.title}>Upload An Image</Text>
-            <View style={!image ? styles.imageContainer : null}>
-              {image ? (
-                <Image source={{uri: image?.uri}} style={styles.image} />
+            <View
+              style={!uploadPost.imageUrl?.uri ? styles.imageContainer : null}>
+              {uploadPost.imageUrl?.uri ? (
+                <Image
+                  source={{uri: uploadPost.imageUrl?.uri}}
+                  style={styles.image}
+                />
               ) : (
                 <Text>Choose an Image from Camera or Files</Text>
               )}
             </View>
+            <TextInput
+              placeholder="Type a Caption here"
+              mode="outlined"
+              onChangeText={handleCaptionChange}
+              value={uploadPost.caption}
+              style={styles.input}
+            />
             <View style={styles.buttonContainer}>
               <Button
                 textColor={Colors.white}
@@ -94,11 +127,13 @@ const JoinEventConfirmModal = ({
             <Button
               loading={isLoading}
               onPress={uploadImage}
-              disabled={image || !isLoading ? false : true}
+              disabled={uploadPost.imageUrl?.uri || !isLoading ? false : true}
               textColor={Colors.white}
               style={{
                 ...styles.confirmUpload,
-                backgroundColor: image ? Colors.success : Colors.grey,
+                backgroundColor: uploadPost.imageUrl?.uri
+                  ? Colors.success
+                  : Colors.grey,
               }}>
               Upload
             </Button>
@@ -130,6 +165,9 @@ const styles = StyleSheet.create({
   },
   title: {
     ...Fonts.h2,
+  },
+  input: {
+    width: '100%',
   },
   imageContainer: {
     height: 300,

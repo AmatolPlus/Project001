@@ -8,6 +8,7 @@ import {getFullName} from '@/utils/getFullName';
 import {FlashList} from '@shopify/flash-list';
 import {Colors} from '@/utils/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Participants from '../Participants/Participants';
 
 const USER_IMAGE_PLACEHOLDER =
   'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
@@ -15,7 +16,7 @@ const USER_IMAGE_PLACEHOLDER =
 const ParticipantsList = ({participants, data}: any) => {
   const [visible, setVisible] = useState(false);
 
-  const handleModal = useCallback(() => {
+  const handleModalToggle = useCallback(() => {
     setVisible(!visible);
   }, [visible]);
 
@@ -43,25 +44,27 @@ const ParticipantsList = ({participants, data}: any) => {
   const renderHeader = useCallback(() => {
     return (
       <View style={styles.headerContainer}>
-        <Text style={styles.header}>{'Participants List'}</Text>
+        <Text style={styles.header}>Participants List</Text>
         <AntDesign
           name="close"
           size={24}
           color={Colors.dark}
-          onPress={handleModal}
+          onPress={handleModalToggle}
         />
       </View>
     );
-  }, []);
+  }, [handleModalToggle]);
 
   return (
     <View>
-      <Text onPress={handleModal} style={styles.participantText}>
-        View Participants ({participants})
-      </Text>
+      <Participants
+        participants={participants}
+        handleModalToggle={handleModalToggle}
+        data={data}
+      />
       <Portal>
         <Modal
-          onDismiss={handleModal}
+          onDismiss={handleModalToggle}
           style={styles.modalContainer}
           visible={visible}>
           <View style={styles.modal}>

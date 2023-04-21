@@ -1,5 +1,5 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {ScrollView, TouchableOpacity, View} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
 import moment from 'moment';
@@ -38,6 +38,8 @@ export default function Details() {
   const handleToggleText = () => {
     setIsExpanded(!isExpanded);
   };
+
+  // image and caption not updating in the backend
 
   const handleConfirmPayment = useCallback(
     async (res: any) => {
@@ -104,7 +106,7 @@ export default function Details() {
     async (item: any) => {
       if (!item?.is_liked_by_me) {
         await like({
-          contest: item?.contest,
+          contest_id: item?.id,
         });
         refetch();
       }
@@ -133,6 +135,9 @@ export default function Details() {
       />
     );
   };
+
+  console.log(JSON.stringify(data));
+
   const canJoin = canJoinEvent(
     data?.join_end_date,
     data?.joined_list_count,
@@ -151,6 +156,15 @@ export default function Details() {
           style={styles.image}
         />
       </Card>
+      {data?.joined_contest?.length ? (
+        <ParticipantsList
+          data={data?.joined_contest}
+          participants={data?.joined_contest?.length}
+        />
+      ) : (
+        <></>
+      )}
+
       <View>
         {data?.joined_contest?.length ? (
           <Section>
@@ -158,10 +172,6 @@ export default function Details() {
               <View>
                 <Text style={styles.eventDetailsHeader}>Posts</Text>
               </View>
-              <ParticipantsList
-                data={data?.joined_contest}
-                participants={data?.joined_contest?.length}
-              />
             </View>
             <View style={styles.eventDetailsSubHeaderContainer}>
               <Text style={styles.eventDetailsSubHeader}>
