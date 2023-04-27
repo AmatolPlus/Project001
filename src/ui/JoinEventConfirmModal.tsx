@@ -16,10 +16,13 @@ import TextInput from './TextInput';
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: any;
+  started_on: string;
+  ends_on: string;
   entryFee: number | string;
   contestName: string;
   wallet: string | number;
+  mobile_number: string | number;
 }
 
 const JoinEventConfirmModal = ({
@@ -29,14 +32,27 @@ const JoinEventConfirmModal = ({
   entryFee,
   contestName,
   wallet,
+  mobile_number,
+  started_on,
+  ends_on,
 }: IJoinEventModal) => {
-  const [imageUrl, setImageUrl] = useState();
+  const [imageId, setImageId] = useState();
+  const [image, setImage] = useState('');
+
   const [uploadPost, setPost]: any = useState({
     imageUrl: undefined,
     caption: undefined,
   });
   const [upload, {isLoading}] = useUploadImageMutation();
   const [hasImageUploaded, setImageUploaded] = useState(false);
+
+  const handleImageUploaded = useCallback(() => {
+    setImageUploaded(!hasImageUploaded);
+  }, [hasImageUploaded]);
+
+  const handleOnConfirm = useCallback(async () => {
+    onConfirm(imageId);
+  }, [imageId, onConfirm]);
 
   const handlePostChange = useCallback(
     (key: string, value: string): any => {
@@ -80,11 +96,16 @@ const JoinEventConfirmModal = ({
         title: uploadPost.caption,
       });
       if (data?.data?.details === 'Success') {
-        setImageUrl(data?.data?.url);
-        setImageUploaded(!hasImageUploaded);
+        setPost({
+          imageUrl: null,
+          caption: null,
+        });
+        setImageId(data?.data?.storage_id);
+        setImage(data?.data?.url);
+        handleImageUploaded();
       }
     } catch (e) {}
-  }, [hasImageUploaded, upload, uploadPost.caption, uploadPost.imageUrl]);
+  }, [handleImageUploaded, upload, uploadPost.caption, uploadPost.imageUrl]);
 
   return (
     <Portal>
@@ -140,8 +161,13 @@ const JoinEventConfirmModal = ({
           </View>
         ) : (
           <OrderSummary
-            imageUrl={`${imageUrl}`}
-            onConfirm={onConfirm}
+            handleImageUploaded={handleImageUploaded}
+            started_on={started_on}
+            ends_on={ends_on}
+            mobile_number={mobile_number}
+            image={image}
+            imageId={`${imageId}`}
+            onConfirm={handleOnConfirm}
             onClose={onClose}
             contestName={contestName}
             entryFee={entryFee}

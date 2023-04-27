@@ -25,6 +25,7 @@ export const styles = StyleSheet.create({
     borderRadius: Spacing.m,
     height: '100%',
   },
+  list: {height: 270},
   contestDetails: {
     marginTop: Spacing.m,
   },
@@ -47,6 +48,13 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h4,
   },
   more: {
+    color: Colors.info,
+  },
+  moreContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  link: {
     color: Colors.info,
   },
   knowMore: {

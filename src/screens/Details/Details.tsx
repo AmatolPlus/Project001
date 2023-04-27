@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useState} from 'react';
-import {ScrollView, View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {ScrollView, ToastAndroid, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {ProgressBar} from 'react-native-paper';
 import moment from 'moment';
 import {FlashList} from '@shopify/flash-list';
@@ -9,7 +9,6 @@ import {
   useConfirmPaymentMutation,
   useContestDetailQuery,
   useJoinContestMutation,
-  useLikeContestMutation,
 } from '@/services/apis/contests.api';
 import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
 import {Colors} from '@/utils/colors';
@@ -23,28 +22,30 @@ import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
 import RazorPayCheckout from 'react-native-razorpay';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import {fontSize} from '@/utils/fonts';
+import TermsAndConditionsModal from '@/components/TermsAndConditions/TermsAndConditions';
+import LikeExpiry from '@/components/LikeExpiry/LikeExpiry';
+import {ScreenNames} from '@/utils/screenName';
 
 export default function Details() {
   const {params}: any = useRoute();
   const id = params?.id;
   const [isPrizeChartShown, setPriceChartShown] = useState(false);
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
-  const [like] = useLikeContestMutation({});
   const [joinEvent]: any = useJoinContestMutation({});
   const [confirmPayment]: any = useConfirmPaymentMutation({});
   const {data: user} = useUserDetailsQuery({});
   const [isExpanded, setIsExpanded] = useState(false);
+  const navigation = useNavigation();
 
   const handleToggleText = () => {
     setIsExpanded(!isExpanded);
   };
 
-  // image and caption not updating in the backend
-
   const handleConfirmPayment = useCallback(
     async (res: any) => {
       const status = await confirmPayment(res);
       if (status?.data?.details === 'success') {
+        ToastAndroid.show('Payment Successfull', ToastAndroid.LONG);
         refetch();
       }
     },
@@ -82,37 +83,32 @@ export default function Details() {
     ],
   );
 
-  // is joined by me not updating
-
-  const handleJoinEvent = useCallback(async () => {
-    try {
-      joinEvent({
-        contest: id,
-        use_wallet: true,
-      }).then(handleRazorPayPayment);
-    } catch (e) {}
-  }, [handleRazorPayPayment, id, joinEvent]);
+  const handleJoinEvent = useCallback(
+    async image => {
+      console.log(image);
+      try {
+        joinEvent({
+          contest: id,
+          sample_image: image,
+          use_wallet: true,
+        }).then(handleRazorPayPayment);
+      } catch (e) {}
+    },
+    [handleRazorPayPayment, id, joinEvent],
+  );
 
   const progress = useMemo(
     () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
     [data?.joined_list_count, data?.total_competators],
   );
 
+  const handleMorePostsNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.morePosts);
+  }, [navigation]);
+
   const handlePrizeChartToggle = useCallback(() => {
     setPriceChartShown(!isPrizeChartShown);
   }, [isPrizeChartShown]);
-
-  const handleLike = useCallback(
-    async (item: any) => {
-      if (!item?.is_liked_by_me) {
-        await like({
-          contest_id: item?.id,
-        });
-        refetch();
-      }
-    },
-    [like, refetch],
-  );
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -126,17 +122,12 @@ export default function Details() {
     return (
       <PostCard
         likeCount={item?.like_count}
-        liked={item?.is_liked_by_me}
         contestImage={item?.contest_image_url}
         caption={item?.img_caption}
-        onLike={() => {
-          handleLike(item);
-        }}
+        item={item}
       />
     );
   };
-
-  console.log(JSON.stringify(data));
 
   const canJoin = canJoinEvent(
     data?.join_end_date,
@@ -177,8 +168,10 @@ export default function Details() {
               <Text style={styles.eventDetailsSubHeader}>
                 Vote for your favourite posts
               </Text>
-              <View>
+              <View style={styles.moreContainer}>
+                <Text style={styles.link}>More</Text>
                 <Entypo
+                  onPress={handleMorePostsNavigation}
                   name="chevron-small-right"
                   size={fontSize.h1}
                   color={Colors.info}
@@ -189,6 +182,7 @@ export default function Details() {
               data={data?.joined_contest}
               estimatedItemSize={200}
               horizontal
+              contentContainerStyle={styles.list}
               showsHorizontalScrollIndicator={false}
               renderItem={renderPosts}
             />
@@ -251,6 +245,8 @@ export default function Details() {
           </View>
           <View>
             <JoinEvent
+              mobile_number={user?.mobile_number}
+              started_on={data?.published_on}
               thresholdOccupancy={data?.total_competators}
               currentOccupancy={data?.joined_list_count}
               joinEndDate={data?.join_end_date}
@@ -260,6 +256,7 @@ export default function Details() {
             />
           </View>
         </View>
+        <LikeExpiry like_end_date={data?.like_end_date} />
         <Section>
           <Text style={styles.eventDetailsHeader}>Event Details</Text>
           <Ticket
@@ -271,12 +268,12 @@ export default function Details() {
           />
         </Section>
       </View>
-
       <PriceChart
         data={data?.prize_chart}
         isOpen={isPrizeChartShown}
         setClosed={setPriceChartShown}
       />
+      <TermsAndConditionsModal message={data?.tnc} />
     </ScrollView>
   );
 }

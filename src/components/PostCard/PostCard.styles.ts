@@ -5,7 +5,8 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   postCard: {
     height: 250,
-    width: 200,
+    width: 189,
+    marginTop: Spacing.xs,
     backgroundColor: Colors.light,
     marginLeft: Spacing.xs,
     borderColor: Colors.grey,

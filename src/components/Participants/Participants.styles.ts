@@ -1,6 +1,6 @@
-import {height, width} from '@/utils/Dimension';
+import {height} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
-import {BorderRadius, Spacing} from '@/utils/constants';
+import {BorderRadius} from '@/utils/constants';
 import {Fonts} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 

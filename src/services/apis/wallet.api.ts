@@ -11,9 +11,15 @@ export const walletService = createApi({
         url: 'wallet/earned_amount/',
       }),
     }),
+    walletTransactions: build.query({
+      query: () => ({
+        method: 'GET',
+        url: 'wallet/transactions/',
+      }),
+    }),
   }),
 });
 
 export const walletReducerPath = walletService.reducerPath;
 
-export const {useWalletAmountQuery} = walletService;
+export const {useWalletAmountQuery, useWalletTransactionsQuery} = walletService;

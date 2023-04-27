@@ -8,13 +8,7 @@ const Participants = ({
   handleModalToggle,
   participants,
 }: IParticipants) => {
-  let Participants = data?.slice(0, 5);
-
-  console.log(
-    Participants.map((item: any) => {
-      return item?.user;
-    }),
-  );
+  let slicedParticipants = data?.slice(0, 5);
 
   const USER_IMAGE_PLACEHOLDER =
     'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
@@ -26,7 +20,7 @@ const Participants = ({
           Participants
         </Text>
         <View style={styles.listContainer}>
-          {Participants.map((item: any, index): any => {
+          {slicedParticipants.map((item: any, index): any => {
             return (
               <Image
                 source={{
@@ -39,7 +33,9 @@ const Participants = ({
               />
             );
           })}
-          <Text>+ {participants - Participants?.length}</Text>
+          {participants - Participants?.length !== 0 && (
+            <Text>+ {participants - Participants?.length}</Text>
+          )}
         </View>
       </View>
     </TouchableOpacity>

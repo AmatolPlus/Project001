@@ -83,7 +83,7 @@ export const loginService = createApi({
   }),
 });
 
-const {
+export const {
   useLoginMutation,
   useValidateOtpMutation,
   useUserDetailsQuery,
@@ -95,18 +95,6 @@ const {
   useLoginWithPinMutation,
 } = loginService;
 
-const loginReducerPath = loginService.reducerPath;
+export const loginReducerPath = loginService.reducerPath;
 
-export {
-  useLoginMutation,
-  useValidateOtpMutation,
-  useResendOtpMutation,
-  useUpdatePasswordMutation,
-  loginReducerPath,
-  useUpdateUserDetailsMutation,
-  useUserDetailsQuery,
-  useResetPasswordMutation,
-  useConfirmResetPasswordMutation,
-  useLoginWithPinMutation,
-};
 export type {ILoginRequest, IValidateRequest};

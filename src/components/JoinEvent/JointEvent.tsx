@@ -14,6 +14,8 @@ export const JoinEvent = ({
   contestName,
   entryFee,
   joinEndDate,
+  started_on,
+  mobile_number,
   currentOccupancy,
   thresholdOccupancy,
   onJoinEvent,
@@ -34,10 +36,13 @@ export const JoinEvent = ({
     }
   }, [canJoin, isOpen]);
 
-  const handleJoin = useCallback(() => {
-    onJoinEvent();
-    handleToggleModal();
-  }, [handleToggleModal, onJoinEvent]);
+  const handleJoin = useCallback(
+    (image: any) => {
+      onJoinEvent(image);
+      handleToggleModal();
+    },
+    [handleToggleModal, onJoinEvent],
+  );
 
   return (
     <View style={styles.container}>
@@ -51,6 +56,9 @@ export const JoinEvent = ({
       </Button>
 
       <JoinEventConfirmModal
+        started_on={started_on}
+        ends_on={joinEndDate}
+        mobile_number={mobile_number}
         contestName={contestName}
         wallet={wallet?.earned_amount}
         entryFee={entryFee}

@@ -21,18 +21,11 @@ export const canJoinEvent = (
   return false;
 };
 
-export const canLikeEvent = (
-  join_end_date: string,
-  occupancy: number,
-  thresholdOccupancy: number,
-) => {
-  const date = moment(join_end_date);
+export const canLikeEvent = (like_end_date: string) => {
+  const date = moment(like_end_date);
   const present_date = moment();
 
   if (date.diff(present_date, 'days') > 0) {
-    return true;
-  }
-  if (occupancy < thresholdOccupancy) {
     return true;
   }
 

@@ -1,4 +1,4 @@
-interface IParticipants {
+export interface IParticipants {
   handleModalToggle: () => void;
   data: [];
   participants: number;

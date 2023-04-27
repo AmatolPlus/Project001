@@ -12,7 +12,6 @@ import {styles} from './Home.styles';
 import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import JoinTag from '@/components/JoinTag/JoinTag';
-import {Fonts} from '@/utils/fonts';
 import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsTag';
 import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
@@ -80,12 +79,6 @@ function Home() {
             <Text style={styles.priceLabel}>ENTRY FEE :</Text>
             {item.entry_price}
           </Text>
-
-          {item?.is_joined_by_me ? (
-            <Text style={{...Fonts.h5}}>JOINED</Text>
-          ) : (
-            <></>
-          )}
         </View>
       </TouchableOpacity>
     );

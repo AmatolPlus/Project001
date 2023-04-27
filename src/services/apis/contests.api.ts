@@ -56,6 +56,12 @@ export const contestService = createApi({
         body,
       }),
     }),
+    morePosts: build.query({
+      query: () => ({
+        method: 'GET',
+        url: 'contest/joined_by_me/',
+      }),
+    }),
     uploadImage: build.mutation({
       query: (body: any) => {
         const formData: any = new FormData();
@@ -78,10 +84,11 @@ export const contestService = createApi({
   }),
 });
 
-const {
+export const {
   useConfirmPaymentMutation,
   useUploadImageMutation,
   useContestDetailQuery,
+  useMorePostsQuery,
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
@@ -89,16 +96,4 @@ const {
   useMoreContestsQuery,
 } = contestService;
 
-const contestReducerPath = contestService.reducerPath;
-
-export {
-  useContestDetailQuery,
-  useMoreContestsQuery,
-  useLikeContestMutation,
-  useUploadImageMutation,
-  useSectionQuery,
-  useContestListQuery,
-  useConfirmPaymentMutation,
-  useJoinContestMutation,
-  contestReducerPath,
-};
+export const contestReducerPath = contestService.reducerPath;

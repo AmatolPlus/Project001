@@ -11,8 +11,6 @@ import {get} from '@/utils/storage';
 import {Colors} from '@/utils/colors';
 import {options} from '@/utils/navigationConfig';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {height} from '@/utils/Dimension';
-import {HorizontalMargin} from '@/utils/spacing';
 
 const ProfileIcon = ({color, size, focused}: any) =>
   focused ? (
