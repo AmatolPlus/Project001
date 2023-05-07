@@ -1,7 +1,9 @@
 import {Image, Text} from '@/ui';
 import React, {memo} from 'react';
 import {TouchableOpacity, View} from 'react-native';
+
 import {styles} from './Participants.styles';
+import {IParticipants} from './Participants.types';
 
 const Participants = ({
   data,
@@ -20,9 +22,10 @@ const Participants = ({
           Participants
         </Text>
         <View style={styles.listContainer}>
-          {slicedParticipants.map((item: any, index): any => {
+          {slicedParticipants.map((item: any, index: number): any => {
             return (
               <Image
+                key={item?.user?.profile_image_url}
                 source={{
                   uri: item?.user?.profile_image_url || USER_IMAGE_PLACEHOLDER,
                 }}

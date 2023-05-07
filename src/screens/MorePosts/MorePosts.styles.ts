@@ -1,3 +1,4 @@
+import {height} from '@/utils/Dimension';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -5,5 +6,5 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   listContainer: {flex: 1},
-  list: {height: '100%', width: '100%'},
+  list: {height: height, width: '100%'},
 });

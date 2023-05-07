@@ -12,6 +12,17 @@ export const styles = StyleSheet.create({
     borderColor: Colors.grey,
     borderWidth: 1,
   },
+  banner: {
+    backgroundColor: 'rgba(52, 52, 52, 0.8)',
+    position: 'absolute',
+    width: '100%',
+    alignItems: 'flex-start',
+    bottom: 55,
+    height: 20,
+  },
+  bannerText: {
+    color: Colors.white,
+  },
   postCardImage: {
     position: 'absolute',
     bottom: 0,
@@ -35,7 +46,7 @@ export const styles = StyleSheet.create({
     width: 50,
     alignItems: 'center',
     position: 'absolute',
-    bottom: 65,
+    bottom: 100,
     right: Spacing.m,
   },
 });

@@ -92,6 +92,20 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h6,
     ...VerticalMargin('s'),
   },
+  timerContainer: {
+    marginVertical: Spacing.m,
+  },
+  timerHeader: {
+    ...Fonts.h1,
+    fontSize: fontSize.h5,
+    marginTop: Spacing.xs,
+    color: Colors.danger,
+  },
+  timer: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+    paddingTop: Spacing.xs,
+  },
   eventDetailsHeader: {
     ...Fonts.h1,
     fontSize: fontSize.h3,

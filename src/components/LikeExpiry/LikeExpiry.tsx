@@ -1,7 +1,8 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {Colors} from '@/utils/colors';
 import moment from 'moment';
+
+import {Colors} from '@/utils/colors';
 import {styles} from './LikeExpiry.styles';
 import {canLikeEvent} from '@/utils/event';
 

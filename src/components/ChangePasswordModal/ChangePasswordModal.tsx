@@ -6,12 +6,17 @@ import {Button, TextInput, Modal, Text} from '@/ui';
 import {styles} from './ChangePasswordModal.styles';
 import {validatePassword} from '@/utils/validatePassword';
 import {Colors} from '@/utils/colors';
-import {useUpdatePasswordMutation} from '@/services/apis/login.api';
+import {
+  useUpdatePasswordMutation,
+  useUpdateUserDetailsMutation,
+} from '@/services/apis/login.api';
 import {IChangePassword} from './ChangePasswordModal.types';
 import {ScreenNames} from '@/utils/screenName';
 
 const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   const [password, setPassword] = useState({
+    first_name: '',
+    last_name: '',
     old_password: '',
     password1: '',
     password2: '',
@@ -20,6 +25,8 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const isValid = validatePassword(password);
   const [update, {error}]: any = useUpdatePasswordMutation({});
+  const [updateUserName, {error: userNameError}]: any =
+    useUpdateUserDetailsMutation({});
 
   const handleToggleChangePasswordModal = useCallback(() => {
     if (type === 'component') {
@@ -31,6 +38,15 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
       );
     }
   }, [showPasswordModal, type]);
+
+  const handleUpdateUserName = useCallback(() => {
+    try {
+      updateUserName({
+        first_name: password.first_name,
+        last_name: password.last_name,
+      });
+    } catch (error) {}
+  }, [password.first_name, password.last_name, updateUserName]);
 
   const handlePasswordChange = (key: string, value: string) => {
     setPassword({
@@ -53,6 +69,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     if (valid) {
       setValid(false);
       try {
+        handleUpdateUserName();
         let data = await update(password);
         if (!data?.error) {
           handleToggleChangePasswordModal();
@@ -62,6 +79,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     }
   }, [
     handleToggleChangePasswordModal,
+    handleUpdateUserName,
     navigation,
     password,
     type,
@@ -98,6 +116,24 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                   placeholder="Old Password"
                 />
               )}
+              {type !== 'component' && (
+                <>
+                  <TextInput
+                    mode="outlined"
+                    onChangeText={val =>
+                      handlePasswordChange('first_name', val)
+                    }
+                    style={styles.input}
+                    placeholder="Username"
+                  />
+                  <TextInput
+                    mode="outlined"
+                    onChangeText={val => handlePasswordChange('last_name', val)}
+                    style={styles.input}
+                    placeholder="Username"
+                  />
+                </>
+              )}
               <TextInput
                 mode="outlined"
                 keyboardType={'number-pad'}
@@ -113,7 +149,12 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                 placeholder="Confirm Password"
               />
             </View>
-            {error && <Text style={styles.error}>{error?.data?.details}</Text>}
+            {error ||
+              (userNameError && (
+                <Text style={styles.error}>
+                  {error?.data?.details || userNameError?.data?.details}
+                </Text>
+              ))}
 
             <Button
               onPress={handleSubmit}

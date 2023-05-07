@@ -37,6 +37,14 @@ export const styles = StyleSheet.create({
     padding: Spacing.m,
   },
   link: {textAlign: 'left', color: Colors.info},
+  button: {
+    borderRadius: BorderRadius.xs,
+    marginTop: Spacing.m,
+    ...Fonts.h5,
+    color: Colors.white,
+    backgroundColor: Colors.info,
+    padding: Spacing.s,
+  },
   cardItemsContainer: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -59,5 +67,10 @@ export const styles = StyleSheet.create({
   },
   transferredOn: {
     ...Fonts.sub1,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    display: 'flex',
+    justifyContent: 'space-between',
   },
 });

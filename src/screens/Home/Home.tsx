@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
-import {SectionList, View} from 'react-native';
+import {SectionList, RefreshControl, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 import {ActivityIndicator, Image, Text} from '@/ui';
@@ -21,7 +21,7 @@ import {useStoragePermission} from '@/hooks/getStoragePermission';
 function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
-  const {data, isError, isLoading}: any = useSectionQuery({});
+  const {data, isError, refetch, isLoading}: any = useSectionQuery({});
   const {data: user}: any = useUserDetailsQuery({});
 
   useBackHandler();
@@ -61,7 +61,7 @@ function Home() {
       <TouchableOpacity
         onPress={() => handleDetailNavigation(item)}
         style={styles.imageContainer}>
-        <JoinTag isLive={!item?.contest_ended} />
+        <JoinTag isLive={item?.contest_ended} />
         <MaxParticipantsTag
           joined={item.joined_list_count}
           total={item.total_competators}
@@ -101,6 +101,7 @@ function Home() {
           )}
         </View>
         <FlashList
+          keyExtractor={(item: any) => item?.id?.toString()}
           data={data}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -117,6 +118,9 @@ function Home() {
     <View style={styles.container}>
       {!user?.password_configured && <PasswordCheck />}
       <SectionList
+        refreshControl={
+          <RefreshControl onRefresh={refetch} refreshing={false} />
+        }
         sections={formattedData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => item + index}

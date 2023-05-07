@@ -1,6 +1,7 @@
 import React, {memo, useState} from 'react';
-import TextInput from '@/ui/TextInput';
 import {TouchableOpacity, View} from 'react-native';
+
+import TextInput from '@/ui/TextInput';
 import {styles} from './Address.styles';
 import StateModal from '../StatesModal/StateModal';
 import CityModal from '../CityModal/CityModal';

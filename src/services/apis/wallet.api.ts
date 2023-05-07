@@ -12,9 +12,9 @@ export const walletService = createApi({
       }),
     }),
     walletTransactions: build.query({
-      query: () => ({
+      query: page => ({
         method: 'GET',
-        url: 'wallet/transactions/',
+        url: `wallet/transactions/?page=${page}`,
       }),
     }),
   }),

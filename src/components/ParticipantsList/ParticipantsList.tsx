@@ -1,13 +1,13 @@
 import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
+import {Portal} from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {FlashList} from '@shopify/flash-list';
 
 import {Image, Modal, Text} from '@/ui';
 import {styles} from './ParticipantsList.styles';
-import {Portal} from 'react-native-paper';
 import {getFullName} from '@/utils/getFullName';
-import {FlashList} from '@shopify/flash-list';
 import {Colors} from '@/utils/colors';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Participants from '../Participants/Participants';
 
 const USER_IMAGE_PLACEHOLDER =

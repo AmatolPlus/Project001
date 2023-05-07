@@ -6,6 +6,7 @@ export const canJoinEvent = (
   thresholdOccupancy: number,
 ) => {
   const joinEndDateMoment = moment(join_end_date);
+
   const presentDateMoment = moment();
 
   // Check if the present date is after the joinEnd date and before the present date

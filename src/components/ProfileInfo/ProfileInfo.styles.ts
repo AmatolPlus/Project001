@@ -1,5 +1,5 @@
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 
@@ -12,8 +12,10 @@ export const styles = StyleSheet.create({
   info: {flexDirection: 'row'},
   profileImage: {
     width: 50,
+    borderRadius: BorderRadius.l,
     height: 50,
     marginRight: Spacing.s,
+    overflow: 'hidden',
   },
   name: {
     ...Fonts.h3,

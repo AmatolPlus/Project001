@@ -20,7 +20,7 @@ import TransactionModal from '@/components/TransactionModal/TransactionModal';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 
 export default function Profile() {
-  const {data: user} = useUserDetailsQuery({});
+  const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
   const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
 
@@ -40,7 +40,7 @@ export default function Profile() {
     <View style={styles.container}>
       <View style={styles.card}>
         <View>
-          <ProfileInfo data={user} fullName={fullName} />
+          <ProfileInfo refetch={userRefetch} data={user} fullName={fullName} />
           <Divider style={styles.divider} />
           <Wallet
             wallet={wallet}

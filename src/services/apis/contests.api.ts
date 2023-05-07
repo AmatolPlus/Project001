@@ -57,11 +57,18 @@ export const contestService = createApi({
       }),
     }),
     morePosts: build.query({
-      query: () => ({
+      query: id => ({
         method: 'GET',
-        url: 'contest/joined_by_me/',
+        url: `contest/joiners/?contest_id=${id}`,
       }),
     }),
+    finalPrize: build.query({
+      query: (id: string) => ({
+        method: 'GET',
+        url: `contest/prize_distribution/?contest_id=${id}`,
+      }),
+    }),
+
     uploadImage: build.mutation({
       query: (body: any) => {
         const formData: any = new FormData();
@@ -92,6 +99,7 @@ export const {
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
+  useFinalPrizeQuery,
   useLikeContestMutation,
   useMoreContestsQuery,
 } = contestService;

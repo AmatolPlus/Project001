@@ -1,12 +1,14 @@
-import {Colors} from '@/utils/colors';
 import React, {useCallback, useState} from 'react';
 import {ToastAndroid, View} from 'react-native';
+
+import {useWalletAmountQuery} from '@/services/apis/wallet.api';
+
 import {Button, Text} from '@/ui';
 import {canJoinEvent} from '@/utils/event';
 import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
 import {IJoinEvent} from './JoinEvent.types';
-import {useWalletAmountQuery} from '@/services/apis/wallet.api';
+import {Colors} from '@/utils/colors';
 
 const DISABLE_JOIN = 'Joining period for this event has ended';
 

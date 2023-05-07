@@ -1,7 +1,8 @@
 import React, {memo} from 'react';
+import {View} from 'react-native';
+
 import {Button, Text} from '@/ui';
 import {Withdraw} from '@/ui/Withdraw';
-import {View} from 'react-native';
 import {styles} from './Wallet.styles';
 import {Colors} from '@/utils/colors';
 import {IWallet} from './Wallet.types';

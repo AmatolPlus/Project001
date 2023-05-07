@@ -12,7 +12,7 @@ import Text from './Text';
 import Section from './Section';
 import {width} from '@/utils/Dimension';
 
-const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
+const PriceChart = ({data, isOpen, setClosed, members, notes}: IPrizeChart) => {
   const renderRow = () => {
     if (data) {
       return Object.keys(data).map((item): any => {
@@ -38,13 +38,17 @@ const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
         <View style={styles.container}>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title>
-                <Text style={styles.tableTitle}>Position</Text>
+              <DataTable.Title textStyle={styles.tableTitle}>
+                Members ({members})
               </DataTable.Title>
-              <DataTable.Title>
-                <Text style={styles.tableTitle}>Price</Text>
+              <DataTable.Title
+                style={{flexDirection: 'column'}}
+                textStyle={styles.tableTitle}>
+                <Text style={{fontWeight: 'bold'}}>Amount {''}</Text>
+                <Text style={{fontWeight: 'bold'}}>Per Person</Text>
               </DataTable.Title>
             </DataTable.Header>
+
             {renderRow()}
           </DataTable>
           <View style={styles.cardContentContainer}>
@@ -52,12 +56,7 @@ const PriceChart = ({data, isOpen, setClosed}: IPrizeChart) => {
               <Text style={styles.termsHeader}>
                 Prizepool will depend on how many slots are filled
               </Text>
-              <Text style={styles.termsBody}>
-                I Confirm that i have read consent and agree to HighFive's user
-                agreement & privacy policy. I am legal age & understand that i
-                can change my communication preferences anytime in my account
-                settings.
-              </Text>
+              <Text style={styles.termsBody}>{notes}</Text>
             </Section>
           </View>
         </View>
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: BorderRadius.m,
   },
-  tableTitle: {...Fonts.h4},
+  tableTitle: {...Fonts.h4, textAlign: 'center', color: Colors.dark},
   tableCell: {...Fonts.h5},
 
   card: {

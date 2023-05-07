@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     height: height,
     width: width,
     backgroundColor: Colors.light,
-    paddingBottom: Spacing.xl,
+    paddingBottom: Spacing.xl * 5,
   },
   listContainer: {
     paddingBottom: Spacing.l,

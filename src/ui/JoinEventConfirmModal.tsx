@@ -41,7 +41,7 @@ const JoinEventConfirmModal = ({
 
   const [uploadPost, setPost]: any = useState({
     imageUrl: undefined,
-    caption: undefined,
+    caption: '',
   });
   const [upload, {isLoading}] = useUploadImageMutation();
   const [hasImageUploaded, setImageUploaded] = useState(false);
@@ -93,7 +93,7 @@ const JoinEventConfirmModal = ({
     try {
       let data: any = await upload({
         file: uploadPost.imageUrl,
-        title: uploadPost.caption,
+        title: uploadPost.caption || 'No caption',
       });
       if (data?.data?.details === 'Success') {
         setPost({

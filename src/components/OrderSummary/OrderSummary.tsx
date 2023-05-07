@@ -1,9 +1,10 @@
 import {Button, Divider, Image, Text} from '@/ui';
 import React, {memo, useCallback} from 'react';
 import {View} from 'react-native';
+import moment from 'moment';
+
 import {styles} from './OrderSummary.styles';
 import {Colors} from '@/utils/colors';
-import moment from 'moment';
 import {IOrderSummary} from './OrderSummary.types';
 
 const OrderSummary = ({
@@ -61,7 +62,7 @@ const OrderSummary = ({
         </View>
         <View style={styles.entryFeeContainer}>
           <Text style={styles.entryFee}>Total Amount </Text>
-          <Text style={styles.entryFee}>₹ {entryFee - wallet_amount}</Text>
+          <Text style={styles.entryFee}>₹ {entryFee}</Text>
         </View>
       </View>
       <Divider style={styles.divider} />

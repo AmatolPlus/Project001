@@ -18,7 +18,7 @@ const TermsAndConditionsModal = ({message}: any) => {
   return (
     <>
       <TouchableOpacity onPress={toggleModal}>
-        <Text style={styles.link}>View Terms and Conditions</Text>
+        <Text style={styles.link}>Terms and Conditions</Text>
       </TouchableOpacity>
       <Portal>
         <Modal visible={visible} style={styles.modal} onDismiss={toggleModal}>

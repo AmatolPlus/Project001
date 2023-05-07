@@ -1,11 +1,12 @@
 import React, {memo} from 'react';
 import {View} from 'react-native';
+
 import {Text} from '@/ui';
 import {styles} from './JoinTag.style';
 import {IJoinTag} from './JoinTag.types';
 
 const JoinTag = ({isLive}: IJoinTag) => {
-  if (!isLive) {
+  if (isLive) {
     return <></>;
   }
 

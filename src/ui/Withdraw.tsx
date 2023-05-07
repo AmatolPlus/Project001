@@ -19,7 +19,7 @@ export const Withdraw = ({currentAmount, threshold, onWithdraw}: IWithdraw) => {
   const [showSnackbar, setSnackbar] = useState(false);
 
   useEffect(() => {
-    if (currentAmount < threshold) {
+    if (currentAmount < threshold || currentAmount === 0) {
       setDisabled(true);
     } else {
       setDisabled(false);

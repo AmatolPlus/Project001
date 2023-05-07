@@ -2,31 +2,28 @@ import React, {memo, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-import {Image, Text} from '@/ui';
+import {ActivityIndicator, Image, Text} from '@/ui';
 import {styles} from './PostCard.styles';
 import {Colors} from '@/utils/colors';
 import {Fonts} from '@/utils/fonts';
 import {IPostCard} from './PostCard.types';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
-import {useLikeContestMutation} from '@/services/apis/contests.api';
+import RankTag from '../RankTag/RankTag';
+import {canLikeEvent} from '@/utils/event';
 
-const PostCard = ({contestImage, caption, likeCount, item}: IPostCard) => {
+const PostCard = ({
+  contestImage,
+  caption,
+  likeCount,
+  likeEndDate,
+  onLike,
+  loading,
+  item,
+}: IPostCard) => {
   const [confirmModalShown, setShowConfirmModal] = useState(false);
   const [liked, setLiked] = useState(false);
-  const [like] = useLikeContestMutation({});
 
-  const handleLike = useCallback(
-    async (Item: any) => {
-      setLiked(!liked);
-      if (!Item?.is_liked_by_me) {
-        await like({
-          contest_id: Item?.id,
-        });
-      }
-    },
-    [like, liked],
-  );
-
+  const canLike = canLikeEvent(likeEndDate);
   useEffect(() => {
     setLiked(item?.is_liked_by_me);
   }, [item]);
@@ -37,10 +34,10 @@ const PostCard = ({contestImage, caption, likeCount, item}: IPostCard) => {
 
   const handleOnLike = useCallback(() => {
     try {
-      handleLike(item);
+      onLike(item, setLiked, liked);
       handleToggleConfirmModal();
     } catch (error) {}
-  }, [handleLike, handleToggleConfirmModal, item]);
+  }, [onLike, item, liked, handleToggleConfirmModal]);
 
   return (
     <View style={styles.postCard}>
@@ -48,18 +45,28 @@ const PostCard = ({contestImage, caption, likeCount, item}: IPostCard) => {
         style={{...StyleSheet.absoluteFillObject}}
         source={{uri: contestImage}}
       />
-
-      {!liked ? (
+      <RankTag rank={item?.rank} />
+      {canLike && !liked ? (
         <TouchableOpacity
           onPress={handleToggleConfirmModal}
           style={styles.likeBtn}>
-          <Entypo name="thumbs-up" size={22} color={Colors.danger} />
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Entypo name="thumbs-up" size={22} color={Colors.danger} />
+          )}
         </TouchableOpacity>
       ) : (
         <></>
       )}
+      {item?.first_name && (
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>{item?.first_name}</Text>
+        </View>
+      )}
+
       <View style={styles.postCardImage}>
-        <Text style={{...Fonts.h4}}>{caption}</Text>
+        <Text style={{...Fonts.h5}}>{caption}</Text>
         <Text style={{...Fonts.h6, color: Colors.dark2}}>
           {likeCount} LIKES
         </Text>
