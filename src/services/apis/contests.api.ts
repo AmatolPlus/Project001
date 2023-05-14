@@ -57,10 +57,13 @@ export const contestService = createApi({
       }),
     }),
     morePosts: build.query({
-      query: id => ({
-        method: 'GET',
-        url: `contest/joiners/?contest_id=${id}`,
-      }),
+      query: ({id, page}) => {
+        console.log(page);
+        return {
+          method: 'GET',
+          url: `contest/joiners/?contest_id=${id}&page=${page}`,
+        };
+      },
     }),
     finalPrize: build.query({
       query: (id: string) => ({

@@ -11,7 +11,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     display: 'flex',
-    position: 'relative',
   },
   listContainer: {
     flexDirection: 'row',
@@ -20,7 +19,6 @@ export const styles = StyleSheet.create({
   link: {
     color: Colors.info,
     ...Fonts.h5,
-    marginRight: '42%',
   },
   image: {
     width: 32,

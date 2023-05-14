@@ -6,6 +6,7 @@ type ValidationResult = {
 const validatePassword = ({
   password1,
   password2,
+  type,
   first_name,
   last_name,
 }: any): ValidationResult => {
@@ -19,11 +20,14 @@ const validatePassword = ({
     return {valid: false, error: 'New password must meet the requirements.'};
   }
 
-  if (first_name < 3 || last_name < 3) {
-    return {
-      valid: false,
-    };
+  if (type !== 'component') {
+    if (first_name < 3 || last_name < 3) {
+      return {
+        valid: false,
+      };
+    }
   }
+
   if (password1 !== password2) {
     return {
       valid: false,

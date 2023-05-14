@@ -2,28 +2,30 @@
 import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Text} from '@/ui';
 
 import {Home, Profile} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts, fontSize} from '@/utils/fonts';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {get} from '@/utils/storage';
 import {Colors} from '@/utils/colors';
 import {options} from '@/utils/navigationConfig';
 import {BorderRadius, Spacing} from '@/utils/constants';
+import {width} from '@/utils/Dimension';
 
 const ProfileIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons name="md-person" size={Spacing.xl * 1.3} color={color} />
+    <Ionicons name="md-person" size={Spacing.xl * 1.3} color={Colors.white} />
   ) : (
-    <Ionicons name="person-outline" size={size} color={color} />
+    <Ionicons name="person-outline" size={size} color={Colors.light} />
   );
 
 const HomeIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons name="md-home" color={color} size={Spacing.xl * 1.3} />
+    <Ionicons name="md-home" color={Colors.white} size={Spacing.xl * 1.3} />
   ) : (
-    <Ionicons name="home-outline" size={size} color={color} />
+    <Ionicons name="home-outline" size={size} color={Colors.light} />
   );
 
 export default function TabStack() {
@@ -39,21 +41,37 @@ export default function TabStack() {
     <Tab.Navigator
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: Colors.dark2,
         tabBarShowLabel: false,
         tabBarStyle: {
-          borderRadius: BorderRadius.s,
+          position: 'absolute',
+          marginHorizontal: Spacing.l,
+          marginBottom: Spacing.l,
+          borderRadius: BorderRadius.l,
+          elevation: 2,
+          backgroundColor: Colors.dark,
         },
       }}>
       <Tab.Screen
         options={{
           tabBarIcon: HomeIcon,
-          headerTitle: 'HighFive',
-          headerTitleStyle: {
-            ...Fonts.title,
-            fontSize: fontSize.title,
-            color: Colors.dark2,
-          },
+          headerTitle: () => (
+            <View
+              style={{
+                display: 'flex',
+                alignSelf: 'center',
+                width: width,
+              }}>
+              <Text
+                style={{
+                  ...Fonts.title,
+                  textAlign: 'center',
+                  fontSize: fontSize.title,
+                  color: Colors.dark2,
+                }}>
+                HighFive
+              </Text>
+            </View>
+          ),
         }}
         name={ScreenNames.home}
         component={Home}

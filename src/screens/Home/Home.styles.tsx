@@ -54,16 +54,16 @@ export const styles = StyleSheet.create({
   name: {
     ...Fonts.h3,
     fontSize: fontSize.h6,
-    color: Colors.dark2,
+    color: Colors.dark,
   },
   priceLabel: {
     ...Fonts.h3,
     fontSize: fontSize.h6,
-    color: Colors.grey,
+    color: Colors.dark,
   },
   price: {
     ...Fonts.h3,
     fontSize: fontSize.h6,
-    color: Colors.grey,
+    color: Colors.dark,
   },
 });

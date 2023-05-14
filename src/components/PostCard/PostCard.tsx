@@ -66,7 +66,9 @@ const PostCard = ({
       )}
 
       <View style={styles.postCardImage}>
-        <Text style={{...Fonts.h5}}>{caption}</Text>
+        <Text ellipsizeMode={'tail'} numberOfLines={1} style={{...Fonts.h5}}>
+          {caption}
+        </Text>
         <Text style={{...Fonts.h6, color: Colors.dark2}}>
           {likeCount} LIKES
         </Text>

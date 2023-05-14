@@ -20,9 +20,9 @@ const OrderSummary = ({
   handleImageUploaded,
 }: IOrderSummary) => {
   const handlePayment = useCallback(() => {
-    onConfirm(imageId);
+    onConfirm(imageId, image);
     handleImageUploaded();
-  }, [handleImageUploaded, imageId, onConfirm]);
+  }, [handleImageUploaded, image, imageId, onConfirm]);
 
   return (
     <View style={styles.container}>

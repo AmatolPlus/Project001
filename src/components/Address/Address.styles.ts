@@ -1,6 +1,7 @@
 import {width} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
+import {Fonts} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create({
     padding: Spacing.l,
   },
   input: {
-    height: Spacing.xl * 2,
+    ...Fonts.h5,
     backgroundColor: Colors.white,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,
@@ -23,7 +24,6 @@ export const styles = StyleSheet.create({
   },
   stateButton: {
     width: width / 2.8,
-    height: 50,
     backgroundColor: Colors.white,
   },
   cityInput: {},

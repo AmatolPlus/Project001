@@ -55,9 +55,10 @@ export default function Details() {
     try {
       navigation.navigate(ScreenNames.morePosts, {
         id: data?.id,
+        likeEndDate: data?.like_end_date,
       });
     } catch (error) {}
-  }, [data?.id, navigation]);
+  }, [data?.id, data?.like_end_date, navigation]);
 
   const handleToggleText = () => {
     setIsExpanded(!isExpanded);
@@ -150,7 +151,11 @@ export default function Details() {
   }, [isPrizeChartShown]);
 
   if (isLoading) {
-    return <ActivityIndicator />;
+    return (
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <ActivityIndicator />
+      </View>
+    );
   }
 
   if (isError) {
@@ -177,7 +182,7 @@ export default function Details() {
     data?.total_competators,
   );
 
-  const targetDate = new Date(data?.join_end_date);
+  const end_date = new Date(data?.join_end_date);
 
   return (
     <ScrollView
@@ -228,22 +233,22 @@ export default function Details() {
           />
         </View>
       </View>
-      {data?.joined_contest?.length ? (
-        <ParticipantsList
-          data={data?.joined_contest}
-          participants={data?.joined_contest?.length}
-        />
-      ) : (
-        <></>
-      )}
 
+      <Section>
+        <View style={styles.eventAttendees}>
+          <Text style={styles.eventAttendeesText}>Event Attendees</Text>
+          <Text style={styles.joinedCount}>
+            {data?.joined_list_count + '/' + data?.total_competators}
+          </Text>
+        </View>
+        <ProgressBar progress={progress} color={Colors.success} />
+      </Section>
       {!data?.contest_ended && (
         <View style={styles.timerContainer}>
           <Text style={styles.timerHeader}>Contest Ends in</Text>
-          <CountdownTimer textStyle={styles.timer} targetDate={targetDate} />
+          <CountdownTimer textStyle={styles.timer} targetDate={end_date} />
         </View>
       )}
-
       <View>
         {data?.joined_contest?.length ? (
           <Section>
@@ -252,6 +257,7 @@ export default function Details() {
                 <Text style={styles.eventDetailsHeader}>Posts</Text>
               </View>
             </View>
+
             <View style={styles.eventDetailsSubHeaderContainer}>
               <Text style={styles.eventDetailsSubHeader}>
                 Vote for your favourite posts
@@ -267,6 +273,7 @@ export default function Details() {
                 />
               </TouchableOpacity>
             </View>
+
             <FlashList
               data={data?.joined_contest}
               estimatedItemSize={200}
@@ -279,6 +286,15 @@ export default function Details() {
           <></>
         )}
       </View>
+      {data?.joined_contest?.length ? (
+        <ParticipantsList
+          data={data?.joined_contest}
+          participants={data?.joined_contest?.length}
+        />
+      ) : (
+        <></>
+      )}
+
       <View>
         <View style={styles.headerContainer}>
           <View style={styles.prizeLinkContainer}>
@@ -305,19 +321,9 @@ export default function Details() {
               </Text>
             ))}
         </Section>
-        <Section>
-          <View style={styles.eventAttendees}>
-            <Text style={styles.eventAttendeesText}>Event Attendees</Text>
-            <Text style={styles.joinedCount}>
-              {data?.joined_list_count + '/' + data?.total_competators}
-            </Text>
-          </View>
-          <ProgressBar progress={progress} color={Colors.success} />
-        </Section>
       </View>
       <View style={styles.contestDetails}>
         <LikeExpiry like_end_date={data?.like_end_date} />
-        {data?.contest_ended && <FinalPrize data={finalPrize} />}
 
         <Section>
           <Text style={styles.eventDetailsHeader}>Event Details</Text>
@@ -330,6 +336,8 @@ export default function Details() {
           />
         </Section>
       </View>
+      {data?.contest_ended && <FinalPrize data={finalPrize} />}
+
       <PriceChart
         notes={data?.notes}
         members={data?.total_competators}

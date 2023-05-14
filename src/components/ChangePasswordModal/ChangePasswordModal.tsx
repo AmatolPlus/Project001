@@ -22,8 +22,12 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     password2: '',
   });
   const [valid, setValid] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const isValid = validatePassword(password);
+  const isValid = validatePassword({
+    ...password,
+    type,
+  });
   const [update, {error}]: any = useUpdatePasswordMutation({});
   const [updateUserName, {error: userNameError}]: any =
     useUpdateUserDetailsMutation({});
@@ -66,20 +70,30 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   }, [isValid]);
 
   const handleSubmit = useCallback(async () => {
+    setLoading(!loading);
     if (valid) {
       setValid(false);
       try {
-        handleUpdateUserName();
-        let data = await update(password);
-        if (!data?.error) {
-          handleToggleChangePasswordModal();
-          type === 'modal' && navigation.replace(ScreenNames.mainStack);
+        if (type !== 'component') {
+          handleUpdateUserName();
         }
+        let data = await update(password);
+        if (data?.error) {
+          ToastAndroid.show(`${data?.error?.data?.details}`, ToastAndroid.LONG);
+        }
+        if (!data?.error) {
+          ToastAndroid.show('Password Updated Successfully', ToastAndroid.LONG);
+          handleToggleChangePasswordModal();
+        }
+
+        type === 'modal' && navigation.replace(ScreenNames.mainStack);
       } catch (e) {}
+      setLoading(!loading);
     }
   }, [
     handleToggleChangePasswordModal,
     handleUpdateUserName,
+    loading,
     navigation,
     password,
     type,
@@ -108,6 +122,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
               {type === 'component' && (
                 <TextInput
                   mode="outlined"
+                  maxLength={6}
                   keyboardType={'number-pad'}
                   onChangeText={val =>
                     handlePasswordChange('old_password', val)
@@ -124,17 +139,18 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                       handlePasswordChange('first_name', val)
                     }
                     style={styles.input}
-                    placeholder="Username"
+                    placeholder="First Name"
                   />
                   <TextInput
                     mode="outlined"
                     onChangeText={val => handlePasswordChange('last_name', val)}
                     style={styles.input}
-                    placeholder="Username"
+                    placeholder="Last Name"
                   />
                 </>
               )}
               <TextInput
+                maxLength={6}
                 mode="outlined"
                 keyboardType={'number-pad'}
                 onChangeText={val => handlePasswordChange('password1', val)}
@@ -142,6 +158,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                 placeholder="New Password"
               />
               <TextInput
+                maxLength={6}
                 mode="outlined"
                 keyboardType={'number-pad'}
                 onChangeText={val => handlePasswordChange('password2', val)}
@@ -157,6 +174,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
               ))}
 
             <Button
+              loading={loading}
               onPress={handleSubmit}
               buttonColor={valid ? Colors.success : Colors.grey}
               style={styles.updateButton}>

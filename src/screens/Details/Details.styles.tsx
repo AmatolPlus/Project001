@@ -108,6 +108,7 @@ export const styles = StyleSheet.create({
   },
   eventDetailsHeader: {
     ...Fonts.h1,
+    marginBottom: Spacing.m,
     fontSize: fontSize.h3,
   },
   eventDetailsSubHeaderContainer: {

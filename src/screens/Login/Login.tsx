@@ -85,6 +85,7 @@ const LoginScreen = () => {
         <Text style={styles.title}>{appConfig.name}</Text>
         <View style={styles.inputContainer}>
           <TextInput
+            maxLength={10}
             mode="outlined"
             outlineColor={Colors.grey}
             activeOutlineColor={Colors.dark}

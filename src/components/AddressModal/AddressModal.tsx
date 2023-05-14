@@ -2,7 +2,7 @@ import {Button, Modal, Text} from '@/ui';
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {Portal} from 'react-native-paper';
 import Address from '../Address/Address';
-import {View} from 'react-native';
+import {ToastAndroid, View} from 'react-native';
 import {styles} from './AddressModal.style';
 import {Spacing} from '@/utils/constants';
 import {validateAddressForm} from '@/utils/addressConstants';
@@ -37,6 +37,7 @@ const AddressModal = () => {
 
   const handleSubmit = useCallback(() => {
     update(form);
+    ToastAndroid.show('Address Updated SuccessFully', ToastAndroid.LONG);
     handleToggleAddressModal();
   }, [form, handleToggleAddressModal, update]);
 

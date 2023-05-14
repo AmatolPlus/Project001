@@ -17,6 +17,7 @@ import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 import {useStoragePermission} from '@/hooks/getStoragePermission';
+import TimerTag from '@/components/TimerTag/TimerTag';
 
 function Home() {
   const navigation: any = useNavigation();
@@ -53,10 +54,15 @@ function Home() {
   }
 
   if (isLoading) {
-    return <ActivityIndicator />;
+    return (
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <ActivityIndicator />
+      </View>
+    );
   }
 
   const renderItem = ({item}: any) => {
+    const end_date = new Date(item?.join_end_date);
     return (
       <TouchableOpacity
         onPress={() => handleDetailNavigation(item)}
@@ -66,6 +72,7 @@ function Home() {
           joined={item.joined_list_count}
           total={item.total_competators}
         />
+        <TimerTag time={end_date} />
         <Image
           resizeMode={'cover'}
           style={styles.image}
@@ -76,7 +83,7 @@ function Home() {
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{item.concept_name.toUpperCase()}</Text>
           <Text style={styles.price}>
-            <Text style={styles.priceLabel}>ENTRY FEE :</Text>
+            <Text style={styles.priceLabel}>ENTRY FEE :</Text> ₹
             {item.entry_price}
           </Text>
         </View>

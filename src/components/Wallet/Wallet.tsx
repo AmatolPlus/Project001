@@ -14,7 +14,8 @@ const Wallet = ({wallet, onWithdraw, loading, onRefreshWallet}: IWallet) => (
       ₹ {wallet?.earned_amount === null ? '0' : wallet?.earned_amount}
     </Text>
     <View style={styles.withdrawButtonContainer}>
-      <Withdraw currentAmount={0} threshold={0} onWithdraw={onWithdraw} />
+      <View />
+      {/* <Withdraw currentAmount={0} threshold={0} onWithdraw={onWithdraw} /> */}
       <Button
         textColor={Colors.info}
         onPress={onRefreshWallet}

@@ -1,7 +1,7 @@
 import {Modal} from '@/ui';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
-import {View} from 'react-native';
+import {ToastAndroid, View} from 'react-native';
 import {Spacing} from '@/utils/constants';
 import {styles} from './UserDetailsModal.styles';
 import UserDetails from '../UserDetail/UserDetails';
@@ -27,6 +27,7 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
     try {
       update(form);
       refetch();
+      ToastAndroid.show('User Details Updated SuccessFully', ToastAndroid.LONG);
       onClose();
     } catch (error) {}
   }, [form, onClose, refetch, update]);

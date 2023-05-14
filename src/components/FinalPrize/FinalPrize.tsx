@@ -3,6 +3,7 @@ import React, {useCallback} from 'react';
 import {IFinalPrice} from './FinalPrize.types';
 import {styles} from './FinalPrize.styles';
 import {Image, Text} from '@/ui';
+import {Colors} from '@/utils/colors';
 
 const USER_IMAGE_PLACEHOLDER =
   'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
@@ -31,7 +32,11 @@ export default function FinalPrize({data}: IFinalPrice) {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Final Prize</Text>
-      <ScrollView nestedScrollEnabled>
+      <ScrollView
+        contentContainerStyle={{
+          backgroundColor: Colors.grey,
+        }}
+        nestedScrollEnabled>
         {data?.map((item: any) => (
           <Card item={item} />
         ))}

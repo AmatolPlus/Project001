@@ -1,7 +1,7 @@
 import {width} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -12,11 +12,13 @@ export const styles = StyleSheet.create({
   },
   header: {
     ...Fonts.h1,
-    ...Fonts.h3,
+    marginBottom: Spacing.m,
+    fontSize: fontSize.h3,
   },
   cardContainer: {
     padding: Spacing.m,
     paddingLeft: 0,
+
     backgroundColor: Colors.white,
   },
 
