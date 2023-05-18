@@ -1,25 +1,34 @@
-import {ActivityIndicator, Image, Modal, Text} from '@/ui';
+import {ActivityIndicator, Text} from '@/ui';
 import React, {useCallback, useEffect, useState} from 'react';
-import {Portal} from 'react-native-paper';
-import {Pressable, SectionList, View} from 'react-native';
+import {SectionList, View} from 'react-native';
 import moment from 'moment';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {styles} from './TransactionModal.styles';
+import {styles} from './Transactions.styles';
 import {Colors} from '@/utils/colors';
-import {Spacing} from '@/utils/constants';
 import {useWalletTransactionsQuery} from '@/services/apis/wallet.api';
 import {RefreshControl} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 
 function formatHistory(history: any) {
   if (history) {
     let itemList = history?.results.map(
-      (obj: {created: any; to: string; items: object}) => {
+      (obj: {
+        remarks: any;
+        amount: any;
+        created: any;
+        to: string;
+        items: object;
+      }) => {
         let title = obj?.created;
+        let amount = obj?.amount;
+        let remarks = obj?.remarks;
+
         let items = obj;
         return {
           title: moment(title).format('dddd'),
           data: [items],
+          amount,
+          remarks,
         };
       },
     );
@@ -29,11 +38,10 @@ function formatHistory(history: any) {
   }
 }
 
-const TransactionModal = () => {
+const Transactions = () => {
   const [page, setPage] = useState(1);
   let {data, refetch, isLoading} = useWalletTransactionsQuery(page);
   let [formattedData, setFormattedData] = useState([]);
-  const [transactionModal, setTransactionModal] = useState(false);
 
   const pageInfo = data?.current || '<Page 1 of 2>';
   const currentPage = parseInt(pageInfo.split(' ')[1], 10);
@@ -45,10 +53,6 @@ const TransactionModal = () => {
     },
     [page],
   );
-
-  const handleToggleTransactionModal = useCallback(() => {
-    setTransactionModal(!transactionModal);
-  }, [transactionModal]);
 
   useEffect(() => {
     let formattedList: any = formatHistory(data);
@@ -102,53 +106,26 @@ const TransactionModal = () => {
     return <ActivityIndicator />;
   }
 
-  // const renderHeader = ({section: {title}}: any) => (
-  //   <View>
-  //     <View>
-  //       <Text style={styles.date}>{title}</Text>
-  //     </View>
-  //   </View>
-  // );
-
   return (
     <View>
-      <Pressable
-        style={{marginTop: Spacing.m}}
-        onPress={handleToggleTransactionModal}>
-        <Text style={styles.link}>Transaction History</Text>
-      </Pressable>
-      <Portal>
-        <Modal
-          onDismiss={handleToggleTransactionModal}
-          visible={transactionModal}>
-          <View style={styles.container}>
-            <View style={styles.headerContainer}>
-              <Text style={styles.header}>Transaction History</Text>
-              <AntDesign
-                name="closecircleo"
-                onPress={handleToggleTransactionModal}
-                size={Spacing.xl}
-                color={Colors.dark}
-              />
-            </View>
-
-            <View style={styles.listContainer}>
-              <SectionList
-                refreshControl={
-                  <RefreshControl onRefresh={refetch} refreshing={isLoading} />
-                }
-                ListFooterComponent={renderFooter}
-                showsVerticalScrollIndicator={false}
-                renderSectionHeader={() => <></>}
-                sections={formattedData}
-                renderItem={renderHistory}
-              />
-            </View>
-          </View>
-        </Modal>
-      </Portal>
+      <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.header}>Transaction History</Text>
+        </View>
+        <View style={styles.listContainer}>
+          <FlashList
+            refreshControl={
+              <RefreshControl onRefresh={refetch} refreshing={isLoading} />
+            }
+            ListFooterComponent={renderFooter}
+            showsVerticalScrollIndicator={false}
+            data={formattedData}
+            renderItem={renderHistory}
+          />
+        </View>
+      </View>
     </View>
   );
 };
 
-export default TransactionModal;
+export default Transactions;

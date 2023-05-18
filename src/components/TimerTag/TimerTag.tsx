@@ -6,7 +6,11 @@ import CountdownTimer from '../CountdownTImer/CountdownTImer';
 export default function TimerTag({time}: any) {
   return (
     <View style={styles.container}>
-      <CountdownTimer targetDate={time} textStyle={styles.text} />
+      <View />
+      <View style={styles.timerContainer}>
+        <Text style={styles.endsOn}>Ends in </Text>
+        <CountdownTimer targetDate={time} textStyle={styles.text} />
+      </View>
     </View>
   );
 }

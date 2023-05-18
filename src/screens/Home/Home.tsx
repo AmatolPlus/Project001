@@ -18,6 +18,7 @@ import {useUserDetailsQuery} from '@/services/apis/login.api';
 import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 import {useStoragePermission} from '@/hooks/getStoragePermission';
 import TimerTag from '@/components/TimerTag/TimerTag';
+import {fontSize} from '@/utils/fonts';
 
 function Home() {
   const navigation: any = useNavigation();
@@ -72,7 +73,7 @@ function Home() {
           joined={item.joined_list_count}
           total={item.total_competators}
         />
-        <TimerTag time={end_date} />
+        {!item.contest_ended && <TimerTag time={end_date} />}
         <Image
           resizeMode={'cover'}
           style={styles.image}
@@ -100,7 +101,7 @@ function Home() {
             <SimpleLineIcons
               onPress={() => handleContestNavigation(id)}
               name="arrow-right"
-              size={20}
+              size={fontSize.h6}
               color="black"
             />
           ) : (

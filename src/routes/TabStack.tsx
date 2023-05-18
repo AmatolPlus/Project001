@@ -13,12 +13,24 @@ import {Colors} from '@/utils/colors';
 import {options} from '@/utils/navigationConfig';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {width} from '@/utils/Dimension';
+import Transactions from '@/screens/Transactions/Transactions';
 
 const ProfileIcon = ({color, size, focused}: any) =>
   focused ? (
     <Ionicons name="md-person" size={Spacing.xl * 1.3} color={Colors.white} />
   ) : (
     <Ionicons name="person-outline" size={size} color={Colors.light} />
+  );
+
+const WalletIcon = ({color, size, focused}: any) =>
+  focused ? (
+    <Ionicons
+      name="wallet-sharp"
+      size={Spacing.xl * 1.3}
+      color={Colors.white}
+    />
+  ) : (
+    <Ionicons name="wallet-outline" size={size} color={Colors.light} />
   );
 
 const HomeIcon = ({color, size, focused}: any) =>
@@ -75,6 +87,14 @@ export default function TabStack() {
         }}
         name={ScreenNames.home}
         component={Home}
+      />
+      <Tab.Screen
+        options={({navigation}) => ({
+          ...options,
+          tabBarIcon: WalletIcon,
+        })}
+        name={ScreenNames.transactions}
+        component={Transactions}
       />
       <Tab.Screen
         options={({navigation}) => ({

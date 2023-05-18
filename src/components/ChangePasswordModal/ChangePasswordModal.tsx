@@ -49,15 +49,20 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
         first_name: password.first_name,
         last_name: password.last_name,
       });
-    } catch (error) {}
+    } catch (e: any) {
+      console.log(e);
+    }
   }, [password.first_name, password.last_name, updateUserName]);
 
-  const handlePasswordChange = (key: string, value: string) => {
-    setPassword({
-      ...password,
-      [key]: value,
-    });
-  };
+  const handlePasswordChange = useCallback(
+    (key: string, value: string) => {
+      setPassword({
+        ...password,
+        [key]: value,
+      });
+    },
+    [password],
+  );
 
   useEffect(() => {
     if (isOpen) {
@@ -74,7 +79,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     if (valid) {
       setValid(false);
       try {
-        if (type !== 'component') {
+        if (type === 'modal') {
           handleUpdateUserName();
         }
         let data = await update(password);
@@ -175,7 +180,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
 
             <Button
               loading={loading}
-              onPress={handleSubmit}
+              onPress={valid ? handleSubmit : () => {}}
               buttonColor={valid ? Colors.success : Colors.grey}
               style={styles.updateButton}>
               <Text style={styles.updateText}>{'Confirm'}</Text>

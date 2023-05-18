@@ -6,7 +6,7 @@ import {Fonts, fontSize} from '@/utils/fonts';
 export const styles = StyleSheet.create({
   participantText: {textAlign: 'left', color: Colors.info},
   modalContainer: {
-    padding: Spacing.l,
+    padding: Spacing.xl,
   },
   modal: {
     width: '100%',

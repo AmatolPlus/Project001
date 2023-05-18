@@ -58,7 +58,6 @@ export const contestService = createApi({
     }),
     morePosts: build.query({
       query: ({id, page}) => {
-        console.log(page);
         return {
           method: 'GET',
           url: `contest/joiners/?contest_id=${id}&page=${page}`,

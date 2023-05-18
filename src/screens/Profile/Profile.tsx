@@ -16,7 +16,6 @@ import Wallet from '@/components/Wallet';
 import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
 import AddressModal from '@/components/AddressModal/AddressModal';
 import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
-import TransactionModal from '@/components/TransactionModal/TransactionModal';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 
 export default function Profile() {
@@ -52,7 +51,6 @@ export default function Profile() {
           <AddressModal />
           <SocialMediaModal />
           <ChangePasswordModal type="component" />
-          <TransactionModal />
           <Divider style={styles.divider} />
         </View>
         <Button style={styles.logout} onPress={handleLogout}>

@@ -20,22 +20,29 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
     birthday: '',
     gender: '',
   });
-  const [update]: any = useUpdateUserDetailsMutation({});
+  const [update, {error}]: any = useUpdateUserDetailsMutation();
   const {data: user, refetch} = useUserDetailsQuery({});
 
   const handleSubmit = useCallback(() => {
     try {
       update(form);
       refetch();
-      ToastAndroid.show('User Details Updated SuccessFully', ToastAndroid.LONG);
+      if (error) {
+        console.log(error);
+      } else {
+        ToastAndroid.show(
+          'User Details Updated SuccessFully',
+          ToastAndroid.LONG,
+        );
+      }
       onClose();
-    } catch (error) {}
-  }, [form, onClose, refetch, update]);
+    } catch (e) {}
+  }, [form, onClose, refetch, error, update]);
 
-  const handleChange = (attribute: keyof FormData, value: string) => {
+  const handleChange = (key: keyof FormData, value: string) => {
     setForm(prevState => ({
       ...prevState,
-      [attribute]: value,
+      [key]: value,
     }));
   };
 

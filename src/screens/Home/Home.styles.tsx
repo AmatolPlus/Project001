@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native';
 
 import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';
-import {Spacing} from '@/utils/constants';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {VerticalMargin} from '@/utils/spacing';
 import {height, width} from '@/utils/Dimension';
 
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     height: height,
     width: width,
     backgroundColor: Colors.light,
-    paddingBottom: Spacing.xl * 5,
+    paddingBottom: Spacing.xl * 6,
   },
   listContainer: {
     paddingBottom: Spacing.l,
@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
     ...VerticalMargin('s'),
     width: 300,
     height: 300,
+    borderRadius: BorderRadius.s,
     marginRight: Spacing.m,
     borderWidth: 0.5,
     borderColor: Colors.dark2,

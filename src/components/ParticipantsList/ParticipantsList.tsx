@@ -9,6 +9,7 @@ import {styles} from './ParticipantsList.styles';
 import {getFullName} from '@/utils/getFullName';
 import {Colors} from '@/utils/colors';
 import Participants from '../Participants/Participants';
+import Card from '../Card/Card';
 
 const USER_IMAGE_PLACEHOLDER =
   'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
@@ -19,27 +20,6 @@ const ParticipantsList = ({participants, data}: any) => {
   const handleModalToggle = useCallback(() => {
     setVisible(!visible);
   }, [visible]);
-
-  const renderItem = useCallback(({item}: any) => {
-    let name = getFullName(item?.user?.first_name, item?.user?.last_name);
-    return (
-      <View style={styles.listContainer}>
-        <View style={styles.imageContainer}>
-          <Image
-            resizeMode="contain"
-            style={styles.userImage}
-            source={{
-              uri: item?.user?.profile_image_url || USER_IMAGE_PLACEHOLDER,
-            }}
-          />
-          <View style={styles.infoContainer}>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.rank}>RANK: {item?.rank}</Text>
-          </View>
-        </View>
-      </View>
-    );
-  }, []);
 
   const renderHeader = useCallback(() => {
     return (
@@ -72,7 +52,9 @@ const ParticipantsList = ({participants, data}: any) => {
               ListHeaderComponent={renderHeader}
               showsVerticalScrollIndicator={false}
               estimatedItemSize={100}
-              renderItem={renderItem}
+              renderItem={({item}: any) => {
+                return <Card userName={item?.user?.first_name} item={item} />;
+              }}
               data={data}
             />
           </View>

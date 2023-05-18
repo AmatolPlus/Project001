@@ -116,13 +116,13 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     flex: 1,
+    marginBottom: Spacing.xs,
   },
   eventDetailsSubHeader: {
     ...Fonts.h3,
     color: Colors.grey,
     marginLeft: 0,
     fontSize: fontSize.h6,
-    marginBottom: Spacing.xs,
   },
   termsHeaderContainer: {
     padding: Spacing.s,
