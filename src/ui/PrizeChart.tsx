@@ -9,10 +9,10 @@ import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin} from '@/utils/spacing';
 import Modal from './Modal';
 import Text from './Text';
-import Section from './Section';
+// import Section from './Section';
 import {width} from '@/utils/Dimension';
 
-const PriceChart = ({data, isOpen, setClosed, members, notes}: IPrizeChart) => {
+const PriceChart = ({data, isOpen, setClosed, members}: IPrizeChart) => {
   const renderRow = () => {
     if (data) {
       return Object.keys(data).map((item): any => {
@@ -41,24 +41,26 @@ const PriceChart = ({data, isOpen, setClosed, members, notes}: IPrizeChart) => {
               <DataTable.Title textStyle={styles.tableTitle}>
                 Members ({members})
               </DataTable.Title>
-              <DataTable.Title
-                style={{flexDirection: 'column'}}
-                textStyle={styles.tableTitle}>
-                <Text style={{fontWeight: 'bold'}}>Amount {''}</Text>
-                <Text style={{fontWeight: 'bold'}}>Per Person</Text>
+              <DataTable.Title textStyle={styles.tableTitle}>
+                <Text
+                  style={{fontWeight: 'bold', fontSize: 16}}
+                  ellipsizeMode={'tail'}
+                  numberOfLines={2}>
+                  Amount Per Person
+                </Text>
               </DataTable.Title>
             </DataTable.Header>
 
             {renderRow()}
           </DataTable>
-          <View style={styles.cardContentContainer}>
+          {/* <View style={styles.cardContentContainer}>
             <Section style={styles.termsHeaderContainer}>
               <Text style={styles.termsHeader}>
                 Prizepool will depend on how many slots are filled
               </Text>
               <Text style={styles.termsBody}>{notes}</Text>
             </Section>
-          </View>
+          </View> */}
         </View>
       </Modal>
     </Portal>
@@ -77,7 +79,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: BorderRadius.m,
   },
-  tableTitle: {...Fonts.h4, textAlign: 'center', color: Colors.dark},
+  tableTitle: {
+    ...Fonts.h4,
+    fontSize: 16,
+    textAlign: 'center',
+    color: Colors.dark,
+  },
   tableCell: {...Fonts.h5},
 
   card: {

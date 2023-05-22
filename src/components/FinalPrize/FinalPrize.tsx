@@ -7,6 +7,13 @@ import {Colors} from '@/utils/colors';
 import Card from '../Card/Card';
 
 export default function FinalPrize({data}: IFinalPrice) {
+  var uniqueContestList = data.filter(function (item: any, index: string) {
+    return (
+      data.findIndex(function (elem: any) {
+        return elem?.user?.profile_id === item?.user?.profile_id;
+      }) === index
+    );
+  });
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Final Prize</Text>
@@ -15,7 +22,7 @@ export default function FinalPrize({data}: IFinalPrice) {
           backgroundColor: Colors.grey,
         }}
         nestedScrollEnabled>
-        {data?.map((item: any) => (
+        {uniqueContestList?.map((item: any) => (
           <Card type={'prize'} item={item} />
         ))}
       </ScrollView>

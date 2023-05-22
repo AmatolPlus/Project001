@@ -15,7 +15,7 @@ const USER_IMAGE_PLACEHOLDER =
 
 const ProfileInfo = ({data, fullName, refetch}: IProfileInfo) => {
   const [userModal, setShowUserModal] = useState(false);
-  const [upload, {isLoading}] = useUploadProfileImageMutation({});
+  const [upload] = useUploadProfileImageMutation({});
   const [image, setImage] = useState();
   const handleModal = useCallback(() => {
     setShowUserModal(!userModal);

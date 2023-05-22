@@ -5,17 +5,15 @@ import {VerticalMargin} from '@/utils/spacing';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    justifyContent: 'space-between',
-    flex: 1,
-  },
+  container: {},
   input: {
-    height: 40,
-    backgroundColor: Colors.light,
+    ...Fonts.h5,
+    backgroundColor: Colors.white,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,
-    marginBottom: Spacing.m,
+    marginBottom: Spacing.s,
   },
+
   userNameContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -24,11 +22,14 @@ export const styles = StyleSheet.create({
   username: {
     borderRadius: BorderRadius.xs,
     borderBottomWidth: 0,
-    height: 40,
     width: '48%',
     backgroundColor: Colors.light,
   },
-  updateButton: {padding: Spacing.s, borderRadius: BorderRadius.xs},
+  updateButton: {
+    padding: Spacing.s,
+    marginTop: Spacing.s,
+    borderRadius: BorderRadius.xs,
+  },
   divider: {...VerticalMargin('m')},
   updateText: {color: Colors.white, ...Fonts.h3, fontSize: fontSize.h5},
 });

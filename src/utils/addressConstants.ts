@@ -41,15 +41,11 @@ export function validateAddressForm(
   address: string,
   pincode: string,
 ) {
-  // Regular expression for matching 6-digit Indian pin codes
   const pincodeRegex = /^[1-9][0-9]{5}$/;
 
-  // Check if all fields are filled
   if (!city || !state || !address || !pincode) {
     return {message: 'Please fill out all fields.', valid: false};
   }
-
-  // Check if the pincode matches the regex pattern
   if (!pincodeRegex.test(pincode)) {
     return {message: 'Please enter a valid pincode.', valid: false};
   }

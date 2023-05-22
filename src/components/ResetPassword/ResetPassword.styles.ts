@@ -18,7 +18,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   input: {
-    height: Spacing.xl * 2,
     backgroundColor: Colors.white,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,

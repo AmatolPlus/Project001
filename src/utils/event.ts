@@ -9,7 +9,6 @@ export const canJoinEvent = (
 
   const presentDateMoment = moment();
 
-  // Check if the present date is after the joinEnd date and before the present date
   const isAfterJoinEnd = presentDateMoment.isAfter(joinEndDateMoment);
 
   if (isAfterJoinEnd) {

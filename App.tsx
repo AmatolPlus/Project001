@@ -2,7 +2,7 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {Provider as PaperProvider} from 'react-native-paper';
@@ -15,6 +15,7 @@ import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
+import {checkForUpdate} from '@/utils/appUpdate';
 
 const HeaderIcon = ({navigation}: any) => {
   return (
@@ -30,6 +31,8 @@ const HeaderIcon = ({navigation}: any) => {
 };
 
 function App(): JSX.Element {
+  checkForUpdate();
+
   const MainStack = createNativeStackNavigator();
 
   return (

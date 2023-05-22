@@ -14,6 +14,7 @@ import {canLikeEvent} from '@/utils/event';
 const PostCard = ({
   contestImage,
   caption,
+  contest_ended,
   likeCount,
   likeEndDate,
   onLike,
@@ -69,7 +70,12 @@ const PostCard = ({
         <Text ellipsizeMode={'tail'} numberOfLines={1} style={{...Fonts.h5}}>
           {caption}
         </Text>
-        <Text style={{...Fonts.h6, color: Colors.dark2}}>
+        {contest_ended && (
+          <Text ellipsizeMode={'tail'} numberOfLines={1} style={{...Fonts.h5}}>
+            ₹ {item?.prize_money}
+          </Text>
+        )}
+        <Text style={{...Fonts.h5, color: Colors.dark2}}>
           {likeCount} LIKES
         </Text>
       </View>

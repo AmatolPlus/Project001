@@ -1,10 +1,11 @@
+import {height} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   postCard: {
-    height: 250,
+    height: 300,
     width: 189,
     marginTop: Spacing.xs,
     backgroundColor: Colors.light,
@@ -26,7 +27,6 @@ export const styles = StyleSheet.create({
   postCardImage: {
     position: 'absolute',
     bottom: 0,
-    height: 55,
     width: '100%',
     backgroundColor: Colors.white,
     gap: 2,

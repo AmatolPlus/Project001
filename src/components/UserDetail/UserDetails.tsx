@@ -77,15 +77,6 @@ const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
             selectedOption={gender || form?.gender}
           />
         </View>
-        {/* <TouchableOpacity onPress={handleGenderPickerToggle}>
-          <TextInput
-            label={'Gender'}
-            editable={false}
-            style={styles.input}
-            value={gender || form?.gender}
-            onChangeText={value => onChange('gender', value)}
-          />
-        </TouchableOpacity> */}
         <TextInput
           label={'Hobby'}
           style={styles.input}
@@ -98,7 +89,6 @@ const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
             label={'BirthDay'}
             style={styles.input}
             value={date || form?.birthday}
-            onChangeText={val => onChange('birthday', date)}
           />
         </Pressable>
       </View>

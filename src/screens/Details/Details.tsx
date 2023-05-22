@@ -41,14 +41,14 @@ import FinalPrize from '@/components/FinalPrize/FinalPrize';
 export default function Details() {
   const {params}: any = useRoute();
   const id: string = params?.id;
-  const [isPrizeChartShown, setPriceChartShown] = useState(false);
+  const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
-  const [joinEvent]: any = useJoinContestMutation({});
+  const [joinEvent]: any = useJoinContestMutation();
   const [confirmPayment]: any = useConfirmPaymentMutation({});
   const {data: finalPrize}: any = useFinalPrizeQuery(id);
   const {data: user} = useUserDetailsQuery({});
   const [isExpanded, setIsExpanded] = useState(false);
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const [like, {isLoading: isLikeLoading}] = useLikeContestMutation({});
 
   const handleMorePostsNavigation = useCallback(() => {
@@ -165,6 +165,7 @@ export default function Details() {
   const renderPosts = ({item}: any) => {
     return (
       <PostCard
+        contest_ended={data?.contest_ended}
         likeEndDate={data?.like_end_date}
         onLike={handleLike}
         loading={isLikeLoading}
@@ -336,6 +337,7 @@ export default function Details() {
           />
         </Section>
       </View>
+
       {data?.contest_ended && <FinalPrize data={finalPrize} />}
 
       <PriceChart

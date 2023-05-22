@@ -4,18 +4,16 @@ import {Portal} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {FlashList} from '@shopify/flash-list';
 
-import {Image, Modal, Text} from '@/ui';
+import {Modal, Text} from '@/ui';
 import {styles} from './ParticipantsList.styles';
-import {getFullName} from '@/utils/getFullName';
 import {Colors} from '@/utils/colors';
 import Participants from '../Participants/Participants';
 import Card from '../Card/Card';
+import {filteredList} from '@/utils/getFilteredList';
 
-const USER_IMAGE_PLACEHOLDER =
-  'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
-
-const ParticipantsList = ({participants, data}: any) => {
+const ParticipantsList = ({data}: {data: any[]}) => {
   const [visible, setVisible] = useState(false);
+  const filteredArray = filteredList(data);
 
   const handleModalToggle = useCallback(() => {
     setVisible(!visible);
@@ -38,9 +36,9 @@ const ParticipantsList = ({participants, data}: any) => {
   return (
     <View>
       <Participants
-        participants={participants}
+        participants={filteredArray.length}
         handleModalToggle={handleModalToggle}
-        data={data}
+        data={filteredArray}
       />
       <Portal>
         <Modal
@@ -55,7 +53,7 @@ const ParticipantsList = ({participants, data}: any) => {
               renderItem={({item}: any) => {
                 return <Card userName={item?.user?.first_name} item={item} />;
               }}
-              data={data}
+              data={filteredArray}
             />
           </View>
         </Modal>
