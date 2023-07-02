@@ -1,20 +1,16 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
 
 import {ActivityIndicator, Image, Text} from '@/ui';
 import {styles} from './PostCard.styles';
-import {Colors} from '@/utils/colors';
 import {Fonts} from '@/utils/fonts';
 import {IPostCard} from './PostCard.types';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
-import RankTag from '../RankTag/RankTag';
 import {canLikeEvent} from '@/utils/event';
 
 const PostCard = ({
   contestImage,
   caption,
-  contest_ended,
   likeCount,
   likeEndDate,
   onLike,
@@ -23,8 +19,6 @@ const PostCard = ({
 }: IPostCard) => {
   const [confirmModalShown, setShowConfirmModal] = useState(false);
   const [liked, setLiked] = useState(false);
-
-  console.log(item);
 
   const canLike = canLikeEvent(likeEndDate);
   useEffect(() => {
@@ -55,7 +49,11 @@ const PostCard = ({
           {loading ? (
             <ActivityIndicator />
           ) : (
-            <Entypo name="thumbs-up" size={22} color={Colors.danger} />
+            <Image
+              resizeMode="contain"
+              source={require('@/assets/images/highfive.png')}
+              style={styles.likeImage}
+            />
           )}
         </TouchableOpacity>
       ) : (
@@ -68,11 +66,11 @@ const PostCard = ({
             <Text
               ellipsizeMode={'tail'}
               numberOfLines={1}
-              style={{...Fonts.h5}}>
+              style={{...Fonts.h4}}>
               {caption}
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text>{likeCount}</Text>
+              <Text style={{...Fonts.h4}}>{likeCount}</Text>
               <Image
                 resizeMode="contain"
                 source={require('@/assets/images/highfive.png')}
@@ -81,8 +79,8 @@ const PostCard = ({
             </View>
           </View>
           <View style={styles.bannerTextAlignment}>
-            <Text>{item?.user?.profile_id || '-'}</Text>
-            <Text>{item?.rank || '-'}</Text>
+            <Text style={styles.username}>{item?.user?.profile_id || '-'}</Text>
+            <Text>{`#${item?.rank}` || '-'}</Text>
           </View>
         </View>
       </View>

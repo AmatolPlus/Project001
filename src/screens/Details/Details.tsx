@@ -182,6 +182,7 @@ export default function Details() {
     entry_price: data?.entry_price,
     total_prize_money: data?.total_prize_money,
     end_date,
+    contest_ended: data?.contest_ended,
     prize_chart: data?.prize_chart,
     notes: data?.notes,
     is_canceled: data?.is_canceled,
