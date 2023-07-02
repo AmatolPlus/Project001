@@ -1,30 +1,31 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
-import {SectionList, View} from 'react-native';
+import {SectionList, RefreshControl, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
-import {ActivityIndicator, Image, Text} from '@/ui';
+import {ActivityIndicator, Text} from '@/ui';
 import {ScreenNames} from '@/utils/screenName';
 import {useSectionQuery} from '@/services/apis/contests.api';
-import {TouchableOpacity} from 'react-native';
 import {styles} from './Home.styles';
 import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import JoinTag from '@/components/JoinTag/JoinTag';
-import {Fonts} from '@/utils/fonts';
-import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsTag';
 import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
+import {useStoragePermission} from '@/hooks/getStoragePermission';
+import {fontSize} from '@/utils/fonts';
+import {ContestCard} from '@/components/ContestCard/ContestCard';
 
-export default function Home() {
+function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
-  const {data, isError, isLoading}: any = useSectionQuery({});
+  const {data, isError, refetch, isLoading}: any = useSectionQuery({});
   const {data: user}: any = useUserDetailsQuery({});
 
   useBackHandler();
+  useStoragePermission();
 
   useEffect(() => {
     if (data) {
@@ -52,42 +53,26 @@ export default function Home() {
   }
 
   if (isLoading) {
-    return <ActivityIndicator />;
+    return (
+      <View style={{alignItems: 'center', justifyContent: 'center', flex: 1}}>
+        <ActivityIndicator />
+      </View>
+    );
   }
 
   const renderItem = ({item}: any) => {
+    console.log(item);
     return (
-      <TouchableOpacity
-        onPress={() => handleDetailNavigation(item)}
-        style={styles.imageContainer}>
-        <JoinTag isLive={!item?.contest_ended} />
-        <MaxParticipantsTag
-          joined={item.joined_list_count}
-          total={item.total_competators}
-        />
-        <Image
-          resizeMode={'cover'}
-          style={styles.image}
-          source={{
-            uri: item.sample_image_url,
-          }}
-        />
-        <View style={styles.infoContainer}>
-          <Text style={styles.name}>{item.concept_name.toUpperCase()}</Text>
-          <Text style={styles.price}>
-            <Text style={styles.priceLabel}>ENTRY FEE :</Text>
-            {item.entry_price}
-          </Text>
-
-          {item?.is_joined_by_me ? (
-            <Text style={{...Fonts.h5}}>JOINED</Text>
-          ) : (
-            <></>
-          )}
-        </View>
-      </TouchableOpacity>
+      <ContestCard
+        showPrizeChartButton={false}
+        item={item}
+        navigation={handleDetailNavigation}
+        width={undefined}
+      />
     );
   };
+
+  // 5 to 25 chars // profile_id @ . + - _
 
   const renderHeader = ({section: {title, data, id}}: any) =>
     data.length ? (
@@ -98,7 +83,7 @@ export default function Home() {
             <SimpleLineIcons
               onPress={() => handleContestNavigation(id)}
               name="arrow-right"
-              size={20}
+              size={fontSize.h6}
               color="black"
             />
           ) : (
@@ -106,6 +91,7 @@ export default function Home() {
           )}
         </View>
         <FlashList
+          keyExtractor={(item: any) => item?.id?.toString()}
           data={data}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -122,6 +108,9 @@ export default function Home() {
     <View style={styles.container}>
       {!user?.password_configured && <PasswordCheck />}
       <SectionList
+        refreshControl={
+          <RefreshControl onRefresh={refetch} refreshing={false} />
+        }
         sections={formattedData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item, index) => item + index}
@@ -131,3 +120,5 @@ export default function Home() {
     </View>
   );
 }
+
+export default Home;

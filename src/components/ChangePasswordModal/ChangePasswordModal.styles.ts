@@ -15,11 +15,21 @@ export const styles = StyleSheet.create({
     padding: Spacing.xl,
     justifyContent: 'space-between',
   },
+  header: {
+    ...Fonts.h2,
+    marginBottom: Spacing.m,
+  },
+
+  info: {
+    marginBottom: Spacing.m,
+    ...Fonts.h2,
+    fontSize: fontSize.h2 / 2,
+    color: Colors.danger,
+  },
   input: {
     backgroundColor: Colors.white,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,
-    height: Spacing.xl * 2,
     marginBottom: Spacing.l,
     paddingHorizontal: Spacing.m,
   },

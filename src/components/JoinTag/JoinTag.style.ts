@@ -6,9 +6,7 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.xs,
-    width: '30%',
     left: 0,
-    backgroundColor: Colors.dark,
     top: 20,
     borderTopRightRadius: BorderRadius.xs,
     borderBottomRightRadius: BorderRadius.xs,

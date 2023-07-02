@@ -1,40 +1,94 @@
-import React, {memo} from 'react';
+import React, {memo, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import Entypo from 'react-native-vector-icons/Entypo';
 
-import {Image, Text} from '@/ui';
+import {ActivityIndicator, Image, Text} from '@/ui';
 import {styles} from './PostCard.styles';
-import {Colors} from '@/utils/colors';
 import {Fonts} from '@/utils/fonts';
 import {IPostCard} from './PostCard.types';
+import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
+import {canLikeEvent} from '@/utils/event';
 
 const PostCard = ({
   contestImage,
   caption,
-  liked,
   likeCount,
+  likeEndDate,
   onLike,
+  loading,
+  item,
 }: IPostCard) => {
+  const [confirmModalShown, setShowConfirmModal] = useState(false);
+  const [liked, setLiked] = useState(false);
+
+  const canLike = canLikeEvent(likeEndDate);
+  useEffect(() => {
+    setLiked(item?.is_liked_by_me);
+  }, [item]);
+
+  const handleToggleConfirmModal = useCallback(() => {
+    setShowConfirmModal(!confirmModalShown);
+  }, [confirmModalShown]);
+
+  const handleOnLike = useCallback(() => {
+    try {
+      onLike(item, setLiked, liked);
+      handleToggleConfirmModal();
+    } catch (error) {}
+  }, [onLike, item, liked, handleToggleConfirmModal]);
+
   return (
     <View style={styles.postCard}>
       <Image
         style={{...StyleSheet.absoluteFillObject}}
         source={{uri: contestImage}}
       />
-
-      {!liked ? (
-        <TouchableOpacity onPress={onLike} style={styles.likeBtn}>
-          <Entypo name="thumbs-up" size={22} color={Colors.danger} />
+      {canLike && !liked ? (
+        <TouchableOpacity
+          onPress={handleToggleConfirmModal}
+          style={styles.likeBtn}>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Image
+              resizeMode="contain"
+              source={require('@/assets/images/highfive.png')}
+              style={styles.likeImage}
+            />
+          )}
         </TouchableOpacity>
       ) : (
         <></>
       )}
+
       <View style={styles.postCardImage}>
-        <Text style={{...Fonts.h4}}>{caption}</Text>
-        <Text style={{...Fonts.h6, color: Colors.dark2}}>
-          {likeCount} LIKES
-        </Text>
+        <View>
+          <View style={styles.bannerTextAlignment}>
+            <Text
+              ellipsizeMode={'tail'}
+              numberOfLines={1}
+              style={{...Fonts.h4}}>
+              {caption}
+            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{...Fonts.h4}}>{likeCount}</Text>
+              <Image
+                resizeMode="contain"
+                source={require('@/assets/images/highfive.png')}
+                style={styles.likeImage}
+              />
+            </View>
+          </View>
+          <View style={styles.bannerTextAlignment}>
+            <Text style={styles.username}>{item?.user?.profile_id || '-'}</Text>
+            <Text>{`#${item?.rank}` || '-'}</Text>
+          </View>
+        </View>
       </View>
+      <ConfirmLikeModal
+        visible={confirmModalShown}
+        onClose={handleToggleConfirmModal}
+        onConfirmLike={handleOnLike}
+      />
     </View>
   );
 };

@@ -1,7 +1,7 @@
 import {Colors} from '@/utils/colors';
 import {Fonts} from '@/utils/fonts';
 import React, {useCallback, useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, ToastAndroid} from 'react-native';
 import Chip from './Chip';
 import Snackbar from './SnackBar';
 import Text from './Text';
@@ -18,8 +18,18 @@ export const Withdraw = ({currentAmount, threshold, onWithdraw}: IWithdraw) => {
   const [isDisabled, setDisabled] = useState(true);
   const [showSnackbar, setSnackbar] = useState(false);
 
+  const showToastWithGravityAndOffset = () => {
+    ToastAndroid.showWithGravityAndOffset(
+      DISABLE_WITHDRAW,
+      ToastAndroid.LONG,
+      ToastAndroid.BOTTOM,
+      25,
+      50,
+    );
+  };
+
   useEffect(() => {
-    if (currentAmount < threshold) {
+    if (currentAmount < threshold || currentAmount === 0) {
       setDisabled(true);
     } else {
       setDisabled(false);
@@ -28,7 +38,7 @@ export const Withdraw = ({currentAmount, threshold, onWithdraw}: IWithdraw) => {
 
   const handleWidthdraw = useCallback(() => {
     if (isDisabled) {
-      setSnackbar(true);
+      showToastWithGravityAndOffset();
     } else {
       onWithdraw();
     }

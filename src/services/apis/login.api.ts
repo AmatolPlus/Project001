@@ -38,6 +38,24 @@ export const loginService = createApi({
         url: 'auth/user/',
       }),
     }),
+    uploadProfileImage: build.mutation({
+      query: (body: any) => {
+        const formData: any = new FormData();
+        formData.append('file', {
+          uri: body?.file?.uri,
+          type: body?.file?.type,
+          name: body?.file?.fileName || 'image.jpg',
+        });
+        return {
+          method: 'POST',
+          url: 'auth/user/upload_profile_image/',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      },
+    }),
     updateUserDetails: build.mutation({
       query: body => ({
         method: 'PUT',
@@ -76,30 +94,19 @@ export const loginService = createApi({
   }),
 });
 
-const {
+export const {
+  useUploadProfileImageMutation,
   useLoginMutation,
   useValidateOtpMutation,
-  useUserDetailsQuery,
   useResendOtpMutation,
   useUpdatePasswordMutation,
   useUpdateUserDetailsMutation,
   useResetPasswordMutation,
   useConfirmResetPasswordMutation,
   useLoginWithPinMutation,
+  useUserDetailsQuery,
 } = loginService;
 
-const loginReducerPath = loginService.reducerPath;
+export const loginReducerPath = loginService.reducerPath;
 
-export {
-  useLoginMutation,
-  useValidateOtpMutation,
-  useResendOtpMutation,
-  useUpdatePasswordMutation,
-  loginReducerPath,
-  useUpdateUserDetailsMutation,
-  useUserDetailsQuery,
-  useResetPasswordMutation,
-  useConfirmResetPasswordMutation,
-  useLoginWithPinMutation,
-};
 export type {ILoginRequest, IValidateRequest};

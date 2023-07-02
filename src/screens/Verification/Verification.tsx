@@ -83,7 +83,6 @@ const VerificationScreen = () => {
         let token = data?.token;
         dispatch(saveUserInfo(data));
         await set('token', token);
-        console.log(data);
         if (!data?.password_configured) {
           handleToggleChangePasswordModal();
         } else {

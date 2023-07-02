@@ -11,6 +11,7 @@ import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
 import styles from './Login.styles';
 import {fontSize} from '@/utils/fonts';
+import {useBackHandler} from '@/hooks/useBackHandler';
 
 const LoginScreen = () => {
   const [loginForm, setForm] = useState<ILoginRequest>({
@@ -25,6 +26,8 @@ const LoginScreen = () => {
     let status = phoneRegex.test(`${loginForm?.mobile_number}`);
     return status;
   }
+
+  useBackHandler();
 
   const handleFormUpdate = (key: keyof FormState, value: string) => {
     setForm((prevState: any) => ({
@@ -82,6 +85,7 @@ const LoginScreen = () => {
         <Text style={styles.title}>{appConfig.name}</Text>
         <View style={styles.inputContainer}>
           <TextInput
+            maxLength={10}
             mode="outlined"
             outlineColor={Colors.grey}
             activeOutlineColor={Colors.dark}
@@ -111,6 +115,15 @@ const LoginScreen = () => {
           </Text>
         </Button>
       </View>
+      <Text
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          bottom: 10,
+          color: Colors.info,
+        }}>
+        Facing Any Issue? Contact us
+      </Text>
     </View>
   );
 };

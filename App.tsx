@@ -2,7 +2,7 @@
 import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {Provider as PaperProvider} from 'react-native-paper';
@@ -10,12 +10,12 @@ import {Provider as PaperProvider} from 'react-native-paper';
 import {theme} from './src/utils/theme';
 import {LoginStack, TabStack} from './src/routes';
 import {store} from '@/services/store.config';
-import {ContestList, Details} from '@/screens';
+import {ContestList, Launch, MorePosts, Details} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
-import Launch from '@/screens/Launch/Launch';
+import {checkForUpdate} from '@/utils/appUpdate';
 
 const HeaderIcon = ({navigation}: any) => {
   return (
@@ -31,6 +31,8 @@ const HeaderIcon = ({navigation}: any) => {
 };
 
 function App(): JSX.Element {
+  checkForUpdate();
+
   const MainStack = createNativeStackNavigator();
 
   return (
@@ -67,6 +69,17 @@ function App(): JSX.Element {
             <MainStack.Screen
               name={ScreenNames.contestList}
               component={ContestList}
+              options={({navigation}) => ({
+                headerTitle: 'Contests',
+                headerTitleStyle: {...Fonts.h1},
+                headerLeft: () => {
+                  return <HeaderIcon navigation={navigation} />;
+                },
+              })}
+            />
+            <MainStack.Screen
+              name={ScreenNames.morePosts}
+              component={MorePosts}
               options={({navigation}) => ({
                 headerTitle: 'Contests',
                 headerTitleStyle: {...Fonts.h1},

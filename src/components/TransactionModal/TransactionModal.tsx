@@ -1,31 +1,25 @@
-import {Image, Modal, Text} from '@/ui';
+import {ActivityIndicator, Image, Modal, Text} from '@/ui';
 import React, {useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
 import {Pressable, SectionList, View} from 'react-native';
-import {styles} from './TransactionModal.styles';
 import moment from 'moment';
-import {Colors} from '@/utils/colors';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Spacing} from '@/utils/constants';
-import {data} from '@/utils/mockData';
 
-function formatHistory(history: []) {
+import {styles} from './TransactionModal.styles';
+import {Colors} from '@/utils/colors';
+import {Spacing} from '@/utils/constants';
+import {useWalletTransactionsQuery} from '@/services/apis/wallet.api';
+import {RefreshControl} from 'react-native';
+
+function formatHistory(history: any) {
   if (history) {
-    let itemList = history.map(
-      (obj: {
-        history: any;
-        date: string;
-        to: string;
-        items: object;
-        id: string;
-      }) => {
-        let title = obj?.date;
-        let id = obj.id;
-        let items = obj.history;
+    let itemList = history?.results.map(
+      (obj: {created: any; to: string; items: object}) => {
+        let title = obj?.created;
+        let items = obj;
         return {
-          title,
-          data: items,
-          id,
+          title: moment(title).format('dddd'),
+          data: [items],
         };
       },
     );
@@ -36,37 +30,56 @@ function formatHistory(history: []) {
 }
 
 const TransactionModal = () => {
+  const [page, setPage] = useState(1);
+  let {data, refetch, isLoading} = useWalletTransactionsQuery(page);
   let [formattedData, setFormattedData] = useState([]);
   const [transactionModal, setTransactionModal] = useState(false);
+
+  const pageInfo = data?.current || '<Page 1 of 2>';
+  const currentPage = parseInt(pageInfo.split(' ')[1], 10);
+  const maxPages = parseInt(pageInfo.split(' ')[3].slice(0, -1), 10);
+
+  const handleChangePage = useCallback(
+    (action: 'next' | 'previous') => {
+      setPage(action === 'next' ? page + 1 : page - 1);
+    },
+    [page],
+  );
 
   const handleToggleTransactionModal = useCallback(() => {
     setTransactionModal(!transactionModal);
   }, [transactionModal]);
 
   useEffect(() => {
-    if (data) {
-      let formattedList: any = formatHistory(data);
-      setFormattedData(formattedList);
-    }
-  }, []);
+    let formattedList: any = formatHistory(data);
+    setFormattedData(formattedList);
+  }, [data]);
+
+  const renderFooter = useCallback(() => {
+    return (
+      <View style={styles.buttonContainer}>
+        {maxPages !== currentPage && (
+          <Text style={styles.button} onPress={() => handleChangePage('next')}>
+            Next
+          </Text>
+        )}
+        {page !== 1 && (
+          <Text
+            style={styles.button}
+            onPress={() => handleChangePage('previous')}>
+            Previous
+          </Text>
+        )}
+      </View>
+    );
+  }, [currentPage, handleChangePage, maxPages, page]);
 
   const renderHistory = ({item}: any) => {
     return (
       <View style={styles.card}>
         <View style={styles.cardItemsContainer}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: 'https://th.bing.com/th/id/OIP.oUlyiyRbU_VvNL4FnW6lRgHaNJ?pid=ImgDet&w=608&h=1080&rs=1',
-            }}
-          />
           <View>
-            <Text style={styles.to}>
-              {item.transaction_type === 'credit'
-                ? 'Credited By'
-                : 'Transferred to'}{' '}
-              {item.spent_on}
-            </Text>
+            <Text style={styles.to}>{item.remarks}</Text>
             <Text style={styles.transferredOn}>
               {moment(item.created_on).format('h:mm a, D MMMM YYYY')}
             </Text>
@@ -76,25 +89,26 @@ const TransactionModal = () => {
           <Text
             style={{
               ...styles.amount,
-              color:
-                item.transaction_type === 'credit'
-                  ? Colors.success
-                  : Colors.danger,
+              color: item.status === 'credit' ? Colors.success : Colors.danger,
             }}>
-            {item.transaction_type === 'credit' ? '+' : '-'} ₹ {item.amount}
+            {item.status === 'credit' ? '+' : '-'} ₹ {item.amount}
           </Text>
         </View>
       </View>
     );
   };
 
-  const renderHeader = ({section: {title}}: any) => (
-    <View>
-      <View>
-        <Text style={styles.date}>{title}</Text>
-      </View>
-    </View>
-  );
+  if (isLoading) {
+    return <ActivityIndicator />;
+  }
+
+  // const renderHeader = ({section: {title}}: any) => (
+  //   <View>
+  //     <View>
+  //       <Text style={styles.date}>{title}</Text>
+  //     </View>
+  //   </View>
+  // );
 
   return (
     <View>
@@ -120,8 +134,12 @@ const TransactionModal = () => {
 
             <View style={styles.listContainer}>
               <SectionList
+                refreshControl={
+                  <RefreshControl onRefresh={refetch} refreshing={isLoading} />
+                }
+                ListFooterComponent={renderFooter}
                 showsVerticalScrollIndicator={false}
-                renderSectionHeader={renderHeader}
+                renderSectionHeader={() => <></>}
                 sections={formattedData}
                 renderItem={renderHistory}
               />

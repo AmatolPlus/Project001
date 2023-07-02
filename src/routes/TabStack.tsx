@@ -2,22 +2,43 @@
 import React, {useEffect, useState} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Text} from '@/ui';
 
 import {Home, Profile} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts, fontSize} from '@/utils/fonts';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import {get} from '@/utils/storage';
 import {Colors} from '@/utils/colors';
 import {options} from '@/utils/navigationConfig';
+import {BorderRadius, Spacing} from '@/utils/constants';
+import {width} from '@/utils/Dimension';
+import Transactions from '@/screens/Transactions/Transactions';
 
-const ProfileIcon = ({color, size}: any) => (
-  <Ionicons name="person" color={color} size={size} />
-);
+const ProfileIcon = ({color, size, focused}: any) =>
+  focused ? (
+    <Ionicons name="md-person" size={Spacing.xl * 1.3} color={Colors.white} />
+  ) : (
+    <Ionicons name="person-outline" size={size} color={Colors.light} />
+  );
 
-const HomeIcon = ({color, size}: any) => (
-  <Ionicons name="home" color={color} size={size} />
-);
+const WalletIcon = ({color, size, focused}: any) =>
+  focused ? (
+    <Ionicons
+      name="wallet-sharp"
+      size={Spacing.xl * 1.3}
+      color={Colors.white}
+    />
+  ) : (
+    <Ionicons name="wallet-outline" size={size} color={Colors.light} />
+  );
+
+const HomeIcon = ({color, size, focused}: any) =>
+  focused ? (
+    <Ionicons name="md-home" color={Colors.white} size={Spacing.xl * 1.3} />
+  ) : (
+    <Ionicons name="home-outline" size={size} color={Colors.light} />
+  );
 
 export default function TabStack() {
   const [sessionToken, setSessionToken] = useState('');
@@ -32,19 +53,48 @@ export default function TabStack() {
     <Tab.Navigator
       screenOptions={{
         tabBarHideOnKeyboard: true,
+        tabBarShowLabel: false,
+        tabBarStyle: {
+          position: 'absolute',
+          marginHorizontal: Spacing.l,
+          marginBottom: Spacing.l,
+          borderRadius: BorderRadius.l,
+          elevation: 2,
+          backgroundColor: Colors.dark,
+        },
       }}>
       <Tab.Screen
         options={{
           tabBarIcon: HomeIcon,
-          headerTitle: 'HighFive',
-          headerTitleStyle: {
-            ...Fonts.title,
-            fontSize: fontSize.title,
-            color: Colors.dark2,
-          },
+          headerTitle: () => (
+            <View
+              style={{
+                display: 'flex',
+                alignSelf: 'center',
+                width: width,
+              }}>
+              <Text
+                style={{
+                  ...Fonts.title,
+                  textAlign: 'center',
+                  fontSize: fontSize.title,
+                  color: Colors.dark2,
+                }}>
+                HighFive
+              </Text>
+            </View>
+          ),
         }}
         name={ScreenNames.home}
         component={Home}
+      />
+      <Tab.Screen
+        options={({navigation}) => ({
+          ...options,
+          tabBarIcon: WalletIcon,
+        })}
+        name={ScreenNames.transactions}
+        component={Transactions}
       />
       <Tab.Screen
         options={({navigation}) => ({

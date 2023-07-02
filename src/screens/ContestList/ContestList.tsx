@@ -22,8 +22,11 @@ export default function ContestList() {
   }, [data]);
 
   const handleNavigation = useCallback(
-    (item: {id: any}) => {
-      navigation.navigate(ScreenNames.details, {id: item?.id});
+    (item: {concept_name: string; id: string}) => {
+      navigation.navigate(ScreenNames.details, {
+        id: item?.id,
+        concept_name: item?.concept_name,
+      });
     },
     [navigation],
   );

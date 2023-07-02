@@ -2,15 +2,17 @@ import {StyleSheet} from 'react-native';
 
 import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';
-import {Spacing} from '@/utils/constants';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {VerticalMargin} from '@/utils/spacing';
+import {height, width} from '@/utils/Dimension';
 
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.l,
-    flex: 1,
+    height: height,
+    width: width,
     backgroundColor: Colors.light,
-    paddingBottom: Spacing.xl,
+    paddingBottom: Spacing.xl * 6,
   },
   listContainer: {
     paddingBottom: Spacing.l,
@@ -27,13 +29,14 @@ export const styles = StyleSheet.create({
     ...VerticalMargin('s'),
     width: 300,
     height: 300,
+    borderRadius: BorderRadius.s,
     marginRight: Spacing.m,
     borderWidth: 0.5,
     borderColor: Colors.dark2,
     overflow: 'hidden',
   },
   image: {
-    height: '80%',
+    height: '70%',
     width: '100%',
     borderBottomColor: Colors.dark2,
     borderBottomWidth: 0.5,
@@ -44,24 +47,28 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   infoContainer: {
-    gap: 4,
     marginTop: Spacing.m,
     paddingHorizontal: Spacing.l,
   },
   eventInfo: {},
   name: {
+    textAlign: 'center',
     ...Fonts.h3,
     fontSize: fontSize.h6,
-    color: Colors.dark2,
+    color: Colors.dark,
   },
   priceLabel: {
     ...Fonts.h3,
     fontSize: fontSize.h6,
-    color: Colors.grey,
+    color: Colors.dark,
   },
   price: {
     ...Fonts.h3,
     fontSize: fontSize.h6,
-    color: Colors.grey,
+    color: Colors.dark,
+  },
+  contestInfoContainer: {
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
 });

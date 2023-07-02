@@ -12,7 +12,7 @@ import Text from './Text';
 
 export default function Ticket({
   created_on,
-  ends_on,
+  ended_on,
   entry_fee,
   days,
   contest_name,
@@ -23,7 +23,7 @@ export default function Ticket({
         <View>
           <Text style={styles.date}>Started on</Text>
           <Text style={styles.date}>
-            {moment(created_on).format('MMM Do YY')}
+            {moment(created_on).format('DD MMM YYYY')}
           </Text>
         </View>
       </View>
@@ -41,7 +41,9 @@ export default function Ticket({
         </View>
         <View>
           <Text style={styles.date}>Ends on</Text>
-          <Text style={styles.date}>{moment(ends_on).format('MMM Do YY')}</Text>
+          <Text style={styles.date}>
+            {moment(ended_on).format('DD MMM YYYY')}
+          </Text>
         </View>
         <View>
           <Text style={styles.date}>Event By</Text>

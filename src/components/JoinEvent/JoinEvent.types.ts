@@ -2,8 +2,9 @@ export interface IJoinEvent {
   thresholdOccupancy: number;
   currentOccupancy: number;
   joinEndDate: string;
+  mobile_number: string;
   entryFee: string | number;
   contestName: string;
-  joinStartDate: string;
-  onJoinEvent: () => void;
+  started_on: string;
+  onJoinEvent: any;
 }

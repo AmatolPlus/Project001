@@ -1,57 +1,53 @@
-import {Colors} from '@/utils/colors';
-import moment from 'moment';
 import React, {useCallback, useState} from 'react';
-import {View} from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import {ToastAndroid, View} from 'react-native';
+
+import {useWalletAmountQuery} from '@/services/apis/wallet.api';
+
 import {Button, Text} from '@/ui';
-import Snackbar from '@/ui/SnackBar';
 import {canJoinEvent} from '@/utils/event';
 import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
 import {IJoinEvent} from './JoinEvent.types';
-import {useWalletAmountQuery} from '@/services/apis/wallet.api';
+import {Colors} from '@/utils/colors';
 
 const DISABLE_JOIN = 'Joining period for this event has ended';
 
 export const JoinEvent = ({
-  joinStartDate,
   contestName,
   entryFee,
   joinEndDate,
+  started_on,
+  mobile_number,
   currentOccupancy,
   thresholdOccupancy,
   onJoinEvent,
 }: IJoinEvent) => {
   const [isOpen, setOpen] = useState(false);
-  const [showSnackbar, setSnackbar] = useState(false);
-  const days = moment(joinStartDate).diff(joinEndDate, 'days');
-  const canJoin = canJoinEvent(days, currentOccupancy, thresholdOccupancy);
+  const canJoin = canJoinEvent(
+    joinEndDate,
+    currentOccupancy,
+    thresholdOccupancy,
+  );
   const {data: wallet} = useWalletAmountQuery({});
-
-  const handleJoin = useCallback(() => {
-    onJoinEvent();
-  }, [onJoinEvent]);
 
   const handleToggleModal = useCallback(() => {
     if (!canJoin) {
-      setSnackbar(true);
+      ToastAndroid.show(DISABLE_JOIN, ToastAndroid.LONG);
     } else {
       setOpen(!isOpen);
     }
   }, [canJoin, isOpen]);
 
+  const handleJoin = useCallback(
+    (image: any) => {
+      onJoinEvent(image);
+      handleToggleModal();
+    },
+    [handleToggleModal, onJoinEvent],
+  );
+
   return (
     <View style={styles.container}>
-      {!canJoin ? (
-        <View style={styles.iconContainer}>
-          <AntDesign name="infocirlceo" size={18} color={Colors.danger} />
-          <Text style={styles.deadlineAlert}>
-            The join deadline for this event is over.
-          </Text>
-        </View>
-      ) : (
-        <></>
-      )}
       <Button
         onPress={handleToggleModal}
         style={[
@@ -62,6 +58,9 @@ export const JoinEvent = ({
       </Button>
 
       <JoinEventConfirmModal
+        started_on={started_on}
+        ends_on={joinEndDate}
+        mobile_number={mobile_number}
         contestName={contestName}
         wallet={wallet?.earned_amount}
         entryFee={entryFee}
@@ -69,13 +68,6 @@ export const JoinEvent = ({
         onClose={handleToggleModal}
         onConfirm={handleJoin}
       />
-      <Snackbar
-        onDismiss={() => {
-          setSnackbar(false);
-        }}
-        visible={showSnackbar}>
-        {DISABLE_JOIN}
-      </Snackbar>
     </View>
   );
 };

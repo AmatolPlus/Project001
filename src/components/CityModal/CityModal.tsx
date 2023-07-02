@@ -1,10 +1,11 @@
 import React, {memo} from 'react';
 import {View} from 'react-native';
-import Modal from '../../ui/Modal';
 import {TouchableOpacity} from 'react-native';
+import Modal from '../../ui/Modal';
+import {Portal} from 'react-native-paper';
+
 import Text from '../../ui/Text';
 import {Spacing} from '@/utils/constants';
-import {Portal} from 'react-native-paper';
 import {styles} from './CityList.styles';
 import {getCitiesByState} from '@/utils/cities';
 import {ScrollView} from 'react-native';

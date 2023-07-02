@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
     padding: Spacing.l,
   },
   input: {
-    height: Spacing.xl * 2,
     backgroundColor: Colors.white,
     borderColor: Colors.grey,
     borderRadius: BorderRadius.xs,

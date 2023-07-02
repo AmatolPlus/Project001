@@ -8,7 +8,6 @@ import {Fonts, fontSize} from '@/utils/fonts';
 export const styles = StyleSheet.create({
   card: {
     width: width - Spacing.xl * 2,
-    height: height / 1.9,
     backgroundColor: Colors.white,
     borderRadius: BorderRadius.m,
     padding: Spacing.xl,

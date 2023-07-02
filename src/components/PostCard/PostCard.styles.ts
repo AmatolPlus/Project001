@@ -1,20 +1,31 @@
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
+import {Fonts} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   postCard: {
-    height: 250,
-    width: 200,
+    height: 300,
+    width: 189,
+    marginTop: Spacing.xs,
     backgroundColor: Colors.light,
     marginLeft: Spacing.xs,
     borderColor: Colors.grey,
     borderWidth: 1,
   },
+  likeImage: {
+    height: 24,
+    width: 24,
+  },
+  bannerTextAlignment: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 4,
+    marginTop: Spacing.xs,
+  },
   postCardImage: {
     position: 'absolute',
     bottom: 0,
-    height: 55,
     width: '100%',
     backgroundColor: Colors.white,
     gap: 2,
@@ -26,6 +37,9 @@ export const styles = StyleSheet.create({
     gap: 4,
     justifyContent: 'space-between',
   },
+  username: {
+    ...Fonts.h6,
+  },
   likeBtn: {
     borderRadius: BorderRadius.l,
     padding: Spacing.m,
@@ -34,7 +48,7 @@ export const styles = StyleSheet.create({
     width: 50,
     alignItems: 'center',
     position: 'absolute',
-    bottom: 65,
+    bottom: 70,
     right: Spacing.m,
   },
 });

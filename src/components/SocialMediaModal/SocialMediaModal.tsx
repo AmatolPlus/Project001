@@ -1,7 +1,7 @@
 import {Button, Modal, Text} from '@/ui';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
-import {Pressable, View} from 'react-native';
+import {Pressable, ToastAndroid, View} from 'react-native';
 import {Spacing} from '@/utils/constants';
 import Social from '../Social/Social';
 import {styles} from './SocialMediaModal.styles';
@@ -36,6 +36,7 @@ const SocialMediaModal = () => {
 
   const handleSubmit = useCallback(() => {
     update(form);
+    ToastAndroid.show('Links Updated SuccessFully', ToastAndroid.LONG);
     handleSocialChange();
   }, [form, handleSocialChange, update]);
 

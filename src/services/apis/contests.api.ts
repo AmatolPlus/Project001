@@ -20,13 +20,13 @@ export const contestService = createApi({
     contestDetail: build.query({
       query: id => ({
         method: 'GET',
-        url: `contest/${id}`,
+        url: `contest/${id}/`,
       }),
     }),
     section: build.query({
       query: () => ({
         method: 'GET',
-        url: 'contest/section',
+        url: 'contest/section/',
       }),
     }),
     moreContests: build.query({
@@ -56,30 +56,54 @@ export const contestService = createApi({
         body,
       }),
     }),
+    morePosts: build.query({
+      query: ({id, page}) => {
+        return {
+          method: 'GET',
+          url: `contest/joiners/?contest_id=${id}&page=${page}`,
+        };
+      },
+    }),
+    finalPrize: build.query({
+      query: (id: string) => ({
+        method: 'GET',
+        url: `contest/prize_distribution/?contest_id=${id}`,
+      }),
+    }),
+
+    uploadImage: build.mutation({
+      query: (body: any) => {
+        const formData: any = new FormData();
+        formData.append('title', body?.title);
+        formData.append('file', {
+          uri: body?.file?.uri,
+          type: body?.file?.type,
+          name: body?.file?.fileName || 'image.jpg',
+        });
+        return {
+          method: 'POST',
+          url: 'storage/image/',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        };
+      },
+    }),
   }),
 });
 
-const {
+export const {
   useConfirmPaymentMutation,
+  useUploadImageMutation,
   useContestDetailQuery,
+  useMorePostsQuery,
   useContestListQuery,
   useSectionQuery,
   useJoinContestMutation,
-  useConfirmPaymentMutation,
+  useFinalPrizeQuery,
   useLikeContestMutation,
   useMoreContestsQuery,
 } = contestService;
 
-const contestReducerPath = contestService.reducerPath;
-
-export {
-  useContestDetailQuery,
-  useMoreContestsQuery,
-  useLikeContestMutation,
-  useConfirmPaymentMutation,
-  useSectionQuery,
-  useContestListQuery,
-  useConfirmPaymentMutation,
-  useJoinContestMutation,
-  contestReducerPath,
-};
+export const contestReducerPath = contestService.reducerPath;

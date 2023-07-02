@@ -1,7 +1,10 @@
 export interface IPostCard {
   contestImage: string;
-  liked: Boolean;
   likeCount: number;
-  onLike: () => void;
+  likeEndDate: string;
+  onLike: any;
+  item: any;
+  loading: any;
   caption: string;
+  contest_ended: boolean;
 }

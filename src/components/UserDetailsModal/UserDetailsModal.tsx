@@ -1,7 +1,7 @@
 import {Modal} from '@/ui';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
-import {View} from 'react-native';
+import {ToastAndroid, View} from 'react-native';
 import {Spacing} from '@/utils/constants';
 import {styles} from './UserDetailsModal.styles';
 import UserDetails from '../UserDetail/UserDetails';
@@ -19,22 +19,31 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
     hobby: '',
     birthday: '',
     gender: '',
+    profile_id: '',
   });
-  const [update]: any = useUpdateUserDetailsMutation({});
+  const [update, {error}]: any = useUpdateUserDetailsMutation();
   const {data: user, refetch} = useUserDetailsQuery({});
 
   const handleSubmit = useCallback(() => {
     try {
       update(form);
       refetch();
+      if (error) {
+        console.log(error);
+      } else {
+        ToastAndroid.show(
+          'User Details Updated SuccessFully',
+          ToastAndroid.LONG,
+        );
+      }
       onClose();
-    } catch (error) {}
-  }, [form, onClose, refetch, update]);
+    } catch (e) {}
+  }, [form, onClose, refetch, error, update]);
 
-  const handleChange = (attribute: keyof FormData, value: string) => {
+  const handleChange = (key: keyof FormData, value: string) => {
     setForm(prevState => ({
       ...prevState,
-      [attribute]: value,
+      [key]: value,
     }));
   };
 

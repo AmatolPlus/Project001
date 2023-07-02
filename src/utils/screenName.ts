@@ -8,5 +8,7 @@ export enum ScreenNames {
   home = 'Home',
   details = 'DetailsScreen',
   profile = 'Profile',
+  transactions = 'Transactions',
   contestList = 'ContestListScreen',
+  morePosts = 'MorePosts',
 }

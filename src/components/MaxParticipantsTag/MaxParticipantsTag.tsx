@@ -1,5 +1,6 @@
 import React, {memo} from 'react';
 import {View} from 'react-native';
+
 import {Text} from '@/ui';
 import {styles} from './MaxParticipantsTag.styles';
 import {IMaxParticipants} from './MaxParticipants.types';
