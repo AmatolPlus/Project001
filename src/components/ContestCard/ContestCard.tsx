@@ -2,7 +2,6 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Text, Image, Button} from '@/ui';
 import {ProgressBar} from 'react-native-paper';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import JoinTag from '../JoinTag/JoinTag';
 import {styles} from './ContestCard.styles';
 import moment from 'moment';
@@ -10,6 +9,7 @@ import CountdownTimer from '../CountdownTImer/CountdownTImer';
 import PriceChart from '@/ui/PrizeChart';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
+import {Colors} from '@/utils/colors';
 
 interface IContestCard {
   item: any;
@@ -60,7 +60,10 @@ export const ContestCard = ({
           </View>
           <View>
             <Text style={styles.label}>Ends in</Text>
-            <CountdownTimer targetDate={end_date} />
+            <CountdownTimer
+              textStyle={{color: Colors.danger}}
+              targetDate={end_date}
+            />
           </View>
           <View>
             <Text style={styles.label}>Entry</Text>
@@ -68,9 +71,9 @@ export const ContestCard = ({
           </View>
         </View>
         <View style={styles.progressBarContainer}>
-          <ProgressBar progress={progress} color={Colors.success} />
+          <ProgressBar progress={progress} color={Colors.danger} />
           <View style={styles.contestInfoContainer}>
-            <Text>
+            <Text style={{color: Colors.danger}}>
               {item?.total_competators - item?.joined_list_count} spots left
             </Text>
             <Text>{item?.total_competators} spots</Text>

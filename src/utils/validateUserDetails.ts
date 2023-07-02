@@ -5,10 +5,8 @@ function validateUserDetails(
   hobby: string,
   birthday: string,
   email: string,
-  profile_id: string,
 ): boolean {
   const validations = [
-    /^[\w.@+\-_\\]{5,25}$/.test(profile_id),
     /^[A-Za-z]+$/.test(firstname),
     /^[A-Za-z]+$/.test(lastname),
     /^(male|female)$/i.test(gender),

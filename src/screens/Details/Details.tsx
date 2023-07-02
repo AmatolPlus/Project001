@@ -398,9 +398,9 @@ export default function Details() {
         </>
       )}
 
-      {finalPrize?.length !== 0 &&
-        data?.contest_ended &&
-        !data?.isCancelled && <FinalPrize data={finalPrize} />}
+      {!data?.is_canceled &&
+        finalPrize?.length !== 0 &&
+        data?.contest_ended && <FinalPrize data={finalPrize} />}
 
       <TermsAndConditionsModal message={data?.tnc} />
     </ScrollView>

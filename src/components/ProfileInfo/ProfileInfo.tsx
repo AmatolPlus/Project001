@@ -13,7 +13,7 @@ import {useUploadProfileImageMutation} from '@/services/apis/login.api';
 const USER_IMAGE_PLACEHOLDER =
   'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
 
-const ProfileInfo = ({data, fullName, refetch}: IProfileInfo) => {
+const ProfileInfo = ({data, refetch}: IProfileInfo) => {
   const [userModal, setShowUserModal] = useState(false);
   const [upload] = useUploadProfileImageMutation({});
   const [image, setImage] = useState();
