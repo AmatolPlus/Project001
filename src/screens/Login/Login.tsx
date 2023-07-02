@@ -115,6 +115,15 @@ const LoginScreen = () => {
           </Text>
         </Button>
       </View>
+      <Text
+        style={{
+          position: 'absolute',
+          alignSelf: 'center',
+          bottom: 10,
+          color: Colors.info,
+        }}>
+        Facing Any Issue? Contact us
+      </Text>
     </View>
   );
 };

@@ -162,7 +162,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.light,
   },
-  noteTextContainer: {width: '70%'},
+  noteTextContainer: {width: '100%'},
   noteDate: {
     ...Fonts.h3,
     fontSize: fontSize.h6,

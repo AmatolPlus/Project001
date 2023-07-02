@@ -1,24 +1,22 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
 import {SectionList, RefreshControl, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
-import {ActivityIndicator, Image, Text} from '@/ui';
+import {ActivityIndicator, Text} from '@/ui';
 import {ScreenNames} from '@/utils/screenName';
 import {useSectionQuery} from '@/services/apis/contests.api';
-import {TouchableOpacity} from 'react-native';
 import {styles} from './Home.styles';
 import formatArray from '@/utils/formatData';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import JoinTag from '@/components/JoinTag/JoinTag';
-import MaxParticipantsTag from '@/components/MaxParticipantsTag/MaxParticipantsTag';
 import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 import {useStoragePermission} from '@/hooks/getStoragePermission';
-import TimerTag from '@/components/TimerTag/TimerTag';
 import {fontSize} from '@/utils/fonts';
+import {ContestCard} from '@/components/ContestCard/ContestCard';
 
 function Home() {
   const navigation: any = useNavigation();
@@ -63,34 +61,18 @@ function Home() {
   }
 
   const renderItem = ({item}: any) => {
-    const end_date = new Date(item?.join_end_date);
+    console.log(item);
     return (
-      <TouchableOpacity
-        onPress={() => handleDetailNavigation(item)}
-        style={styles.imageContainer}>
-        <JoinTag isLive={item?.contest_ended} />
-        <MaxParticipantsTag
-          joined={item.joined_list_count}
-          total={item.total_competators}
-        />
-        {!item.contest_ended && <TimerTag time={end_date} />}
-        <Image
-          resizeMode={'cover'}
-          style={styles.image}
-          source={{
-            uri: item.sample_image_url,
-          }}
-        />
-        <View style={styles.infoContainer}>
-          <Text style={styles.name}>{item.concept_name.toUpperCase()}</Text>
-          <Text style={styles.price}>
-            <Text style={styles.priceLabel}>ENTRY FEE :</Text> ₹
-            {item.entry_price}
-          </Text>
-        </View>
-      </TouchableOpacity>
+      <ContestCard
+        showPrizeChartButton={false}
+        item={item}
+        navigation={handleDetailNavigation}
+        width={undefined}
+      />
     );
   };
+
+  // 5 to 25 chars // profile_id @ . + - _
 
   const renderHeader = ({section: {title, data, id}}: any) =>
     data.length ? (

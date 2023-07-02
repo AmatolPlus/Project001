@@ -1,4 +1,5 @@
-import React, {useCallback, useMemo, useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React, {useCallback} from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -7,8 +8,6 @@ import {
   View,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {ProgressBar} from 'react-native-paper';
-import moment from 'moment';
 import RazorPayCheckout from 'react-native-razorpay';
 import {FlashList} from '@shopify/flash-list';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -21,33 +20,32 @@ import {
   useLikeContestMutation,
 } from '@/services/apis/contests.api';
 
-import {Card, Image, ActivityIndicator, Text, Section, Button} from '@/ui';
+import {ActivityIndicator, Text, Section} from '@/ui';
 import {Colors} from '@/utils/colors';
 import {styles} from './Details.styles';
-import {JoinEvent} from '@/components/JoinEvent/JointEvent';
-import Ticket from '@/ui/Ticket';
-import PriceChart from '@/ui/PrizeChart';
 import PostCard from '@/components/PostCard/PostCard';
-import {canJoinEvent} from '@/utils/event';
 import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
-import {fontSize} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import TermsAndConditionsModal from '@/components/TermsAndConditions/TermsAndConditions';
 import LikeExpiry from '@/components/LikeExpiry/LikeExpiry';
 import {ScreenNames} from '@/utils/screenName';
-import CountdownTimer from '@/components/CountdownTImer/CountdownTImer';
 import FinalPrize from '@/components/FinalPrize/FinalPrize';
+import {ContestCard} from '@/components/ContestCard/ContestCard';
+import {width} from '@/utils/Dimension';
+import {canJoinEvent} from '@/utils/event';
+import moment from 'moment';
+import {JoinEvent} from '@/components/JoinEvent/JointEvent';
+import {Spacing} from '@/utils/constants';
 
 export default function Details() {
   const {params}: any = useRoute();
   const id: string = params?.id;
-  const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [joinEvent]: any = useJoinContestMutation();
   const [confirmPayment]: any = useConfirmPaymentMutation({});
   const {data: finalPrize}: any = useFinalPrizeQuery(id);
   const {data: user} = useUserDetailsQuery({});
-  const [isExpanded, setIsExpanded] = useState(false);
   const navigation: any = useNavigation();
   const [like, {isLoading: isLikeLoading}] = useLikeContestMutation({});
 
@@ -59,10 +57,6 @@ export default function Details() {
       });
     } catch (error) {}
   }, [data?.id, data?.like_end_date, navigation]);
-
-  const handleToggleText = () => {
-    setIsExpanded(!isExpanded);
-  };
 
   const handleLike = useCallback(
     async (post: any, setLiked: any, liked: any) => {
@@ -92,6 +86,7 @@ export default function Details() {
 
   const handleRazorPayPayment = useCallback(
     async (response: any) => {
+      console.log(response);
       if (response?.data?.amount !== 0) {
         let result = await RazorPayCheckout.open({
           description: 'Join Contest Payment',
@@ -135,20 +130,20 @@ export default function Details() {
           contest: id,
           sample_image: image,
           use_wallet: true,
-        }).then(handleRazorPayPayment);
+        }).then((response: any) => {
+          console.log(response);
+          if (response?.data) {
+            handleRazorPayPayment(response);
+          } else {
+            ToastAndroid.show('Try Again Later', ToastAndroid.LONG);
+          }
+        });
       } catch (e) {}
     },
     [handleRazorPayPayment, id, joinEvent],
   );
 
-  const progress = useMemo(
-    () => ((data?.joined_list_count / data?.total_competators) * 100) / 100,
-    [data?.joined_list_count, data?.total_competators],
-  );
-
-  const handlePrizeChartToggle = useCallback(() => {
-    setPriceChartShown(!isPrizeChartShown);
-  }, [isPrizeChartShown]);
+  console.log(data);
 
   if (isLoading) {
     return (
@@ -177,13 +172,30 @@ export default function Details() {
     );
   };
 
+  const end_date = new Date(data?.join_end_date);
+
+  let item = {
+    joined_list_count: data?.joined_list_count,
+    total_competators: data?.total_competators,
+    concept_name: data?.concept_name,
+    sample_image_url: data.sample_image_url,
+    entry_price: data?.entry_price,
+    total_prize_money: data?.total_prize_money,
+    end_date,
+    prize_chart: data?.prize_chart,
+    notes: data?.notes,
+    is_canceled: data?.is_canceled,
+    number_of_like_days_for_contest_extension:
+      data?.number_of_like_days_for_contest_extension,
+    number_of_join_days_for_contest_extension:
+      data?.number_of_join_days_for_contest_extension,
+  };
+
   const canJoin = canJoinEvent(
     data?.join_end_date,
     data?.joined_list_count,
     data?.total_competators,
   );
-
-  const end_date = new Date(data?.join_end_date);
 
   return (
     <ScrollView
@@ -198,43 +210,16 @@ export default function Details() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
       {isLoading && <ActivityIndicator />}
-      <Card style={styles.card}>
+      {/* <Card style={styles.card}>
         <Image
           source={{
             uri: data?.sample_image_url,
           }}
           style={styles.image}
         />
-      </Card>
-      <View
-        style={[
-          styles.note,
-          {
-            opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
-          },
-        ]}>
-        <View style={styles.noteTextContainer}>
-          <Text style={{color: Colors.dark2}}>
-            Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
-            <Text style={styles.noteDate}>
-              {moment(data?.join_end_date).format('DD MMM YYYY')}
-            </Text>
-          </Text>
-        </View>
-        <View>
-          <JoinEvent
-            mobile_number={user?.mobile_number}
-            started_on={data?.published_on}
-            thresholdOccupancy={data?.total_competators}
-            currentOccupancy={data?.joined_list_count}
-            joinEndDate={data?.join_end_date}
-            onJoinEvent={handleJoinEvent}
-            entryFee={data.entry_price}
-            contestName={data.concept_name}
-          />
-        </View>
-      </View>
+      </Card> */}
 
+      {/*
       <Section>
         <View style={styles.eventAttendees}>
           <Text style={styles.eventAttendeesText}>Event Attendees</Text>
@@ -249,7 +234,53 @@ export default function Details() {
           <Text style={styles.timerHeader}>Contest Ends in</Text>
           <CountdownTimer textStyle={styles.timer} targetDate={end_date} />
         </View>
+      )} */}
+      {data?.is_canceled && (
+        <View
+          style={[
+            styles.note,
+            {
+              backgroundColor: Colors.danger,
+              opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+            },
+          ]}>
+          <View style={styles.noteTextContainer}>
+            <Text style={{color: Colors.white, ...Fonts.h6}}>
+              {data?.canceled_message[0]?.message_on_contest_canceled_heading}
+            </Text>
+            <Text
+              style={{color: Colors.white, ...Fonts.h6, marginTop: Spacing.m}}>
+              {
+                data?.canceled_message[0]
+                  ?.message_on_contest_canceled_description
+              }
+            </Text>
+          </View>
+        </View>
       )}
+
+      <ContestCard
+        navigation={null}
+        showPrizeChartButton={!data?.is_canceled}
+        width={width / 1.1}
+        item={item}
+      />
+
+      {!data?.is_canceled && (
+        <View>
+          <JoinEvent
+            mobile_number={user?.mobile_number}
+            started_on={data?.published_on}
+            thresholdOccupancy={data?.total_competators}
+            currentOccupancy={data?.joined_list_count}
+            joinEndDate={data?.join_end_date}
+            onJoinEvent={handleJoinEvent}
+            entryFee={data.entry_price}
+            contestName={data.concept_name}
+          />
+        </View>
+      )}
+
       <View>
         {data?.joined_contest?.length ? (
           <Section>
@@ -274,7 +305,6 @@ export default function Details() {
                 />
               </TouchableOpacity>
             </View>
-
             <FlashList
               data={data?.joined_contest}
               estimatedItemSize={200}
@@ -288,23 +318,17 @@ export default function Details() {
         )}
       </View>
       {data?.joined_contest?.length ? (
-        <ParticipantsList
-          data={data?.joined_contest}
-          participants={data?.joined_contest?.length}
-        />
+        <ParticipantsList data={data?.joined_contest} />
       ) : (
         <></>
       )}
 
-      <View>
+      {/* <View>
         <View style={styles.headerContainer}>
           <View style={styles.prizeLinkContainer}>
             <Section>
               <Text style={styles.title}>{data?.concept_name}</Text>
             </Section>
-            <Button onPress={handlePrizeChartToggle}>
-              <Text style={styles.buttonText}>View Prize Chart</Text>
-            </Button>
           </View>
         </View>
         <Section>
@@ -322,11 +346,44 @@ export default function Details() {
               </Text>
             ))}
         </Section>
+    </View> */}
+      <View
+        style={[
+          styles.note,
+          {
+            opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+          },
+        ]}>
+        <View style={styles.noteTextContainer}>
+          <Text style={{color: Colors.dark2}}>
+            The Total Number of People Going To Get The Prize Are{' '}
+            <Text style={styles.noteDate}>
+              {data?.total_eligible_joiners_for_prize}
+            </Text>
+          </Text>
+        </View>
       </View>
-      <View style={styles.contestDetails}>
-        <LikeExpiry like_end_date={data?.like_end_date} />
-
-        <Section>
+      {data?.is_cancelled && (
+        <>
+          <View
+            style={[
+              styles.note,
+              {
+                opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+              },
+            ]}>
+            <View style={styles.noteTextContainer}>
+              <Text style={{color: Colors.dark2}}>
+                Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
+                <Text style={styles.noteDate}>
+                  {moment(data?.join_end_date).format('DD MMM YYYY')}
+                </Text>
+              </Text>
+            </View>
+          </View>
+          <View style={styles.contestDetails}>
+            <LikeExpiry like_end_date={data?.like_end_date} />
+            {/* <Section>
           <Text style={styles.eventDetailsHeader}>Event Details</Text>
           <Ticket
             contest_name={data?.concept_name}
@@ -335,18 +392,15 @@ export default function Details() {
             created_on={data?.published_on}
             entry_fee={data?.entry_price}
           />
-        </Section>
-      </View>
+        </Section> */}
+          </View>
+        </>
+      )}
 
-      {data?.contest_ended && <FinalPrize data={finalPrize} />}
+      {finalPrize?.length !== 0 &&
+        data?.contest_ended &&
+        !data?.isCancelled && <FinalPrize data={finalPrize} />}
 
-      <PriceChart
-        notes={data?.notes}
-        members={data?.total_competators}
-        data={data?.prize_chart}
-        isOpen={isPrizeChartShown}
-        setClosed={setPriceChartShown}
-      />
       <TermsAndConditionsModal message={data?.tnc} />
     </ScrollView>
   );

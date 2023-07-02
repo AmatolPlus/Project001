@@ -23,12 +23,16 @@ export const styles = StyleSheet.create({
     borderRadius: BorderRadius.xs,
     borderBottomWidth: 0,
     width: '48%',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
   },
   updateButton: {
     padding: Spacing.s,
     marginTop: Spacing.s,
     borderRadius: BorderRadius.xs,
+  },
+  info: {
+    marginBottom: Spacing.m,
+    color: Colors.danger,
   },
   divider: {...VerticalMargin('m')},
   updateText: {color: Colors.white, ...Fonts.h3, fontSize: fontSize.h5},

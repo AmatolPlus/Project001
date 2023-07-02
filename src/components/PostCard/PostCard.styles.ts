@@ -24,6 +24,14 @@ export const styles = StyleSheet.create({
   bannerText: {
     color: Colors.white,
   },
+  likeImage: {
+    height: 24,
+    width: 24,
+  },
+  bannerTextAlignment: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   postCardImage: {
     position: 'absolute',
     bottom: 0,

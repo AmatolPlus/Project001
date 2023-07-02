@@ -10,4 +10,5 @@ export interface FormData {
   hobby: string;
   birthday: string;
   gender: string;
+  profile_id: string;
 }

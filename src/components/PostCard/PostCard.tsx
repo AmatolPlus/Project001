@@ -24,6 +24,8 @@ const PostCard = ({
   const [confirmModalShown, setShowConfirmModal] = useState(false);
   const [liked, setLiked] = useState(false);
 
+  console.log(item);
+
   const canLike = canLikeEvent(likeEndDate);
   useEffect(() => {
     setLiked(item?.is_liked_by_me);
@@ -46,7 +48,6 @@ const PostCard = ({
         style={{...StyleSheet.absoluteFillObject}}
         source={{uri: contestImage}}
       />
-      <RankTag rank={item?.rank} />
       {canLike && !liked ? (
         <TouchableOpacity
           onPress={handleToggleConfirmModal}
@@ -60,24 +61,30 @@ const PostCard = ({
       ) : (
         <></>
       )}
-      {item?.first_name && (
-        <View style={styles.banner}>
-          <Text style={styles.bannerText}>{item?.first_name}</Text>
-        </View>
-      )}
 
       <View style={styles.postCardImage}>
-        <Text ellipsizeMode={'tail'} numberOfLines={1} style={{...Fonts.h5}}>
-          {caption}
-        </Text>
-        {contest_ended && (
-          <Text ellipsizeMode={'tail'} numberOfLines={1} style={{...Fonts.h5}}>
-            ₹ {item?.prize_money}
-          </Text>
-        )}
-        <Text style={{...Fonts.h5, color: Colors.dark2}}>
-          {likeCount} LIKES
-        </Text>
+        <View>
+          <View style={styles.bannerTextAlignment}>
+            <Text
+              ellipsizeMode={'tail'}
+              numberOfLines={1}
+              style={{...Fonts.h5}}>
+              {caption}
+            </Text>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text>{likeCount}</Text>
+              <Image
+                resizeMode="contain"
+                source={require('@/assets/images/highfive.png')}
+                style={styles.likeImage}
+              />
+            </View>
+          </View>
+          <View style={styles.bannerTextAlignment}>
+            <Text>{item?.user?.profile_id || '-'}</Text>
+            <Text>{item?.rank || '-'}</Text>
+          </View>
+        </View>
       </View>
       <ConfirmLikeModal
         visible={confirmModalShown}

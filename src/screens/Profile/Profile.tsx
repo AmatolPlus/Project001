@@ -17,11 +17,15 @@ import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
 import AddressModal from '@/components/AddressModal/AddressModal';
 import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+import {ScrollView} from 'react-native';
+import {RefreshControl} from 'react-native';
 
 export default function Profile() {
   const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
   const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
+
+  console.log(user);
 
   const fullName = getFullName(user?.first_name, user?.last_name);
 
@@ -35,8 +39,14 @@ export default function Profile() {
     );
   }, [navigation]);
 
+  console.log(JSON.stringify(user));
+
   return (
-    <View style={styles.container}>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={isLoading} onRefresh={userRefetch} />
+      }
+      style={styles.container}>
       <View style={styles.card}>
         <View>
           <ProfileInfo refetch={userRefetch} data={user} fullName={fullName} />
@@ -57,6 +67,6 @@ export default function Profile() {
           <Text style={styles.logoutText}>Logout</Text>
         </Button>
       </View>
-    </View>
+    </ScrollView>
   );
 }

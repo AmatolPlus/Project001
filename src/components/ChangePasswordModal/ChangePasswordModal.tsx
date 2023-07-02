@@ -20,6 +20,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     old_password: '',
     password1: '',
     password2: '',
+    profile_id: '',
   });
   const [valid, setValid] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     type,
   });
   const [update, {error}]: any = useUpdatePasswordMutation({});
-  const [updateUserName, {error: userNameError}]: any =
+  const [updateUser, {error: userNameError}]: any =
     useUpdateUserDetailsMutation({});
 
   const handleToggleChangePasswordModal = useCallback(() => {
@@ -44,15 +45,24 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   }, [showPasswordModal, type]);
 
   const handleUpdateUserName = useCallback(() => {
+    console.log(password.profile_id);
     try {
-      updateUserName({
+      updateUser({
         first_name: password.first_name,
         last_name: password.last_name,
+        profile_id: password.profile_id,
       });
+      console.log(userNameError);
     } catch (e: any) {
       console.log(e);
     }
-  }, [password.first_name, password.last_name, updateUserName]);
+  }, [
+    password.first_name,
+    password.last_name,
+    password.profile_id,
+    updateUser,
+    userNameError,
+  ]);
 
   const handlePasswordChange = useCallback(
     (key: string, value: string) => {
@@ -92,6 +102,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
         }
 
         type === 'modal' && navigation.replace(ScreenNames.mainStack);
+        type === 'component' && handleToggleChangePasswordModal();
       } catch (e) {}
       setLoading(!loading);
     }
@@ -123,6 +134,11 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
           visible={showPasswordModal}
           onDismiss={handleToggleChangePasswordModal}>
           <View style={styles.card}>
+            {type === 'component' ? (
+              <Text style={styles.header}>Change Password</Text>
+            ) : (
+              <Text style={styles.header}>Complete Profile</Text>
+            )}
             <View>
               {type === 'component' && (
                 <TextInput
@@ -138,6 +154,17 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
               )}
               {type !== 'component' && (
                 <>
+                  <TextInput
+                    mode="outlined"
+                    onChangeText={val =>
+                      handlePasswordChange('profile_id', val)
+                    }
+                    style={styles.input}
+                    placeholder="User Name"
+                  />
+                  <Text style={styles.info}>
+                    Username should only have alphabets and , @ + - _
+                  </Text>
                   <TextInput
                     mode="outlined"
                     onChangeText={val =>

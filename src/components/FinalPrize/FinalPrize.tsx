@@ -1,19 +1,20 @@
 import {ScrollView, View} from 'react-native';
-import React, {useCallback} from 'react';
+import React from 'react';
 import {IFinalPrice} from './FinalPrize.types';
 import {styles} from './FinalPrize.styles';
-import {Image, Text} from '@/ui';
+import {Text} from '@/ui';
 import {Colors} from '@/utils/colors';
 import Card from '../Card/Card';
 
 export default function FinalPrize({data}: IFinalPrice) {
-  var uniqueContestList = data.filter(function (item: any, index: string) {
+  var uniqueContestList = data?.filter(function (item: any, index: string) {
     return (
       data.findIndex(function (elem: any) {
         return elem?.user?.profile_id === item?.user?.profile_id;
       }) === index
     );
   });
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Final Prize</Text>

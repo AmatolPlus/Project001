@@ -57,7 +57,7 @@ const ProfileInfo = ({data, fullName, refetch}: IProfileInfo) => {
             />
           </TouchableOpacity>
           <View>
-            <Text style={styles.name}>{fullName}</Text>
+            <Text style={styles.name}>{data?.profile_id}</Text>
             <Text style={styles.email}>{data?.email}</Text>
           </View>
         </View>

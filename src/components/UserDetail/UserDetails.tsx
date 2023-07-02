@@ -24,6 +24,7 @@ const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
       form?.hobby,
       form?.birthday,
       form?.email,
+      form?.profile_id,
     );
   }, [form]);
 
@@ -64,7 +65,15 @@ const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
             onChangeText={value => onChange('last_name', value)}
           />
         </View>
-
+        <TextInput
+          label={'Username'}
+          style={styles.input}
+          value={form?.profile_id}
+          onChangeText={value => onChange('profile_id', value)}
+        />
+        <Text style={styles.info}>
+          Username should only alphabets and , @ + - _
+        </Text>
         <TextInput
           label={'Email'}
           style={styles.input}
