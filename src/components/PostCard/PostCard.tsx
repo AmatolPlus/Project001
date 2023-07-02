@@ -80,7 +80,7 @@ const PostCard = ({
           </View>
           <View style={styles.bannerTextAlignment}>
             <Text style={styles.username}>{item?.user?.profile_id || '-'}</Text>
-            <Text>{`#${item?.rank}` || '-'}</Text>
+            <Text>{!item?.rank ? '-' : `#${item?.rank}`}</Text>
           </View>
         </View>
       </View>
