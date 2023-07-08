@@ -1,1 +1,1 @@
-export const BASE_URL = 'http://highfive.one/api/';
+export const BASE_URL = 'http://15.207.45.120';

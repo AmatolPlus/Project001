@@ -66,8 +66,8 @@ const PostCard = ({
             <Text
               ellipsizeMode={'tail'}
               numberOfLines={1}
-              style={{...Fonts.h4}}>
-              {caption}
+              style={{...Fonts.h4, maxWidth: '70%'}}>
+              {'captioncaptioncaptioncaption'}
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
               <Text style={{...Fonts.h4}}>{likeCount}</Text>

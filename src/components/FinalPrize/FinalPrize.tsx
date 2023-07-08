@@ -15,6 +15,8 @@ export default function FinalPrize({data}: IFinalPrice) {
     );
   });
 
+  console.log('prize:', data);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Final Prize</Text>

@@ -11,7 +11,7 @@ import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 
 import {Button, Divider, Text} from '@/ui';
-
+import Share from 'react-native-share';
 import Wallet from '@/components/Wallet';
 import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
 import AddressModal from '@/components/AddressModal/AddressModal';
@@ -19,6 +19,8 @@ import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
+import {Colors} from '@/utils/colors';
+import {fontSize} from '@/utils/fonts';
 
 export default function Profile() {
   const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
@@ -38,6 +40,19 @@ export default function Profile() {
       }),
     );
   }, [navigation]);
+
+  const handleShareOpen = useCallback(() => {
+    Share.open({
+      message: 'Invite A Friend',
+      url: 'www.google.com',
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        err && console.log(err);
+      });
+  }, []);
 
   console.log(JSON.stringify(user));
 
@@ -61,8 +76,17 @@ export default function Profile() {
           <AddressModal />
           <SocialMediaModal />
           <ChangePasswordModal type="component" />
+          <Text
+            onPress={handleShareOpen}
+            style={{
+              color: Colors.info,
+              fontSize: fontSize.h5,
+            }}>
+            Invite a Friend
+          </Text>
           <Divider style={styles.divider} />
         </View>
+
         <Button style={styles.logout} onPress={handleLogout}>
           <Text style={styles.logoutText}>Logout</Text>
         </Button>

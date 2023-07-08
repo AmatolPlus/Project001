@@ -23,8 +23,8 @@ export const styles = StyleSheet.create({
   info: {
     marginBottom: Spacing.m,
     ...Fonts.h2,
-    fontSize: fontSize.h2 / 2,
-    color: Colors.danger,
+    fontSize: fontSize.s1,
+    color: Colors.info,
   },
   input: {
     backgroundColor: Colors.white,

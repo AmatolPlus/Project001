@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.highfive"
+    namespace "com.highfive.app"
     defaultConfig {
-        applicationId "com.highfive"
+        applicationId "com.highfive.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

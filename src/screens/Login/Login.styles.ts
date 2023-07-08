@@ -42,6 +42,12 @@ let styles = StyleSheet.create({
     top: Spacing.l,
     right: Spacing.l,
   },
+  footer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 10,
+    color: Colors.info,
+  },
 });
 
 export default styles;

@@ -1,11 +1,12 @@
 import React, {memo, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {ToastAndroid, TouchableOpacity, View} from 'react-native';
 
 import TextInput from '@/ui/TextInput';
 import {styles} from './Address.styles';
 import StateModal from '../StatesModal/StateModal';
 import CityModal from '../CityModal/CityModal';
 import {AddressState} from './Address.types';
+import {Colors} from '@/utils/colors';
 
 const Address = ({form, onChange}: any) => {
   let [modals, setModals] = useState({
@@ -49,9 +50,21 @@ const Address = ({form, onChange}: any) => {
             editable={false}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleOpenModal('citiesModal', true)}>
+        <TouchableOpacity
+          onPress={() => {
+            if (form?.address_detail?.state) {
+              handleOpenModal('citiesModal', true);
+            } else {
+              ToastAndroid.show('Select the State', ToastAndroid.SHORT);
+            }
+          }}>
           <TextInput
-            style={styles.stateButton}
+            style={{
+              ...styles.stateButton,
+              backgroundColor: !form?.address_detail?.state
+                ? Colors.light
+                : Colors.white,
+            }}
             value={form?.address_detail?.city}
             onFocus={() => handleOpenModal('citiesModal', true)}
             placeholder="Select a city"

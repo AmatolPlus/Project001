@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useCallback} from 'react';
 import {
+  Pressable,
   RefreshControl,
   ScrollView,
   ToastAndroid,
@@ -37,10 +38,12 @@ import {canJoinEvent} from '@/utils/event';
 import moment from 'moment';
 import {JoinEvent} from '@/components/JoinEvent/JointEvent';
 import {Spacing} from '@/utils/constants';
+import {Share} from 'react-native';
 
 export default function Details() {
   const {params}: any = useRoute();
   const id: string = params?.id;
+  console.log({id});
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [joinEvent]: any = useJoinContestMutation();
   const [confirmPayment]: any = useConfirmPaymentMutation({});
@@ -83,6 +86,14 @@ export default function Details() {
     },
     [confirmPayment, refetch],
   );
+
+  const shareLink = async () => {
+    try {
+      await Share.share({
+        message: `highfive://DetailsScreen/${id}`,
+      });
+    } catch (error) {}
+  };
 
   const handleRazorPayPayment = useCallback(
     async (response: any) => {
@@ -200,6 +211,7 @@ export default function Details() {
 
   return (
     <ScrollView
+      style={{backgroundColor: Colors.white}}
       key={data?.id}
       refreshControl={
         <RefreshControl
@@ -211,31 +223,6 @@ export default function Details() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}>
       {isLoading && <ActivityIndicator />}
-      {/* <Card style={styles.card}>
-        <Image
-          source={{
-            uri: data?.sample_image_url,
-          }}
-          style={styles.image}
-        />
-      </Card> */}
-
-      {/*
-      <Section>
-        <View style={styles.eventAttendees}>
-          <Text style={styles.eventAttendeesText}>Event Attendees</Text>
-          <Text style={styles.joinedCount}>
-            {data?.joined_list_count + '/' + data?.total_competators}
-          </Text>
-        </View>
-        <ProgressBar progress={progress} color={Colors.success} />
-      </Section>
-      {!data?.contest_ended && (
-        <View style={styles.timerContainer}>
-          <Text style={styles.timerHeader}>Contest Ends in</Text>
-          <CountdownTimer textStyle={styles.timer} targetDate={end_date} />
-        </View>
-      )} */}
       {data?.is_canceled && (
         <View
           style={[
@@ -323,31 +310,6 @@ export default function Details() {
       ) : (
         <></>
       )}
-
-      {/* <View>
-        <View style={styles.headerContainer}>
-          <View style={styles.prizeLinkContainer}>
-            <Section>
-              <Text style={styles.title}>{data?.concept_name}</Text>
-            </Section>
-          </View>
-        </View>
-        <Section>
-          <Text numberOfLines={isExpanded ? undefined : 2} style={styles.desc}>
-            {data?.contest_desc}
-          </Text>
-          {data?.contest_desc?.length > 75 &&
-            (!isExpanded ? (
-              <Text onPress={handleToggleText} style={styles.more}>
-                More
-              </Text>
-            ) : (
-              <Text onPress={handleToggleText} style={styles.more}>
-                Less
-              </Text>
-            ))}
-        </Section>
-    </View> */}
       <View
         style={[
           styles.note,
@@ -384,16 +346,6 @@ export default function Details() {
           </View>
           <View style={styles.contestDetails}>
             <LikeExpiry like_end_date={data?.like_end_date} />
-            {/* <Section>
-          <Text style={styles.eventDetailsHeader}>Event Details</Text>
-          <Ticket
-            contest_name={data?.concept_name}
-            ended_on={data?.join_end_date}
-            days={data?.join_validity_in_days}
-            created_on={data?.published_on}
-            entry_fee={data?.entry_price}
-          />
-        </Section> */}
           </View>
         </>
       )}
@@ -402,7 +354,12 @@ export default function Details() {
         finalPrize?.length !== 0 &&
         data?.contest_ended && <FinalPrize data={finalPrize} />}
 
-      <TermsAndConditionsModal message={data?.tnc} />
+      <View style={styles.footer}>
+        <TermsAndConditionsModal message={data?.tnc} />
+        <Pressable onPress={shareLink}>
+          <Text style={styles.link}>Share this event</Text>
+        </Pressable>
+      </View>
     </ScrollView>
   );
 }

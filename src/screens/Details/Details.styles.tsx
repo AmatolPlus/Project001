@@ -173,4 +173,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: Spacing.m,
   },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
 });

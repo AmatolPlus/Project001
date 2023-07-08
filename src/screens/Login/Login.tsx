@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {View} from 'react-native';
+import {View, Alert, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -61,8 +61,24 @@ const LoginScreen = () => {
   }, [handleLoginWithPinNavigation, login, loginForm, navigation]);
 
   const handleMainScreenNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.mainStack);
-  }, [navigation]);
+    Alert.alert(
+      'Confirm Exit',
+      'Are you sure you want to close the app?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Exit',
+          onPress: () => {
+            BackHandler.exitApp();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  }, []);
 
   if (isError) {
     return (
@@ -115,15 +131,7 @@ const LoginScreen = () => {
           </Text>
         </Button>
       </View>
-      <Text
-        style={{
-          position: 'absolute',
-          alignSelf: 'center',
-          bottom: 10,
-          color: Colors.info,
-        }}>
-        Facing Any Issue? Contact us
-      </Text>
+      <Text style={styles.footer}>Facing Any Issue? Contact us</Text>
     </View>
   );
 };

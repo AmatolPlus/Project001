@@ -5,7 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {NavigationContainer, NavigationProp} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {Provider as PaperProvider, Text} from 'react-native-paper';
 
 import {theme} from './src/utils/theme';
 import {LoginStack, TabStack} from './src/routes';
@@ -16,6 +16,17 @@ import {Fonts} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
 import {checkForUpdate} from '@/utils/appUpdate';
+
+const config = {
+  screens: {
+    [ScreenNames.details]: `${ScreenNames.details}/:id`,
+  },
+};
+
+const linking = {
+  prefixes: ['highfive://'],
+  config,
+};
 
 const HeaderIcon = ({navigation}: any) => {
   return (
@@ -38,7 +49,9 @@ function App(): JSX.Element {
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <NavigationContainer>
+        <NavigationContainer
+          linking={linking}
+          fallback={<Text>Loading...</Text>}>
           <MainStack.Navigator>
             <MainStack.Screen
               name={ScreenNames.launch}
