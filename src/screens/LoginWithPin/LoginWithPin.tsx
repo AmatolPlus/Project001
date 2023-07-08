@@ -63,7 +63,7 @@ const LoginWithPin = () => {
   };
 
   const handleMainScreenNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.mainStack);
+    navigation.goBack();
   }, [navigation]);
 
   return (
