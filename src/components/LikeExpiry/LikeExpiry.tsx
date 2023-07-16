@@ -8,6 +8,7 @@ import {canLikeEvent} from '@/utils/event';
 
 export default function LikeExpiry({like_end_date}: any) {
   const canLike = canLikeEvent(like_end_date);
+  console.log(like_end_date);
   return (
     <View
       style={[

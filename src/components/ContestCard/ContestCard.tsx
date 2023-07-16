@@ -30,9 +30,23 @@ export const ContestCard = ({
     setPriceChartShown(!isPrizeChartShown);
   }, [isPrizeChartShown]);
 
-  const progress = useMemo(() => {
-    ((item?.joined_list_count / item?.total_competators) * 100) / 100;
-  }, [item?.joined_list_count, item?.total_competators]);
+  console.log(item?.joined_list_count, item?.total_competators);
+
+  let progress = 0;
+
+  const computeProgress =
+    (item?.joined_list_count / item?.total_competators / 100) * 100;
+
+  if (
+    isNaN(computeProgress) ||
+    computeProgress === undefined ||
+    computeProgress === null
+  ) {
+    progress = 0;
+  } else {
+    progress = computeProgress;
+  }
+  console.log(progress);
 
   const end_date = moment(item?.join_end_date);
   return (
@@ -52,7 +66,9 @@ export const ContestCard = ({
         }}
       />
       <View style={styles.infoContainer}>
-        <Text style={styles.name}>{item.concept_name.toUpperCase()}</Text>
+        <Text numberOfLines={1} style={styles.name}>
+          {item.concept_name.toUpperCase()}
+        </Text>
         <View style={styles.contestInfoContainer}>
           <View>
             <Text style={styles.label}>Prize Pool</Text>

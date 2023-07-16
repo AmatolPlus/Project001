@@ -1,3 +1,4 @@
+import {width} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
@@ -154,12 +155,9 @@ export const styles = StyleSheet.create({
     gap: 4,
   },
   note: {
-    display: 'flex',
-    alignItems: 'center',
     padding: Spacing.m,
-    justifyContent: 'space-between',
-    marginVertical: Spacing.m,
-    flexDirection: 'row',
+    marginTop: Spacing.xs,
+    marginBottom: Spacing.xs,
     backgroundColor: Colors.light,
   },
   noteTextContainer: {width: '100%'},
@@ -177,5 +175,19 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
+  },
+  snackBar: {
+    position: 'absolute',
+    zIndex: 100,
+    bottom: 10,
+  },
+  snackbarText: {
+    ...Fonts.h5,
+    color: Colors.white,
+  },
+  snackBarLink: {
+    ...Fonts.h4,
+    fontWeight: '800',
+    color: Colors.info,
   },
 });

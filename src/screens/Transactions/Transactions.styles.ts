@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
     ...VerticalMargin('m'),
   },
   to: {
+    maxWidth: 200,
     ...Fonts.h6,
   },
   image: {
@@ -63,6 +64,7 @@ export const styles = StyleSheet.create({
     marginRight: Spacing.s,
   },
   amount: {
+    maxWidth: 100,
     ...Fonts.h5,
   },
   transferredOn: {

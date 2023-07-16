@@ -3,7 +3,7 @@ import {View, Alert, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {Button, TextInput, Text} from '@/ui';
+import {Button, TextInput, Text, Image} from '@/ui';
 import {FormState} from './LoginTypes';
 import {appConfig} from '@/utils/appConfig';
 import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
@@ -98,7 +98,11 @@ const LoginScreen = () => {
         color={Colors.dark}
       />
       <View>
-        <Text style={styles.title}>{appConfig.name}</Text>
+        <Image
+          style={{width: 200, height: 60}}
+          resizeMode="contain"
+          source={require('@/assets/images/highfive_launch.jpeg')}
+        />
         <View style={styles.inputContainer}>
           <TextInput
             maxLength={10}

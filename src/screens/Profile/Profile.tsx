@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {View} from 'react-native';
+import {ToastAndroid, View} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import {getFullName} from '@/utils/getFullName';
@@ -7,7 +7,10 @@ import {styles} from './Profile.styles';
 import {ScreenNames} from '@/utils/screenName';
 import {remove} from '@/utils/storage';
 
-import {useWalletAmountQuery} from '@/services/apis/wallet.api';
+import {
+  useGetCreditMutation,
+  useWalletAmountQuery,
+} from '@/services/apis/wallet.api';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 
 import {Button, Divider, Text} from '@/ui';
@@ -24,10 +27,9 @@ import {fontSize} from '@/utils/fonts';
 
 export default function Profile() {
   const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
+  const [getCredits, {error}] = useGetCreditMutation({});
   const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
-
-  console.log(user);
 
   const fullName = getFullName(user?.first_name, user?.last_name);
 
@@ -41,6 +43,22 @@ export default function Profile() {
     );
   }, [navigation]);
 
+  const handleGetCredit = useCallback(async () => {
+    try {
+      let credit_data: any = await getCredits({});
+      if (credit_data?.data?.detail) {
+        return ToastAndroid.show(credit_data?.data?.detail, ToastAndroid.LONG);
+      } else {
+        return ToastAndroid.show(
+          credit_data?.error?.data?.detail,
+          ToastAndroid.LONG,
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, [getCredits]);
+
   const handleShareOpen = useCallback(() => {
     Share.open({
       message: 'Invite A Friend',
@@ -53,8 +71,6 @@ export default function Profile() {
         err && console.log(err);
       });
   }, []);
-
-  console.log(JSON.stringify(user));
 
   return (
     <ScrollView
@@ -73,17 +89,13 @@ export default function Profile() {
             loading={isLoading}
           />
           <Divider style={styles.divider} />
+          <Text onPress={handleGetCredit} style={styles.link}>
+            Get Credits
+          </Text>
           <AddressModal />
           <SocialMediaModal />
           <ChangePasswordModal type="component" />
-          <Text
-            onPress={handleShareOpen}
-            style={{
-              color: Colors.info,
-              fontSize: fontSize.h5,
-            }}>
-            Invite a Friend
-          </Text>
+
           <Divider style={styles.divider} />
         </View>
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Pressable,
   RefreshControl,
@@ -9,12 +9,12 @@ import {
   View,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import RazorPayCheckout from 'react-native-razorpay';
+// import RazorPayCheckout from 'react-native-razorpay';
 import {FlashList} from '@shopify/flash-list';
 import Entypo from 'react-native-vector-icons/Entypo';
 
 import {
-  useConfirmPaymentMutation,
+  // useConfirmPaymentMutation,
   useContestDetailQuery,
   useFinalPrizeQuery,
   useJoinContestMutation,
@@ -39,14 +39,15 @@ import moment from 'moment';
 import {JoinEvent} from '@/components/JoinEvent/JointEvent';
 import {Spacing} from '@/utils/constants';
 import {Share} from 'react-native';
+import Snackbar from '@/ui/SnackBar';
 
 export default function Details() {
   const {params}: any = useRoute();
   const id: string = params?.id;
-  console.log({id});
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [joinEvent]: any = useJoinContestMutation();
-  const [confirmPayment]: any = useConfirmPaymentMutation({});
+  // const [confirmPayment]: any = useConfirmPaymentMutation({});
   const {data: finalPrize}: any = useFinalPrizeQuery(id);
   const {data: user} = useUserDetailsQuery({});
   const navigation: any = useNavigation();
@@ -73,51 +74,55 @@ export default function Details() {
     [like, refetch],
   );
 
-  const handleConfirmPayment = useCallback(
-    async (res: any) => {
-      const status = await confirmPayment(res);
-      refetch();
-      if (status?.data?.details === 'Success') {
-        ToastAndroid.show(
-          'Payment Successfull, Post Has Been Uploaded',
-          ToastAndroid.LONG,
-        );
-      }
-    },
-    [confirmPayment, refetch],
-  );
+  // const handleConfirmPayment = useCallback(
+  //   async (res: any) => {
+  //     const status = await confirmPayment(res);
+  //     refetch();
+  //     if (status?.data?.details === 'Success') {
+  //       ToastAndroid.show(
+  //         'Payment Successfull, Post Has Been Uploaded',
+  //         ToastAndroid.LONG,
+  //       );
+  //     }
+  //   },
+  //   [confirmPayment, refetch],
+  // );
 
   const shareLink = async () => {
     try {
       await Share.share({
-        message: `highfive://DetailsScreen/${id}`,
+        message: `https://site.highfive.one/DetailsScreen/${id}`,
       });
     } catch (error) {}
   };
 
+  const handleToggleSnackBar = useCallback(() => {
+    setSnackbarVisible(!snackbarVisible);
+  }, [snackbarVisible]);
+
   const handleRazorPayPayment = useCallback(
     async (response: any) => {
-      console.log(response);
       if (response?.data?.amount !== 0) {
-        let result = await RazorPayCheckout.open({
-          description: 'Join Contest Payment',
-          image: data?.sample_image_url,
-          name: data?.concept_name,
-          key: response?.data?.key,
-          prefill: {
-            email: user?.email,
-            contact: user?.mobile_number,
-          },
-          amount: response?.data?.amount,
-          currency: response?.data?.currency,
-          order_id: response?.data?.order_id,
-          theme: {
-            color: Colors.success,
-          },
-        }).catch(e => e);
-        if (result?.razorpay_payment_id) {
-          handleConfirmPayment(result);
-        }
+        // let result = await RazorPayCheckout.open({
+        //   description: 'Join Contest Payment',
+        //   image: data?.sample_image_url,
+        //   name: data?.concept_name,
+        //   key: response?.data?.key,
+        //   prefill: {
+        //     email: user?.email,
+        //     contact: user?.mobile_number,
+        //   },
+        //   amount: response?.data?.amount,
+        //   currency: response?.data?.currency,
+        //   order_id: response?.data?.order_id,
+        //   theme: {
+        //     color: Colors.success,
+        //   },
+        // // });
+        // if (result?.razorpay_payment_id) {
+        //   handleConfirmPayment(result);
+        // }
+        handleToggleSnackBar();
       } else {
         ToastAndroid.show(
           'You Post Has Been Uploaded Successfully',
@@ -125,14 +130,12 @@ export default function Details() {
         );
       }
     },
-    [
-      data?.concept_name,
-      data?.sample_image_url,
-      handleConfirmPayment,
-      user?.email,
-      user?.mobile_number,
-    ],
+    [handleToggleSnackBar],
   );
+
+  const handleProfileNavigation = useCallback(() => {
+    navigation.navigate(ScreenNames.profile);
+  }, [navigation]);
 
   const handleJoinEvent = useCallback(
     async (image: any) => {
@@ -142,11 +145,8 @@ export default function Details() {
           sample_image: image,
           use_wallet: true,
         }).then((response: any) => {
-          console.log(response);
           if (response?.data) {
             handleRazorPayPayment(response);
-          } else {
-            ToastAndroid.show('Try Again Later', ToastAndroid.LONG);
           }
         });
       } catch (e) {}
@@ -185,24 +185,6 @@ export default function Details() {
 
   const end_date = new Date(data?.join_end_date);
 
-  let item = {
-    joined_list_count: data?.joined_list_count,
-    total_competators: data?.total_competators,
-    concept_name: data?.concept_name,
-    sample_image_url: data.sample_image_url,
-    entry_price: data?.entry_price,
-    total_prize_money: data?.total_prize_money,
-    end_date,
-    contest_ended: data?.contest_ended,
-    prize_chart: data?.prize_chart,
-    notes: data?.notes,
-    is_canceled: data?.is_canceled,
-    number_of_like_days_for_contest_extension:
-      data?.number_of_like_days_for_contest_extension,
-    number_of_join_days_for_contest_extension:
-      data?.number_of_join_days_for_contest_extension,
-  };
-
   const canJoin = canJoinEvent(
     data?.join_end_date,
     data?.joined_list_count,
@@ -210,156 +192,177 @@ export default function Details() {
   );
 
   return (
-    <ScrollView
-      style={{backgroundColor: Colors.white}}
-      key={data?.id}
-      refreshControl={
-        <RefreshControl
-          colors={[Colors.info]}
-          refreshing={isLoading || isLikeLoading}
-          onRefresh={refetch}
-        />
-      }
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}>
-      {isLoading && <ActivityIndicator />}
-      {data?.is_canceled && (
-        <View
-          style={[
-            styles.note,
-            {
-              backgroundColor: Colors.danger,
-              opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
-            },
-          ]}>
-          <View style={styles.noteTextContainer}>
-            <Text style={{color: Colors.white, ...Fonts.h6}}>
-              {data?.canceled_message[0]?.message_on_contest_canceled_heading}
-            </Text>
-            <Text
-              style={{color: Colors.white, ...Fonts.h6, marginTop: Spacing.m}}>
-              {
-                data?.canceled_message[0]
-                  ?.message_on_contest_canceled_description
-              }
-            </Text>
-          </View>
-        </View>
-      )}
-
-      <ContestCard
-        navigation={null}
-        showPrizeChartButton={!data?.is_canceled}
-        width={width / 1.1}
-        item={item}
-      />
-
-      {!data?.is_canceled && (
-        <View>
-          <JoinEvent
-            mobile_number={user?.mobile_number}
-            started_on={data?.published_on}
-            thresholdOccupancy={data?.total_competators}
-            currentOccupancy={data?.joined_list_count}
-            joinEndDate={data?.join_end_date}
-            onJoinEvent={handleJoinEvent}
-            entryFee={data.entry_price}
-            contestName={data.concept_name}
+    <View>
+      <ScrollView
+        style={{backgroundColor: Colors.white}}
+        key={data?.id}
+        refreshControl={
+          <RefreshControl
+            colors={[Colors.info]}
+            refreshing={isLoading || isLikeLoading}
+            onRefresh={refetch}
           />
-        </View>
-      )}
-
-      <View>
-        {data?.joined_contest?.length ? (
-          <Section>
-            <View style={styles.eventHeaderContainer}>
-              <View>
-                <Text style={styles.eventDetailsHeader}>Posts</Text>
-              </View>
-            </View>
-
-            <View style={styles.eventDetailsSubHeaderContainer}>
-              <Text style={styles.eventDetailsSubHeader}>
-                Vote for your favourite posts
-              </Text>
-              <TouchableOpacity
-                onPress={handleMorePostsNavigation}
-                style={styles.moreContainer}>
-                <Text style={styles.link}>More</Text>
-                <Entypo
-                  name="chevron-small-right"
-                  size={fontSize.h1}
-                  color={Colors.info}
-                />
-              </TouchableOpacity>
-            </View>
-            <FlashList
-              data={data?.joined_contest}
-              estimatedItemSize={200}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              renderItem={renderPosts}
-            />
-          </Section>
-        ) : (
-          <></>
-        )}
-      </View>
-      {data?.joined_contest?.length ? (
-        <ParticipantsList data={data?.joined_contest} />
-      ) : (
-        <></>
-      )}
-      <View
-        style={[
-          styles.note,
-          {
-            opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
-          },
-        ]}>
-        <View style={styles.noteTextContainer}>
-          <Text style={{color: Colors.dark2}}>
-            The Total Number of People Going To Get The Prize Are{' '}
-            <Text style={styles.noteDate}>
-              {data?.total_eligible_joiners_for_prize}
-            </Text>
-          </Text>
-        </View>
-      </View>
-      {data?.is_cancelled && (
-        <>
+        }
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}>
+        {isLoading && <ActivityIndicator />}
+        {data?.is_canceled && (
           <View
             style={[
               styles.note,
               {
+                backgroundColor: Colors.danger,
                 opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
               },
             ]}>
             <View style={styles.noteTextContainer}>
-              <Text style={{color: Colors.dark2}}>
-                Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
-                <Text style={styles.noteDate}>
-                  {moment(data?.join_end_date).format('DD MMM YYYY')}
-                </Text>
+              <Text style={{color: Colors.white, ...Fonts.h6}}>
+                {data?.canceled_message[0]?.message_on_contest_canceled_heading}
+              </Text>
+              <Text
+                style={{
+                  color: Colors.white,
+                  ...Fonts.h6,
+                  marginTop: Spacing.m,
+                }}>
+                {
+                  data?.canceled_message[0]
+                    ?.message_on_contest_canceled_description
+                }
               </Text>
             </View>
           </View>
-          <View style={styles.contestDetails}>
-            <LikeExpiry like_end_date={data?.like_end_date} />
+        )}
+
+        <ContestCard
+          navigation={null}
+          showPrizeChartButton={!data?.is_canceled}
+          width={width / 1.1}
+          item={{...data, end_date}}
+        />
+
+        {!data?.is_canceled && (
+          <View>
+            <JoinEvent
+              mobile_number={user?.mobile_number}
+              started_on={data?.published_on}
+              thresholdOccupancy={data?.total_competators}
+              currentOccupancy={data?.joined_list_count}
+              joinEndDate={data?.join_end_date}
+              onJoinEvent={handleJoinEvent}
+              entryFee={data.entry_price}
+              contestName={data.concept_name}
+            />
           </View>
-        </>
-      )}
+        )}
 
-      {!data?.is_canceled &&
-        finalPrize?.length !== 0 &&
-        data?.contest_ended && <FinalPrize data={finalPrize} />}
+        <View>
+          {data?.joined_contest?.length ? (
+            <Section>
+              <View style={styles.eventHeaderContainer}>
+                <View>
+                  <Text style={styles.eventDetailsHeader}>Posts</Text>
+                </View>
+              </View>
 
-      <View style={styles.footer}>
-        <TermsAndConditionsModal message={data?.tnc} />
-        <Pressable onPress={shareLink}>
-          <Text style={styles.link}>Share this event</Text>
-        </Pressable>
-      </View>
-    </ScrollView>
+              <View style={styles.eventDetailsSubHeaderContainer}>
+                <Text style={styles.eventDetailsSubHeader}>
+                  Vote for your favourite posts
+                </Text>
+                <TouchableOpacity
+                  onPress={handleMorePostsNavigation}
+                  style={styles.moreContainer}>
+                  <Text style={styles.link}>More</Text>
+                  <Entypo
+                    name="chevron-small-right"
+                    size={fontSize.h1}
+                    color={Colors.info}
+                  />
+                </TouchableOpacity>
+              </View>
+              <FlashList
+                data={data?.joined_contest}
+                estimatedItemSize={200}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                renderItem={renderPosts}
+              />
+            </Section>
+          ) : (
+            <></>
+          )}
+        </View>
+        {data?.joined_contest?.length ? (
+          <ParticipantsList data={data?.joined_contest} />
+        ) : (
+          <></>
+        )}
+        <View
+          style={[
+            styles.note,
+            {
+              opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+            },
+          ]}>
+          <View style={styles.noteTextContainer}>
+            <Text style={{color: Colors.dark2}}>
+              The Total Number of People Going To Get The Prize Are{' '}
+              <Text style={styles.noteDate}>
+                {data?.total_eligible_joiners_for_prize}
+              </Text>
+            </Text>
+          </View>
+        </View>
+        {!data?.is_cancelled && (
+          <>
+            <View
+              style={[
+                styles.note,
+                {
+                  opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+                },
+              ]}>
+              <View style={styles.noteTextContainer}>
+                <Text style={{color: Colors.dark2}}>
+                  Join date for the contest {canJoin ? 'ends' : 'ended'}{' '}
+                  on&nbsp;
+                  <Text style={styles.noteDate}>
+                    {moment(data?.join_end_date).format('DD MMM YYYY')}
+                  </Text>
+                </Text>
+              </View>
+            </View>
+            <View style={styles.contestDetails}>
+              <LikeExpiry like_end_date={data?.like_end_date} />
+            </View>
+          </>
+        )}
+
+        {!data?.is_canceled &&
+          finalPrize?.length !== 0 &&
+          data?.contest_ended && <FinalPrize data={finalPrize} />}
+
+        <View style={styles.footer}>
+          <TermsAndConditionsModal message={data?.tnc} />
+          <Pressable onPress={shareLink}>
+            <Text style={styles.link}>Share this event</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+      <Snackbar
+        style={styles.snackBar}
+        onDismiss={handleToggleSnackBar}
+        duration={1000}
+        visible={snackbarVisible}>
+        <View>
+          <Text style={styles.snackbarText}>
+            You don't have minimun balance.{' '}
+            <Text style={styles.snackBarLink} onPress={handleProfileNavigation}>
+              Get Credit Here
+            </Text>
+          </Text>
+        </View>
+      </Snackbar>
+    </View>
   );
 }

@@ -67,10 +67,10 @@ const PostCard = ({
               ellipsizeMode={'tail'}
               numberOfLines={1}
               style={{...Fonts.h4, maxWidth: '70%'}}>
-              {'captioncaptioncaptioncaption'}
+              {caption}
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{...Fonts.h4}}>{likeCount}</Text>
+              <Text style={{...Fonts.h4}}>{likeCount + ' '}</Text>
               <Image
                 resizeMode="contain"
                 source={require('@/assets/images/highfive.png')}

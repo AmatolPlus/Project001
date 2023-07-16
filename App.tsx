@@ -24,7 +24,7 @@ const config = {
 };
 
 const linking = {
-  prefixes: ['highfive://'],
+  prefixes: ['https://site.highfive.one/'],
   config,
 };
 
@@ -70,6 +70,7 @@ function App(): JSX.Element {
             />
             <MainStack.Screen
               options={({navigation, route}: any) => ({
+                headerTitleAlign: 'center',
                 headerTitle: route?.params?.concept_name,
                 headerTitleStyle: {...Fonts.h1},
                 headerLeft: () => {

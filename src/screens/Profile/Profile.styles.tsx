@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
   container: {
     padding: Spacing.xl,
   },
+  link: {
+    color: Colors.info,
+    marginBottom: Spacing.s,
+  },
   card: {
     height: height / 1.2,
     backgroundColor: Colors.white,

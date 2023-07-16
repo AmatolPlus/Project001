@@ -5,12 +5,8 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   note: {
-    display: 'flex',
-    alignItems: 'center',
     padding: Spacing.m,
-    justifyContent: 'space-between',
-    marginVertical: Spacing.m,
-    flexDirection: 'row',
+    marginBottom: Spacing.m,
     backgroundColor: Colors.light,
   },
   noteTextContainer: {width: '70%'},

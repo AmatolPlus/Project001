@@ -74,7 +74,7 @@ const JoinEventConfirmModal = ({
   const pickImageCamera = useCallback(() => {
     launchCamera({
       mediaType: 'photo',
-      quality: 0.8,
+      quality: 0.3,
     }).then((result: any) => {
       handlePostChange('imageUrl', result?.assets[0]);
     });
@@ -83,7 +83,7 @@ const JoinEventConfirmModal = ({
   const pickImageFromLibrary = useCallback(async () => {
     launchImageLibrary({
       mediaType: 'photo',
-      quality: 1,
+      quality: 0.3,
     }).then((result: any) => {
       handlePostChange('imageUrl', result?.assets[0]);
     });
@@ -93,7 +93,7 @@ const JoinEventConfirmModal = ({
     try {
       let data: any = await upload({
         file: uploadPost.imageUrl,
-        title: uploadPost.caption || 'No caption',
+        title: uploadPost.caption || ' ',
       });
       if (data?.data?.details === 'Success') {
         setPost({
@@ -105,7 +105,7 @@ const JoinEventConfirmModal = ({
         handleImageUploaded();
       }
     } catch (e) {}
-  }, [handleImageUploaded, upload, uploadPost.caption, uploadPost.imageUrl]);
+  }, [handleImageUploaded, upload, uploadPost]);
 
   return (
     <Portal>

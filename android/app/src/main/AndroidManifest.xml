@@ -29,7 +29,7 @@
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
-          <data android:scheme="highfive" /> 
+          <data android:scheme="https://site.highfive.one/" /> 
         </intent-filter>
       </activity>
     </application>

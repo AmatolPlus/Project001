@@ -21,10 +21,8 @@ export const styles = StyleSheet.create({
   },
 
   info: {
-    marginBottom: Spacing.m,
-    ...Fonts.h2,
-    fontSize: fontSize.s1,
-    color: Colors.info,
+    marginBottom: Spacing.l,
+    fontSize: fontSize.s2,
   },
   input: {
     backgroundColor: Colors.white,

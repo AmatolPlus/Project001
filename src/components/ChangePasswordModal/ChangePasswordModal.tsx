@@ -44,15 +44,14 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     }
   }, [showPasswordModal, type]);
 
-  const handleUpdateUserName = useCallback(() => {
+  const handleUpdateUserName = useCallback(async () => {
     console.log(password.profile_id);
     try {
-      updateUser({
+      await updateUser({
         first_name: password.first_name,
         last_name: password.last_name,
         profile_id: password.profile_id,
       });
-      console.log(userNameError);
     } catch (e: any) {
       console.log(e);
     }
@@ -61,7 +60,6 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     password.last_name,
     password.profile_id,
     updateUser,
-    userNameError,
   ]);
 
   const handlePasswordChange = useCallback(
@@ -85,36 +83,38 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   }, [isValid]);
 
   const handleSubmit = useCallback(async () => {
-    setLoading(!loading);
-    if (valid) {
+    if (valid && !userNameError) {
       setValid(false);
       try {
         if (type === 'modal') {
-          handleUpdateUserName();
+          await handleUpdateUserName();
         }
         let data = await update(password);
-        if (data?.error) {
-          ToastAndroid.show(`${data?.error?.data?.details}`, ToastAndroid.LONG);
-        }
-        if (!data?.error) {
-          ToastAndroid.show('Password Updated Successfully', ToastAndroid.LONG);
-          handleToggleChangePasswordModal();
-        }
 
-        type === 'modal' && navigation.replace(ScreenNames.mainStack);
-        type === 'component' && handleToggleChangePasswordModal();
+        if (userNameError?.data?.details || data?.error) {
+          return ToastAndroid.show(
+            userNameError?.data?.details || `${data?.error?.data?.details}`,
+            ToastAndroid.LONG,
+          );
+        } else {
+          handleToggleChangePasswordModal(),
+            navigation.replace(ScreenNames.mainStack);
+          type === 'component' && handleToggleChangePasswordModal();
+          ToastAndroid.show('Password Updated Successfully', ToastAndroid.LONG);
+        }
       } catch (e) {}
       setLoading(!loading);
     }
   }, [
-    handleToggleChangePasswordModal,
-    handleUpdateUserName,
+    valid,
     loading,
-    navigation,
-    password,
     type,
     update,
-    valid,
+    password,
+    userNameError,
+    handleUpdateUserName,
+    navigation,
+    handleToggleChangePasswordModal,
   ]);
 
   if (error) {
@@ -149,7 +149,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                     handlePasswordChange('old_password', val)
                   }
                   style={styles.input}
-                  placeholder="Old Password"
+                  placeholder="Old PIN"
                 />
               )}
               {type !== 'component' && (
@@ -159,11 +159,18 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                     onChangeText={val =>
                       handlePasswordChange('profile_id', val)
                     }
+                    onBlur={handleUpdateUserName}
                     style={styles.input}
                     placeholder="User Name"
                   />
-                  <Text style={styles.info}>
-                    Username should only have alphabets and , @ + - _
+                  <Text
+                    style={{
+                      ...styles.info,
+                      color: userNameError ? Colors.danger : Colors.info,
+                    }}>
+                    {!userNameError
+                      ? 'username should consist atleast one capital letter and @'
+                      : userNameError?.data?.details}
                   </Text>
                   <TextInput
                     mode="outlined"
@@ -187,7 +194,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                 keyboardType={'number-pad'}
                 onChangeText={val => handlePasswordChange('password1', val)}
                 style={styles.input}
-                placeholder="New Password"
+                placeholder="New PIN"
               />
               <TextInput
                 maxLength={6}
@@ -195,20 +202,21 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                 keyboardType={'number-pad'}
                 onChangeText={val => handlePasswordChange('password2', val)}
                 style={styles.input}
-                placeholder="Confirm Password"
+                placeholder="Confirm PIN"
               />
             </View>
-            {error ||
-              (userNameError && (
-                <Text style={styles.error}>
-                  {error?.data?.details || userNameError?.data?.details}
-                </Text>
-              ))}
+            {error && (
+              <Text style={styles.error}>
+                {error?.data?.details || userNameError?.data?.details}
+              </Text>
+            )}
 
             <Button
               loading={loading}
-              onPress={valid ? handleSubmit : () => {}}
-              buttonColor={valid ? Colors.success : Colors.grey}
+              onPress={handleSubmit}
+              buttonColor={
+                valid && !userNameError ? Colors.success : Colors.grey
+              }
               style={styles.updateButton}>
               <Text style={styles.updateText}>{'Confirm'}</Text>
             </Button>
