@@ -98,7 +98,7 @@ android {
         applicationId "com.highfive.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 3
         vectorDrawables.useSupportLibrary = true
         versionName "1.0"
     }

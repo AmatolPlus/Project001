@@ -8,6 +8,7 @@ import {Colors} from '@/utils/colors';
 import {useWalletTransactionsQuery} from '@/services/apis/wallet.api';
 import {RefreshControl} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
+import {Fonts} from '@/utils/fonts';
 
 function formatHistory(history: any) {
   if (history) {
@@ -113,15 +114,22 @@ const Transactions = () => {
           <Text style={styles.header}>Transaction History</Text>
         </View>
         <View style={styles.listContainer}>
-          <FlashList
-            refreshControl={
-              <RefreshControl onRefresh={refetch} refreshing={isLoading} />
-            }
-            ListFooterComponent={renderFooter}
-            showsVerticalScrollIndicator={false}
-            data={formattedData}
-            renderItem={renderHistory}
-          />
+          {formattedData?.length !== 0 ? (
+            <FlashList
+              refreshControl={
+                <RefreshControl onRefresh={refetch} refreshing={isLoading} />
+              }
+              ListFooterComponent={renderFooter}
+              showsVerticalScrollIndicator={false}
+              data={formattedData}
+              renderItem={renderHistory}
+            />
+          ) : (
+            <View
+              style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+              <Text style={{...Fonts.h3}}>No Transactions Made</Text>
+            </View>
+          )}
         </View>
       </View>
     </View>
