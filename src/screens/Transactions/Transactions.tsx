@@ -1,14 +1,13 @@
-import {ActivityIndicator, Text} from '@/ui';
 import React, {useCallback, useEffect, useState} from 'react';
-import {SectionList, View} from 'react-native';
+import {View, RefreshControl} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 import moment from 'moment';
 
-import {styles} from './Transactions.styles';
+import {ActivityIndicator, Text} from '@/ui';
 import {Colors} from '@/utils/colors';
 import {useWalletTransactionsQuery} from '@/services/apis/wallet.api';
-import {RefreshControl} from 'react-native';
-import {FlashList} from '@shopify/flash-list';
 import {Fonts} from '@/utils/fonts';
+import {styles} from './Transactions.styles';
 
 function formatHistory(history: any) {
   if (history) {
