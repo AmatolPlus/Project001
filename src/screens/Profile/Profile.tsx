@@ -14,20 +14,18 @@ import {
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 
 import {Button, Divider, Text} from '@/ui';
-import Share from 'react-native-share';
 import Wallet from '@/components/Wallet';
 import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
 import AddressModal from '@/components/AddressModal/AddressModal';
 import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
+import PrivacyPolicy from '@/components/PrivacyPolicy';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
-import {Colors} from '@/utils/colors';
-import {fontSize} from '@/utils/fonts';
 
 export default function Profile() {
   const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
-  const [getCredits, {error}] = useGetCreditMutation({});
+  const [getCredits] = useGetCreditMutation({});
   const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
 
@@ -54,23 +52,11 @@ export default function Profile() {
           ToastAndroid.LONG,
         );
       }
+      // eslint-disable-next-line no-catch-shadow
     } catch (error) {
       console.log(error);
     }
   }, [getCredits]);
-
-  const handleShareOpen = useCallback(() => {
-    Share.open({
-      message: 'Invite A Friend',
-      url: 'www.google.com',
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        err && console.log(err);
-      });
-  }, []);
 
   return (
     <ScrollView
@@ -95,6 +81,7 @@ export default function Profile() {
           <AddressModal />
           <SocialMediaModal />
           <ChangePasswordModal type="component" />
+          <PrivacyPolicy />
 
           <Divider style={styles.divider} />
         </View>
