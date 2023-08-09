@@ -74,20 +74,6 @@ export default function Details() {
     [like, refetch],
   );
 
-  // const handleConfirmPayment = useCallback(
-  //   async (res: any) => {
-  //     const status = await confirmPayment(res);
-  //     refetch();
-  //     if (status?.data?.details === 'Success') {
-  //       ToastAndroid.show(
-  //         'Payment Successfull, Post Has Been Uploaded',
-  //         ToastAndroid.LONG,
-  //       );
-  //     }
-  //   },
-  //   [confirmPayment, refetch],
-  // );
-
   const shareLink = async () => {
     try {
       await Share.share({
@@ -103,25 +89,6 @@ export default function Details() {
   const handleRazorPayPayment = useCallback(
     async (response: any) => {
       if (response?.data?.amount !== 0) {
-        // let result = await RazorPayCheckout.open({
-        //   description: 'Join Contest Payment',
-        //   image: data?.sample_image_url,
-        //   name: data?.concept_name,
-        //   key: response?.data?.key,
-        //   prefill: {
-        //     email: user?.email,
-        //     contact: user?.mobile_number,
-        //   },
-        //   amount: response?.data?.amount,
-        //   currency: response?.data?.currency,
-        //   order_id: response?.data?.order_id,
-        //   theme: {
-        //     color: Colors.success,
-        //   },
-        // // });
-        // if (result?.razorpay_payment_id) {
-        //   handleConfirmPayment(result);
-        // }
         handleToggleSnackBar();
       } else {
         ToastAndroid.show(

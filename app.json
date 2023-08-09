@@ -1,4 +1,5 @@
 {
   "name": "HighFive",
-  "displayName": "HighFive"
+  "displayName": "HighFive",
+  "plugins": ["react-native-imglysdk"]
 }

@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {Portal} from 'react-native-paper';
-
+import {PhotoEditorModal} from 'react-native-photoeditorsdk';
 import Modal from './Modal';
 import OrderSummary from '@/components/OrderSummary/OrderSummary';
 import Text from './Text';
@@ -45,6 +45,8 @@ const JoinEventConfirmModal = ({
   });
   const [upload, {isLoading}] = useUploadImageMutation();
   const [hasImageUploaded, setImageUploaded] = useState(false);
+  const [editable, setEditable] = useState(false);
+  const [showEdit, toggleEdit] = useState(false);
 
   const handleImageUploaded = useCallback(() => {
     setImageUploaded(!hasImageUploaded);
@@ -60,6 +62,7 @@ const JoinEventConfirmModal = ({
         ...uploadPost,
         [key]: value,
       });
+      toggleEdit(true);
     },
     [uploadPost],
   );
@@ -76,18 +79,26 @@ const JoinEventConfirmModal = ({
       mediaType: 'photo',
       quality: 0.3,
     }).then((result: any) => {
-      handlePostChange('imageUrl', result?.assets[0]);
+      if (editable) {
+        setEditable(true);
+      } else {
+        handlePostChange('imageUrl', result?.assets[0]);
+      }
     });
-  }, [handlePostChange]);
+  }, [editable, handlePostChange]);
 
   const pickImageFromLibrary = useCallback(async () => {
     launchImageLibrary({
       mediaType: 'photo',
       quality: 0.3,
     }).then((result: any) => {
-      handlePostChange('imageUrl', result?.assets[0]);
+      if (editable) {
+        setEditable(true);
+      } else {
+        handlePostChange('imageUrl', result?.assets[0]);
+      }
     });
-  }, [handlePostChange]);
+  }, [editable, handlePostChange]);
 
   const uploadImage = useCallback(async () => {
     try {
@@ -144,6 +155,18 @@ const JoinEventConfirmModal = ({
                 onPress={pickImageCamera}>
                 Take a Photo
               </Button>
+              {showEdit ? (
+                <Button
+                  style={styles.button}
+                  textColor={Colors.white}
+                  onPress={() => {
+                    setEditable(true);
+                  }}>
+                  Edit
+                </Button>
+              ) : (
+                <></>
+              )}
             </View>
             <Button
               loading={isLoading}
@@ -175,6 +198,16 @@ const JoinEventConfirmModal = ({
           />
         )}
       </Modal>
+      <PhotoEditorModal
+        onExport={response => {
+          handlePostChange('imageUrl', {
+            uri: response.image,
+          });
+          setEditable(false);
+        }}
+        visible={editable}
+        image={uploadPost.imageUrl}
+      />
     </Portal>
   );
 };
@@ -212,6 +245,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: Spacing.m,
     justifyContent: 'space-between',
+    gap: 4,
   },
   button: {
     backgroundColor: Colors.success,
