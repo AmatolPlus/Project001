@@ -1,6 +1,6 @@
 import React, {useCallback, useState} from 'react';
 import {Portal} from 'react-native-paper';
-import {PhotoEditorModal} from 'react-native-photoeditorsdk';
+import {PESDK} from 'react-native-photoeditorsdk';
 import Modal from './Modal';
 import OrderSummary from '@/components/OrderSummary/OrderSummary';
 import Text from './Text';
@@ -11,8 +11,9 @@ import Button from './Button';
 import Image from './Image';
 import {Fonts} from '@/utils/fonts';
 import {useUploadImageMutation} from '@/services/apis/contests.api';
-import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 import TextInput from './TextInput';
+import ImageCropPicker from 'react-native-image-crop-picker';
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;
@@ -45,7 +46,6 @@ const JoinEventConfirmModal = ({
   });
   const [upload, {isLoading}] = useUploadImageMutation();
   const [hasImageUploaded, setImageUploaded] = useState(false);
-  const [editable, setEditable] = useState(false);
   const [showEdit, toggleEdit] = useState(false);
 
   const handleImageUploaded = useCallback(() => {
@@ -62,7 +62,6 @@ const JoinEventConfirmModal = ({
         ...uploadPost,
         [key]: value,
       });
-      toggleEdit(true);
     },
     [uploadPost],
   );
@@ -75,30 +74,34 @@ const JoinEventConfirmModal = ({
   );
 
   const pickImageCamera = useCallback(() => {
-    launchCamera({
+    ImagePicker.openCamera({
       mediaType: 'photo',
+      cropping: true,
       quality: 0.3,
     }).then((result: any) => {
-      if (editable) {
-        setEditable(true);
-      } else {
-        handlePostChange('imageUrl', result?.assets[0]);
-      }
+      handlePostChange('imageUrl', {
+        ...result,
+        filename: result?.path,
+        type: result?.mime,
+        uri: result?.path,
+      });
     });
-  }, [editable, handlePostChange]);
+  }, [handlePostChange]);
 
   const pickImageFromLibrary = useCallback(async () => {
-    launchImageLibrary({
+    ImageCropPicker.openPicker({
       mediaType: 'photo',
+      cropping: true,
       quality: 0.3,
     }).then((result: any) => {
-      if (editable) {
-        setEditable(true);
-      } else {
-        handlePostChange('imageUrl', result?.assets[0]);
-      }
+      handlePostChange('imageUrl', {
+        ...result,
+        filename: result?.path,
+        type: result?.mime,
+        uri: result?.path,
+      });
     });
-  }, [editable, handlePostChange]);
+  }, [handlePostChange]);
 
   const uploadImage = useCallback(async () => {
     try {
@@ -155,18 +158,6 @@ const JoinEventConfirmModal = ({
                 onPress={pickImageCamera}>
                 Take a Photo
               </Button>
-              {showEdit ? (
-                <Button
-                  style={styles.button}
-                  textColor={Colors.white}
-                  onPress={() => {
-                    setEditable(true);
-                  }}>
-                  Edit
-                </Button>
-              ) : (
-                <></>
-              )}
             </View>
             <Button
               loading={isLoading}
@@ -186,6 +177,7 @@ const JoinEventConfirmModal = ({
           <OrderSummary
             handleImageUploaded={handleImageUploaded}
             started_on={started_on}
+            cancel={setImageUploaded}
             ends_on={ends_on}
             mobile_number={mobile_number}
             image={image}
@@ -198,16 +190,6 @@ const JoinEventConfirmModal = ({
           />
         )}
       </Modal>
-      <PhotoEditorModal
-        onExport={response => {
-          handlePostChange('imageUrl', {
-            uri: response.image,
-          });
-          setEditable(false);
-        }}
-        visible={editable}
-        image={uploadPost.imageUrl}
-      />
     </Portal>
   );
 };

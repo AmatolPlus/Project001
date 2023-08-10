@@ -1,6 +1,6 @@
 import {Button, Divider, Image, Text} from '@/ui';
 import React, {memo, useCallback} from 'react';
-import {View} from 'react-native';
+import {TouchableOpacity, View} from 'react-native';
 import moment from 'moment';
 
 import {styles} from './OrderSummary.styles';
@@ -16,9 +16,14 @@ const OrderSummary = ({
   ends_on,
   mobile_number,
   started_on,
+  cancel,
   wallet_amount,
   handleImageUploaded,
 }: IOrderSummary) => {
+  const handleCancel = useCallback(() => {
+    cancel(!cancel);
+  }, [cancel]);
+
   const handlePayment = useCallback(() => {
     onConfirm(imageId, image);
     handleImageUploaded();
@@ -30,7 +35,9 @@ const OrderSummary = ({
         <Image style={styles.image} source={{uri: image}} />
         <View style={styles.buttonContainer}>
           <Text style={styles.info}>You have Selected this image</Text>
-          <Text style={styles.changeButton}>Change</Text>
+          <TouchableOpacity onPress={handleCancel}>
+            <Text style={styles.changeButton}>Change</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <View>
