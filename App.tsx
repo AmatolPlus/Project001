@@ -24,7 +24,7 @@ const config = {
 };
 
 const linking = {
-  prefixes: ['https://site.highfive.one/'],
+  prefixes: ['highfive://', 'https://site.highfive.one/'],
   config,
 };
 
