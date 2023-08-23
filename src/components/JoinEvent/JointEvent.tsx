@@ -52,7 +52,7 @@ export const JoinEvent = ({
         onPress={handleToggleModal}
         style={[
           styles.button,
-          {backgroundColor: !canJoin ? Colors.grey : Colors.success},
+          {backgroundColor: !canJoin ? Colors.grey : Colors.danger},
         ]}>
         <Text style={styles.buttonText}>Join</Text>
       </Button>

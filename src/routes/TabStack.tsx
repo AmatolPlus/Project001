@@ -17,25 +17,21 @@ import Transactions from '@/screens/Transactions/Transactions';
 
 const ProfileIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons name="md-person" size={Spacing.xl * 1.3} color={Colors.white} />
+    <Ionicons name="md-person" size={size} color={Colors.white} />
   ) : (
     <Ionicons name="person-outline" size={size} color={Colors.light} />
   );
 
 const WalletIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons
-      name="wallet-sharp"
-      size={Spacing.xl * 1.3}
-      color={Colors.white}
-    />
+    <Ionicons name="wallet-sharp" size={size} color={Colors.white} />
   ) : (
     <Ionicons name="wallet-outline" size={size} color={Colors.light} />
   );
 
 const HomeIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons name="md-home" color={Colors.white} size={Spacing.xl * 1.3} />
+    <Ionicons name="md-home" color={Colors.white} size={size} />
   ) : (
     <Ionicons name="home-outline" size={size} color={Colors.light} />
   );
@@ -53,32 +49,36 @@ export default function TabStack() {
     <Tab.Navigator
       screenOptions={{
         tabBarHideOnKeyboard: true,
-        tabBarShowLabel: false,
+        tabBarInactiveTintColor: Colors.light,
+        tabBarActiveTintColor: Colors.white,
+        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          ...Fonts.h6,
+        },
         tabBarStyle: {
-          position: 'absolute',
-          marginHorizontal: Spacing.l,
-          marginBottom: Spacing.l,
-          borderRadius: BorderRadius.l,
-          elevation: 2,
-          backgroundColor: Colors.dark,
+          backgroundColor: Colors.info,
         },
       }}>
       <Tab.Screen
         options={{
           tabBarIcon: HomeIcon,
+          headerStyle: {
+            backgroundColor: Colors.light,
+          },
           headerTitle: () => (
             <View
               style={{
                 display: 'flex',
                 alignSelf: 'center',
                 width: width,
+                backgroundColor: Colors.light,
               }}>
               <Text
                 style={{
                   ...Fonts.title,
                   textAlign: 'center',
                   fontSize: fontSize.title,
-                  color: Colors.dark2,
+                  color: Colors.info,
                 }}>
                 HighFive
               </Text>

@@ -25,7 +25,6 @@ import {RefreshControl} from 'react-native';
 
 export default function Profile() {
   const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
-  const [getCredits] = useGetCreditMutation({});
   const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
   const navigation: any = useNavigation();
 
@@ -41,23 +40,6 @@ export default function Profile() {
     );
   }, [navigation]);
 
-  const handleGetCredit = useCallback(async () => {
-    try {
-      let credit_data: any = await getCredits({});
-      if (credit_data?.data?.detail) {
-        return ToastAndroid.show(credit_data?.data?.detail, ToastAndroid.LONG);
-      } else {
-        return ToastAndroid.show(
-          credit_data?.error?.data?.detail,
-          ToastAndroid.LONG,
-        );
-      }
-      // eslint-disable-next-line no-catch-shadow
-    } catch (error) {
-      console.log(error);
-    }
-  }, [getCredits]);
-
   return (
     <ScrollView
       refreshControl={
@@ -68,16 +50,6 @@ export default function Profile() {
         <View>
           <ProfileInfo refetch={userRefetch} data={user} fullName={fullName} />
           <Divider style={styles.divider} />
-          <Wallet
-            wallet={wallet}
-            onRefreshWallet={refetch}
-            onWithdraw={() => {}}
-            loading={isLoading}
-          />
-          <Divider style={styles.divider} />
-          <Text onPress={handleGetCredit} style={styles.link}>
-            Get Credits
-          </Text>
           <AddressModal />
           <SocialMediaModal />
           <ChangePasswordModal type="component" />

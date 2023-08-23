@@ -13,7 +13,7 @@ const JoinTag = ({isLive}: IJoinTag) => {
         styles.container,
         {
           width: !isLive ? '30%' : '40%',
-          backgroundColor: !isLive ? '#00AA28' : Colors.info,
+          backgroundColor: Colors.white,
         },
       ]}>
       {!isLive ? (

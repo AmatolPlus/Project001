@@ -17,6 +17,7 @@ import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 import {useStoragePermission} from '@/hooks/getStoragePermission';
 import {fontSize} from '@/utils/fonts';
 import {ContestCard} from '@/components/ContestCard/ContestCard';
+import {Spacing} from '@/utils/constants';
 
 function Home() {
   const navigation: any = useNavigation();
@@ -61,7 +62,6 @@ function Home() {
   }
 
   const renderItem = ({item}: any) => {
-    console.log(item);
     return (
       <ContestCard
         showPrizeChartButton={false}

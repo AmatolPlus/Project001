@@ -7,6 +7,7 @@ import {Fonts} from '@/utils/fonts';
 import {IPostCard} from './PostCard.types';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
 import {canLikeEvent} from '@/utils/event';
+import RankTag from '../RankTag/RankTag';
 
 const PostCard = ({
   contestImage,
@@ -15,6 +16,7 @@ const PostCard = ({
   likeEndDate,
   onLike,
   loading,
+  morePosts,
   item,
 }: IPostCard) => {
   const [confirmModalShown, setShowConfirmModal] = useState(false);
@@ -38,6 +40,8 @@ const PostCard = ({
 
   return (
     <View style={styles.postCard}>
+      <RankTag rank={item?.rank} />
+
       <Image
         style={{...StyleSheet.absoluteFillObject}}
         source={{uri: contestImage}}
@@ -49,11 +53,14 @@ const PostCard = ({
           {loading ? (
             <ActivityIndicator />
           ) : (
-            <Image
-              resizeMode="contain"
-              source={require('@/assets/images/highfive.png')}
-              style={styles.likeImage}
-            />
+            <>
+              <Image
+                resizeMode="contain"
+                source={require('@/assets/images/highfive.png')}
+                style={styles.likeImage}
+              />
+              <Text style={{...Fonts.h4}}>{likeCount + ' '}</Text>
+            </>
           )}
         </TouchableOpacity>
       ) : (
@@ -69,18 +76,11 @@ const PostCard = ({
               style={{...Fonts.h4, maxWidth: '70%'}}>
               {caption}
             </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              <Text style={{...Fonts.h4}}>{likeCount + ' '}</Text>
-              <Image
-                resizeMode="contain"
-                source={require('@/assets/images/highfive.png')}
-                style={styles.likeImage}
-              />
-            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}></View>
           </View>
+
           <View style={styles.bannerTextAlignment}>
             <Text style={styles.username}>{item?.user?.profile_id || '-'}</Text>
-            <Text>{!item?.rank ? '-' : `#${item?.rank}`}</Text>
           </View>
         </View>
       </View>

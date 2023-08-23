@@ -7,20 +7,27 @@ import {VerticalMargin} from '@/utils/spacing';
 import {width} from '@/utils/Dimension';
 
 export const styles = StyleSheet.create({
+  container: {
+    shadowColor: Colors.info,
+    shadowOffset: {width: 12, height: 12},
+    elevation: 8,
+  },
   imageContainer: {
     ...VerticalMargin('s'),
     borderRadius: BorderRadius.s,
-    marginRight: Spacing.m,
     width: width / 1.2,
-    borderWidth: 0.5,
-    borderColor: Colors.dark2,
+    backgroundColor: Colors.primary,
+    shadowColor: Colors.info,
+    elevation: 12,
+    marginTop: 12,
+    shadowOpacity: 8,
     overflow: 'hidden',
     paddingBottom: Spacing.s,
   },
   image: {
     height: 250,
     width: '100%',
-    borderBottomColor: Colors.dark2,
+    borderBottomColor: Colors.info,
     borderBottomWidth: 0.5,
   },
   sectionHeader: {
@@ -29,32 +36,32 @@ export const styles = StyleSheet.create({
   },
   infoContainer: {
     marginTop: Spacing.m,
-    paddingHorizontal: Spacing.l,
+    paddingHorizontal: Spacing.m,
   },
 
   name: {
     ...Fonts.h3,
     ...VerticalMargin('xs'),
     fontSize: fontSize.h4,
-    color: Colors.dark,
+    color: Colors.info,
   },
   priceLabel: {
     ...Fonts.sub1,
-    color: Colors.dark,
+    color: Colors.info,
   },
   price: {
     ...Fonts.h4,
-    color: Colors.dark,
+    color: Colors.info,
   },
   label: {
     textAlign: 'center',
     ...Fonts.sub1,
-    color: Colors.dark,
+    color: Colors.info,
   },
   entryFee: {
     alignSelf: 'center',
     ...Fonts.h5,
-    color: Colors.dark,
+    color: Colors.info,
   },
   contestInfoContainer: {
     justifyContent: 'space-between',
@@ -64,5 +71,5 @@ export const styles = StyleSheet.create({
   progressBarContainer: {
     marginTop: Spacing.m,
   },
-  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.info},
+  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.danger},
 });

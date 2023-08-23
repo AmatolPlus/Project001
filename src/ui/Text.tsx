@@ -1,8 +1,8 @@
 import {Colors} from '@/utils/colors';
 import {Fonts} from '@/utils/fonts';
 import React from 'react';
-import {StyleSheet} from 'react-native';
 import {Text as RPText} from 'react-native-paper';
+import {StyleSheet} from 'react-native';
 import {IText} from '../types/Text';
 
 const Text = ({style = {}, ...props}: IText) => {

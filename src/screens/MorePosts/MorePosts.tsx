@@ -9,6 +9,7 @@ import {styles} from './MorePosts.styles';
 import {useRoute} from '@react-navigation/native';
 import {Spacing} from '@/utils/constants';
 import {Text} from '@/ui';
+import {Colors} from '@/utils/colors';
 
 export default function MorePosts() {
   const route: any = useRoute();
@@ -68,11 +69,12 @@ export default function MorePosts() {
       onLike={handleLike}
       loading={isLoading}
       likeEndDate={likeEndDate}
+      contest_ended={false}
     />
   );
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: Colors.light}}>
       <View style={styles.listContainer}>
         <FlatList
           ListFooterComponent={maxPages > 1 ? renderFooter : null}

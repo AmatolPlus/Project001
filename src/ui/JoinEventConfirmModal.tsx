@@ -4,8 +4,8 @@ import {PESDK} from 'react-native-photoeditorsdk';
 import Modal from './Modal';
 import OrderSummary from '@/components/OrderSummary/OrderSummary';
 import Text from './Text';
-import {StyleSheet, View} from 'react-native';
-import {Spacing} from '@/utils/constants';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
 import Button from './Button';
 import Image from './Image';
@@ -14,6 +14,8 @@ import {useUploadImageMutation} from '@/services/apis/contests.api';
 import ImagePicker from 'react-native-image-crop-picker';
 import TextInput from './TextInput';
 import ImageCropPicker from 'react-native-image-crop-picker';
+import {HorizontalMargin} from '@/utils/spacing';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;
@@ -25,6 +27,14 @@ interface IJoinEventModal {
   wallet: string | number;
   mobile_number: string | number;
 }
+
+const HeaderIcon = ({handleClose}: any) => {
+  return (
+    <TouchableOpacity style={styles.modalCloseIcon} onPress={handleClose}>
+      <AntDesign name="arrowleft" size={24} color={Colors.info} />
+    </TouchableOpacity>
+  );
+};
 
 const JoinEventConfirmModal = ({
   isOpen,
@@ -46,7 +56,6 @@ const JoinEventConfirmModal = ({
   });
   const [upload, {isLoading}] = useUploadImageMutation();
   const [hasImageUploaded, setImageUploaded] = useState(false);
-  const [showEdit, toggleEdit] = useState(false);
 
   const handleImageUploaded = useCallback(() => {
     setImageUploaded(!hasImageUploaded);
@@ -124,6 +133,8 @@ const JoinEventConfirmModal = ({
   return (
     <Portal>
       <Modal style={styles.modal} onDismiss={onClose} visible={isOpen}>
+        <HeaderIcon handleClose={onClose} />
+
         {!hasImageUploaded ? (
           <View style={styles.container}>
             <Text style={styles.title}>Upload An Image</Text>
@@ -140,7 +151,9 @@ const JoinEventConfirmModal = ({
             </View>
             <TextInput
               placeholder="Type a Caption here"
+              activeOutlineColor={Colors.info}
               mode="outlined"
+              outlineColor={Colors.info}
               onChangeText={handleCaptionChange}
               value={uploadPost.caption}
               style={styles.input}
@@ -167,7 +180,7 @@ const JoinEventConfirmModal = ({
               style={{
                 ...styles.confirmUpload,
                 backgroundColor: uploadPost.imageUrl?.uri
-                  ? Colors.success
+                  ? Colors.danger
                   : Colors.grey,
               }}>
               Upload
@@ -197,22 +210,26 @@ const JoinEventConfirmModal = ({
 const styles = StyleSheet.create({
   modal: {
     padding: Spacing.l,
+    backgroundColor: Colors.light,
   },
   container: {
     width: '100%',
     padding: Spacing.l,
     borderRadius: Spacing.m,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
   },
   title: {
+    color: Colors.info,
+    textAlign: 'center',
     ...Fonts.h2,
   },
   input: {
-    width: '100%',
+    color: Colors.info,
+    backgroundColor: Colors.light,
   },
   imageContainer: {
     height: 300,
-
+    borderRadius: BorderRadius.s,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: Spacing.xl,
@@ -230,12 +247,30 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   button: {
-    backgroundColor: Colors.success,
+    backgroundColor: Colors.danger,
+    borderRadius: BorderRadius.xs,
+    width: '50%',
   },
   confirmUpload: {
-    backgroundColor: Colors.success,
+    backgroundColor: Colors.danger,
     padding: Spacing.s,
     marginTop: Spacing.m,
+    ...HorizontalMargin('m'),
+  },
+  modalCloseIcon: {
+    backgroundColor: Colors.light,
+    elevation: 10,
+    display: 'flex',
+    position: 'absolute',
+    top: '-15%',
+    left: 0,
+    zIndex: 10,
+    height: Spacing.xl * 1.5,
+    width: Spacing.xl * 1.5,
+    borderRadius: BorderRadius.l,
+    alignItems: 'center',
+    shadowColor: Colors.info,
+    justifyContent: 'center',
   },
 });
 

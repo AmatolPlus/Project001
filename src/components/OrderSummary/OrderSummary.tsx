@@ -1,7 +1,7 @@
+import moment from 'moment';
 import {Button, Divider, Image, Text} from '@/ui';
 import React, {memo, useCallback} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import moment from 'moment';
 
 import {styles} from './OrderSummary.styles';
 import {Colors} from '@/utils/colors';

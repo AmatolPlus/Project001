@@ -7,7 +7,7 @@ import {IRankTag} from './RankTag.types';
 export default function RankTag({rank}: IRankTag) {
   return (
     <View style={styles.container}>
-      <Text style={styles.status}>Rank {rank}</Text>
+      <Text style={styles.status}>#{rank}</Text>
     </View>
   );
 }

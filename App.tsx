@@ -13,9 +13,10 @@ import {store} from '@/services/store.config';
 import {ContestList, Launch, MorePosts, Details} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts} from '@/utils/fonts';
-import {Spacing} from '@/utils/constants';
+import {BorderRadius, Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
 import {checkForUpdate} from '@/utils/appUpdate';
+import {Colors} from '@/utils/colors';
 
 const config = {
   screens: {
@@ -30,13 +31,20 @@ const linking = {
 
 const HeaderIcon = ({navigation}: any) => {
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
-      <AntDesign
-        name="leftsquare"
-        style={{marginRight: Spacing.s}}
-        size={24}
-        color="black"
-      />
+    <TouchableOpacity
+      style={{
+        backgroundColor: Colors.light,
+        elevation: 10,
+        display: 'flex',
+        height: Spacing.xl * 1.5,
+        width: Spacing.xl * 1.5,
+        borderRadius: BorderRadius.l,
+        alignItems: 'center',
+        shadowColor: Colors.info,
+        justifyContent: 'center',
+      }}
+      onPress={() => navigation.goBack()}>
+      <AntDesign name="arrowleft" size={24} color={Colors.info} />
     </TouchableOpacity>
   );
 };
@@ -52,7 +60,11 @@ function App(): JSX.Element {
         <NavigationContainer
           linking={linking}
           fallback={<Text>Loading...</Text>}>
-          <MainStack.Navigator>
+          <MainStack.Navigator
+            screenOptions={{
+              headerTitleStyle: {color: Colors.info, ...Fonts.h1},
+              headerShadowVisible: false,
+            }}>
             <MainStack.Screen
               name={ScreenNames.launch}
               options={options}
@@ -71,8 +83,10 @@ function App(): JSX.Element {
             <MainStack.Screen
               options={({navigation, route}: any) => ({
                 headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
                 headerTitle: route?.params?.concept_name,
-                headerTitleStyle: {...Fonts.h1},
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },
@@ -85,7 +99,10 @@ function App(): JSX.Element {
               component={ContestList}
               options={({navigation}) => ({
                 headerTitle: 'Contests',
-                headerTitleStyle: {...Fonts.h1},
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },
@@ -96,7 +113,10 @@ function App(): JSX.Element {
               component={MorePosts}
               options={({navigation}) => ({
                 headerTitle: 'Contests',
-                headerTitleStyle: {...Fonts.h1},
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },

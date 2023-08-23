@@ -5,13 +5,13 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   postCard: {
-    height: 300,
+    height: 250,
     width: 189,
-    marginTop: Spacing.xs,
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.primary,
     marginLeft: Spacing.xs,
-    borderColor: Colors.grey,
-    borderWidth: 1,
+    borderRadius: BorderRadius.m,
+    overflow: 'hidden',
+    marginTop: Spacing.m,
   },
   likeImage: {
     height: 24,
@@ -27,7 +27,8 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
+
     gap: 2,
     padding: Spacing.xs,
   },
@@ -43,12 +44,13 @@ export const styles = StyleSheet.create({
   likeBtn: {
     borderRadius: BorderRadius.l,
     padding: Spacing.m,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
+    zIndex: 1,
     height: 50,
     width: 50,
     alignItems: 'center',
     position: 'absolute',
-    bottom: 70,
+    bottom: 45,
     right: Spacing.m,
   },
 });

@@ -7,9 +7,9 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: Spacing.l,
     paddingBottom: Spacing.l,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.light,
+    padding: Spacing.l,
   },
   text: {
     ...Fonts.h1,
@@ -109,6 +109,7 @@ export const styles = StyleSheet.create({
   },
   eventDetailsHeader: {
     ...Fonts.h1,
+    color: Colors.info,
     marginBottom: Spacing.m,
     fontSize: fontSize.h3,
   },
@@ -121,7 +122,7 @@ export const styles = StyleSheet.create({
   },
   eventDetailsSubHeader: {
     ...Fonts.h3,
-    color: Colors.grey,
+    color: Colors.info,
     marginLeft: 0,
     fontSize: fontSize.h6,
   },
@@ -156,8 +157,7 @@ export const styles = StyleSheet.create({
   },
   note: {
     padding: Spacing.m,
-    marginTop: Spacing.xs,
-    marginBottom: Spacing.xs,
+    width: '50%',
     backgroundColor: Colors.light,
   },
   noteTextContainer: {width: '100%'},

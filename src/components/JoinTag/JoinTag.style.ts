@@ -17,6 +17,6 @@ export const styles = StyleSheet.create({
   status: {
     ...Fonts.h4,
     fontSize: fontSize.h5,
-    color: Colors.white,
+    color: Colors.danger,
   },
 });

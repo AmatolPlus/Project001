@@ -1,8 +1,13 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {Pressable, ToastAndroid, View} from 'react-native';
+import {
+  Pressable,
+  ToastAndroid,
+  View,
+  Text,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {Portal} from 'react-native-paper';
-
-import {Button, TextInput, Modal, Text} from '@/ui';
+import {Button, TextInput, Modal, Image} from '@/ui';
 import {styles} from './ChangePasswordModal.styles';
 import {validatePassword} from '@/utils/validatePassword';
 import {Colors} from '@/utils/colors';
@@ -12,6 +17,7 @@ import {
 } from '@/services/apis/login.api';
 import {IChangePassword} from './ChangePasswordModal.types';
 import {ScreenNames} from '@/utils/screenName';
+import {ScrollView} from 'react-native';
 
 const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   const [password, setPassword] = useState({
@@ -130,97 +136,120 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
       )}
       <Portal>
         <Modal
-          style={styles.modal}
+          className="h-full "
           visible={showPasswordModal}
           onDismiss={handleToggleChangePasswordModal}>
-          <View style={styles.card}>
-            {type === 'component' ? (
-              <Text style={styles.header}>Change Password</Text>
-            ) : (
-              <Text style={styles.header}>Complete Profile</Text>
-            )}
-            <View>
-              {type === 'component' && (
-                <TextInput
-                  mode="outlined"
-                  maxLength={6}
-                  keyboardType={'number-pad'}
-                  onChangeText={val =>
-                    handlePasswordChange('old_password', val)
-                  }
-                  style={styles.input}
-                  placeholder="Old PIN"
-                />
-              )}
-              {type !== 'component' && (
-                <>
-                  <TextInput
-                    mode="outlined"
-                    onChangeText={val =>
-                      handlePasswordChange('profile_id', val)
-                    }
-                    onBlur={handleUpdateUserName}
-                    style={styles.input}
-                    placeholder="User Name"
-                  />
-                  <Text
-                    style={{
-                      ...styles.info,
-                      color: userNameError ? Colors.danger : Colors.info,
-                    }}>
-                    {!userNameError
-                      ? 'username should consist atleast one capital letter and @'
-                      : userNameError?.data?.details}
-                  </Text>
-                  <TextInput
-                    mode="outlined"
-                    onChangeText={val =>
-                      handlePasswordChange('first_name', val)
-                    }
-                    style={styles.input}
-                    placeholder="First Name"
-                  />
-                  <TextInput
-                    mode="outlined"
-                    onChangeText={val => handlePasswordChange('last_name', val)}
-                    style={styles.input}
-                    placeholder="Last Name"
-                  />
-                </>
-              )}
-              <TextInput
-                maxLength={6}
-                mode="outlined"
-                keyboardType={'number-pad'}
-                onChangeText={val => handlePasswordChange('password1', val)}
-                style={styles.input}
-                placeholder="New PIN"
-              />
-              <TextInput
-                maxLength={6}
-                mode="outlined"
-                keyboardType={'number-pad'}
-                onChangeText={val => handlePasswordChange('password2', val)}
-                style={styles.input}
-                placeholder="Confirm PIN"
-              />
-            </View>
-            {error && (
-              <Text style={styles.error}>
-                {error?.data?.details || userNameError?.data?.details}
+          <ScrollView className={'h-full bg-primary '}>
+            <KeyboardAvoidingView
+              behavior="padding"
+              className="bg-primary h-full px-4 ">
+              <Text className="text-3xl mb-2 color-info font-sans-bold text-center mt-4">
+                HIGHFIVE
               </Text>
-            )}
 
-            <Button
-              loading={loading}
-              onPress={handleSubmit}
-              buttonColor={
-                valid && !userNameError ? Colors.success : Colors.grey
-              }
-              style={styles.updateButton}>
-              <Text style={styles.updateText}>{'Confirm'}</Text>
-            </Button>
-          </View>
+              <Image
+                source={require('@/assets/images/login.jpeg')}
+                className="h-48"
+              />
+              <View className="bg-white p-6 rounded-xl shadow-info shadow-xl mt-4">
+                <Text className="color-info text-xl text-center mb-2 font-sans-bold ">
+                  {type === 'component'
+                    ? 'Change Password'
+                    : 'COMPLETE PROFILE'}{' '}
+                </Text>
+                <View>
+                  {type === 'component' && (
+                    <TextInput
+                      mode="outlined"
+                      activeOutlineColor={Colors.info}
+                      maxLength={6}
+                      keyboardType={'number-pad'}
+                      onChangeText={val =>
+                        handlePasswordChange('old_password', val)
+                      }
+                      placeholder="Old PIN"
+                    />
+                  )}
+                  {type !== 'component' && (
+                    <>
+                      <TextInput
+                        mode="outlined"
+                        activeOutlineColor={Colors.info}
+                        onChangeText={val => {
+                          handlePasswordChange('profile_id', val);
+                          handleUpdateUserName();
+                        }}
+                        className="bg-whitecolor-info"
+                        onBlur={handleUpdateUserName}
+                        placeholder="User Name"
+                      />
+                      <Text
+                        className={
+                          userNameError
+                            ? ' color-danger mt-2 mb-2'
+                            : ' color-info mt-2 mb-2'
+                        }>
+                        {!userNameError
+                          ? 'username should consist atleast one capital letter and @'
+                          : userNameError?.data?.details}
+                      </Text>
+                      <TextInput
+                        activeOutlineColor={Colors.info}
+                        mode="outlined"
+                        onChangeText={val =>
+                          handlePasswordChange('first_name', val)
+                        }
+                        className="bg-white mb-4 color-info"
+                        placeholder="First Name"
+                      />
+                      <TextInput
+                        activeOutlineColor={Colors.info}
+                        mode="outlined"
+                        onChangeText={val =>
+                          handlePasswordChange('last_name', val)
+                        }
+                        className="bg-white mb-4 color-info"
+                        placeholder="Last Name"
+                      />
+                    </>
+                  )}
+                  <TextInput
+                    maxLength={6}
+                    activeOutlineColor={Colors.info}
+                    mode="outlined"
+                    keyboardType={'number-pad'}
+                    className="bg-white mb-4 color-info"
+                    onChangeText={val => handlePasswordChange('password1', val)}
+                    placeholder="New PIN"
+                  />
+                  <TextInput
+                    activeOutlineColor={Colors.info}
+                    maxLength={6}
+                    mode="outlined"
+                    keyboardType={'number-pad'}
+                    className="bg-white mb-4 color-info"
+                    onChangeText={val => handlePasswordChange('password2', val)}
+                    placeholder="Confirm PIN"
+                  />
+                </View>
+                {error && (
+                  <Text className="color-danger font-bold">
+                    {error?.data?.details || userNameError?.data?.details}
+                  </Text>
+                )}
+                <Button
+                  loading={loading}
+                  onPress={handleSubmit}
+                  className={
+                    valid && !userNameError
+                      ? 'color-danger shadow-danger shadow-xl bg-danger'
+                      : 'bg-secondary rounded-md p-1 color-primary '
+                  }>
+                  <Text className="color-white">{'Confirm'}</Text>
+                </Button>
+              </View>
+            </KeyboardAvoidingView>
+          </ScrollView>
         </Modal>
       </Portal>
     </View>

@@ -5,7 +5,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {Button, TextInput, Text, Image} from '@/ui';
 import {FormState} from './LoginTypes';
-import {appConfig} from '@/utils/appConfig';
 import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';

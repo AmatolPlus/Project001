@@ -7,30 +7,18 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: Spacing.xl,
+    padding: Spacing.xl * 1.5,
   },
   link: {
     color: Colors.info,
     marginBottom: Spacing.s,
   },
-  card: {
-    height: height / 1.2,
-    backgroundColor: Colors.white,
-    borderRadius: BorderRadius.m,
-    padding: Spacing.xl,
-    justifyContent: 'space-between',
-  },
+  card: {},
   divider: {...VerticalMargin('m')},
-  logout: {
-    alignSelf: 'flex-end',
-    backgroundColor: Colors.danger,
-    padding: Spacing.xs,
-    borderRadius: BorderRadius.s,
-    width: '100%',
-  },
+  logout: {},
   logoutText: {
     ...Fonts.h5,
-    color: Colors.white,
+    color: Colors.danger,
   },
   header: {
     ...Fonts.h3,

@@ -1,9 +1,9 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {styles} from './ProfileInfo.styles';
-import {Image, Text} from '@/ui';
+import {Image} from '@/ui';
 import {Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
 import UserDetailsModal from '../UserDetailsModal/UserDetailsModal';
@@ -44,33 +44,21 @@ const ProfileInfo = ({data, refetch}: IProfileInfo) => {
   }, [image, refetch, upload]);
 
   return (
-    <View>
-      <View style={styles.infoContainer}>
-        <View style={styles.info}>
-          <TouchableOpacity
-            style={styles.profileImage}
-            onPress={handlePickImage}>
-            <Image
-              resizeMode="cover"
-              source={{uri: data?.profile_image_url || USER_IMAGE_PLACEHOLDER}}
-              style={{...StyleSheet.absoluteFillObject}}
-            />
-          </TouchableOpacity>
-          <View>
-            <Text style={styles.name}>{data?.profile_id}</Text>
-            <Text style={styles.email}>{data?.email}</Text>
-          </View>
-        </View>
-        <View style={styles.iconContainer}>
-          <Ionicons
-            onPress={handleModal}
-            name="ios-settings-outline"
-            size={Spacing.xl}
-            color={Colors.dark}
-          />
+    <View className="bg-white rounded-md justify-center flex-auto flex">
+      <View
+        style={{alignItems: 'center'}}
+        className="flex-row flex-auto ml-8 mt-4 mb-4">
+        <Image
+          className="h-24 rounded-full w-24 shadow-md shadow-info"
+          source={{uri: data?.userImg || USER_IMAGE_PLACEHOLDER}}
+        />
+        <View className="ml-6">
+          <Text className="font-sans-bold text-xl text-info">
+            {data?.profile_id}
+          </Text>
+          <Text className="font-sans-bold text-info text-xl">HIGHFIVE</Text>
         </View>
       </View>
-      <UserDetailsModal visible={userModal} onClose={handleModal} />
     </View>
   );
 };

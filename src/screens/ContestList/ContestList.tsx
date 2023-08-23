@@ -6,6 +6,7 @@ import {FlashList} from '@shopify/flash-list';
 import React, {useCallback, useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {styles} from './ContestLists.styles';
+import {Spacing} from '@/utils/constants';
 
 const COLUMN_COUNT = 2;
 
@@ -55,6 +56,8 @@ export default function ContestList() {
   return (
     <View style={styles.container}>
       <FlashList
+        contentContainerStyle={{paddingBottom: Spacing.l}}
+        showsVerticalScrollIndicator={false}
         estimatedItemSize={100}
         numColumns={COLUMN_COUNT}
         data={lists}

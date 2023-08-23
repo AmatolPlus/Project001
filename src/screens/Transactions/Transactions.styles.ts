@@ -2,41 +2,21 @@ import {StyleSheet} from 'react-native';
 
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {VerticalMargin} from '@/utils/spacing';
 
 export const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: Colors.white,
-    padding: Spacing.l,
-    justifyContent: 'space-between',
-  },
-  headerContainer: {
-    flexDirection: 'row',
-    padding: Spacing.xs,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  header: {
-    ...Fonts.h1,
-  },
-  listContainer: {
-    flex: 1,
-  },
   card: {
     backgroundColor: Colors.white,
-    width: '99%',
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
-    borderWidth: 0.5,
-    borderColor: Colors.grey,
+    borderRadius: Spacing.xs,
     padding: Spacing.m,
+    marginTop: Spacing.xl,
   },
-  link: {textAlign: 'left', color: Colors.info},
   button: {
     borderRadius: BorderRadius.xs,
     marginTop: Spacing.m,
@@ -49,25 +29,20 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  date: {
-    ...Fonts.h3,
-    ...VerticalMargin('m'),
-  },
   to: {
     maxWidth: 200,
-    ...Fonts.h6,
-  },
-  image: {
-    height: 50,
-    width: 50,
-    borderRadius: BorderRadius.l,
-    marginRight: Spacing.s,
+    color: Colors.info,
+    ...Fonts.h3,
+    fontSize: fontSize.h4,
   },
   amount: {
     maxWidth: 100,
-    ...Fonts.h5,
+    color: Colors.info,
+    ...Fonts.h3,
+    fontSize: fontSize.h5,
   },
   transferredOn: {
+    color: Colors.info,
     ...Fonts.sub1,
   },
   buttonContainer: {

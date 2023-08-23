@@ -1,4 +1,5 @@
-import {Divider, TextInput} from 'react-native-paper';
+import TextInput from './TextInput';
+import Divider from './Divider';
 import ActivityIndicator from './ActvityIndicator';
 import Button from './Button';
 import Card from './Card';
