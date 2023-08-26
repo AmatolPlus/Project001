@@ -29,8 +29,10 @@ const PostCard = ({
   }, [item]);
 
   const handleToggleConfirmModal = useCallback(() => {
-    setShowConfirmModal(!confirmModalShown);
-  }, [confirmModalShown]);
+    if (!liked) {
+      setShowConfirmModal(!confirmModalShown);
+    }
+  }, [confirmModalShown, liked]);
 
   const handleOnLike = useCallback(() => {
     try {
@@ -47,7 +49,7 @@ const PostCard = ({
         style={{...StyleSheet.absoluteFillObject}}
         source={{uri: contestImage}}
       />
-      {canLike && !liked ? (
+      {canLike ? (
         <TouchableOpacity
           onPress={handleToggleConfirmModal}
           style={styles(small).likeBtn}>
@@ -55,11 +57,19 @@ const PostCard = ({
             <ActivityIndicator />
           ) : (
             <>
-              <Image
-                resizeMode="contain"
-                source={require('@/assets/images/highfive.png')}
-                style={styles(small).likeImage}
-              />
+              {!liked ? (
+                <Image
+                  resizeMode="contain"
+                  source={require('@/assets/images/highfive-unlike.png')}
+                  style={styles(small).likeImage}
+                />
+              ) : (
+                <Image
+                  resizeMode="contain"
+                  source={require('@/assets/images/highfive.png')}
+                  style={styles(small).likeImage}
+                />
+              )}
               <Text style={{...Fonts.h4}}>{likeCount + ' '}</Text>
             </>
           )}

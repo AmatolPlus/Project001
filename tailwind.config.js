@@ -11,12 +11,12 @@ module.exports = {
       },
       fontFamily: {
         sans: [
-          'Rubik-Regular',
-          'Rubik-Light',
-          'Rubik-SemiBold',
-          'Rubik-Medium',
+          'Poppins-Regular',
+          'Poppins-Light',
+          'Poppins-SemiBold',
+          'Poppins-Medium',
         ],
-        'sans-bold': ['Rubik-Bold', 'Rubik-ExtraBold'],
+        'sans-bold': ['Poppins-Bold', 'Poppins-ExtraBold'],
       },
     },
   },

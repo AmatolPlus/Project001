@@ -1,4 +1,4 @@
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, Linking} from 'react-native';
 import React, {useCallback, useState} from 'react';
 import {Button, Image} from '@/ui';
 import {useNavigation} from '@react-navigation/native';
@@ -15,7 +15,7 @@ export default function SignIn() {
     referral_code: undefined,
   });
   const navigation = useNavigation();
-  const [login, {isLoading, error, isError}] = useLoginMutation();
+  const [login, {isLoading, error}] = useLoginMutation();
   function isValid() {
     const phoneRegex = /^(\+?\d{1,3}[- ]?)?\d{10}$/;
     let status = phoneRegex.test(`${loginForm?.mobile_number}`);
@@ -90,7 +90,11 @@ export default function SignIn() {
           placeholder="  00000 00000"
           className="mt-4 text-center font-sans-bold text-xl bg-primary color-info border-b-secondary p-1 border-b-2"
         />
-        <Text className="color-danger font-sans text-8xs text-center mt-8">
+        <Text
+          onPress={() => {
+            Linking.openURL('https://site.highfive.one/');
+          }}
+          className="color-danger font-sans text-8xs text-center mt-8">
           Facing Any Issue? Contact Us
         </Text>
         {error && (
