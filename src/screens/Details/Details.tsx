@@ -61,7 +61,7 @@ export default function Details() {
         likeEndDate: data?.like_end_date,
       });
     } catch (error) {}
-  }, [data?.id, data?.like_end_date, navigation]);
+  }, [data?.concept_name, data?.id, data?.like_end_date, navigation]);
 
   const handleLike = useCallback(
     async (post: any, setLiked: any, liked: any) => {
