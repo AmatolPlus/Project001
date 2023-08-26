@@ -87,7 +87,7 @@ export const ContestCard = ({
                     color: Colors.info,
                     textAlign: 'center',
                   }}>
-                  HIGHFIVE
+                  LIKE ENDS IN
                 </Text>
                 <CountdownTimer
                   textStyle={{
@@ -106,7 +106,7 @@ export const ContestCard = ({
                     color: Colors.info,
                     textAlign: 'center',
                   }}>
-                  JOINS IN
+                  JOINS ENDS IN
                 </Text>
                 <CountdownTimer
                   textStyle={{

@@ -56,7 +56,6 @@ const ProfileInfo = ({data, refetch}: IProfileInfo) => {
           <Text className="font-sans-bold text-xl text-info">
             {data?.profile_id}
           </Text>
-          <Text className="font-sans-bold text-info text-xl">HIGHFIVE</Text>
         </View>
       </View>
     </View>

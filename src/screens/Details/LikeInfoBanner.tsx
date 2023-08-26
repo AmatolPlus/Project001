@@ -30,7 +30,7 @@ export const ContestInfoBanner = ({
             ]}>
             <View style={styles.noteTextContainer}>
               <Text style={{color: Colors.info}}>
-                Join date for the contest {canJoin ? 'ends' : 'ended'} on&nbsp;
+                Join {canJoin ? 'before' : 'ended'} on&nbsp;
                 <Text style={styles.noteDate}>
                   {moment(join_end_date).format('DD MMM YYYY')}
                 </Text>
