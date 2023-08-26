@@ -6,8 +6,8 @@ import {Fonts, fontSize} from '@/utils/fonts';
 
 export const styles = StyleSheet.create({
   container: {
+    minWidth: '20%',
     padding: Spacing.xs,
-    width: '20%',
     left: Spacing.xs,
     backgroundColor: Colors.white,
     top: Spacing.s,

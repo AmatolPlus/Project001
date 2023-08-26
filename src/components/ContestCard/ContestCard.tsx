@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {Text, Image, Divider} from '@/ui';
+import {Text, Image} from '@/ui';
 import {ProgressBar} from 'react-native-paper';
 import JoinTag from '../JoinTag/JoinTag';
 import {styles} from './ContestCard.styles';

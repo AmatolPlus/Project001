@@ -161,6 +161,7 @@ export const styles = StyleSheet.create({
   noteTextContainer: {width: '100%'},
   noteDate: {
     ...Fonts.h3,
+    color: Colors.info,
     fontSize: fontSize.h6,
   },
   eventHeaderContainer: {

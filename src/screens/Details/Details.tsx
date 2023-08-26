@@ -106,7 +106,7 @@ export default function Details() {
   }, [isPrizeChartShown]);
 
   const handleProfileNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.profile);
+    navigation.navigate(ScreenNames.transactions);
   }, [navigation]);
 
   const handleJoinEvent = useCallback(
@@ -119,11 +119,13 @@ export default function Details() {
         }).then((response: any) => {
           if (response?.data) {
             handleRazorPayPayment(response);
+          } else {
+            handleToggleSnackBar();
           }
         });
       } catch (e) {}
     },
-    [handleRazorPayPayment, id, joinEvent],
+    [handleRazorPayPayment, handleToggleSnackBar, id, joinEvent],
   );
 
   if (isLoading) {
@@ -304,7 +306,6 @@ export default function Details() {
           />
         )}
       </ScrollView>
-
       <Snackbar
         style={styles.snackBar}
         onDismiss={handleToggleSnackBar}

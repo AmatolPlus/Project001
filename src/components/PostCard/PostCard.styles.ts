@@ -4,7 +4,7 @@ import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts} from '@/utils/fonts';
 import {StyleSheet} from 'react-native';
 
-export const styles = props =>
+export const styles = (props: any) =>
   StyleSheet.create({
     postCard: {
       height: !props ? 250 : 200,
@@ -18,8 +18,8 @@ export const styles = props =>
       marginTop: Spacing.m,
     },
     likeImage: {
-      height: 24,
-      width: 24,
+      height: 28,
+      width: 28,
     },
     bannerTextAlignment: {
       gap: 4,

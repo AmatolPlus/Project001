@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
@@ -62,7 +63,7 @@ const PostCard = ({
                   <Image
                     resizeMode="contain"
                     source={require('@/assets/images/highfive-unlike.jpeg')}
-                    style={{...StyleSheet.absoluteFillObject}}
+                    style={styles(small).likeImage}
                   />
                 </View>
               ) : (
