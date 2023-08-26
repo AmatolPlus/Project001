@@ -80,7 +80,7 @@ export const ContestCard = ({
               <Text style={styles.price}>₹ {total_prize_money}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
-              <View style={{marginLeft: 8}}>
+              <View>
                 <Text
                   style={{
                     ...Fonts.sub2,
@@ -100,7 +100,7 @@ export const ContestCard = ({
               </View>
 
               <View className="border-r-2 h-8 border-r-danger opacity-25 p-1 color" />
-              <View>
+              <View style={{marginLeft: 8}}>
                 <Text
                   style={{
                     ...Fonts.sub2,

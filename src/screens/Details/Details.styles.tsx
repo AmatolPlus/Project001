@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.info},
+  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.danger},
   eventAttendees: {justifyContent: 'space-between', flexDirection: 'row'},
   eventAttendeesText: {...Fonts.h6, ...VerticalMargin('s')},
   joinedCount: {
