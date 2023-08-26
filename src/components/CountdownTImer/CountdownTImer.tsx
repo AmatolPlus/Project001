@@ -47,7 +47,7 @@ const CountdownTimer = ({targetDate, textStyle}: ICountdownTimer) => {
       <Text style={textStyle}>{days}D </Text>
       <Text style={textStyle}>{hours}H </Text>
       <Text style={textStyle}>{minutes}M </Text>
-      <Text style={textStyle}>{seconds}S</Text>
+      {/* <Text style={textStyle}>{seconds}S</Text> */}
     </View>
   );
 };

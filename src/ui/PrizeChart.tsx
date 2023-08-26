@@ -10,8 +10,9 @@ import {HorizontalMargin} from '@/utils/spacing';
 import Modal from './Modal';
 import Text from './Text';
 import {width} from '@/utils/Dimension';
+import Section from './Section';
 
-const PriceChart = ({data, isOpen, setClosed, members}: IPrizeChart) => {
+const PriceChart = ({data, isOpen, setClosed, notes, members}: IPrizeChart) => {
   const renderRow = () => {
     if (data) {
       return Object.keys(data).map((item): any => {
@@ -60,14 +61,14 @@ const PriceChart = ({data, isOpen, setClosed, members}: IPrizeChart) => {
 
             {renderRow()}
           </DataTable>
-          {/* <View style={styles.cardContentContainer}>
+          <View style={styles.cardContentContainer}>
             <Section style={styles.termsHeaderContainer}>
               <Text style={styles.termsHeader}>
                 Prizepool will depend on how many slots are filled
               </Text>
               <Text style={styles.termsBody}>{notes}</Text>
             </Section>
-          </View> */}
+          </View>
         </View>
       </Modal>
     </Portal>
@@ -112,12 +113,12 @@ const styles = StyleSheet.create({
   },
   termsHeaderContainer: {
     borderRadius: BorderRadius.m,
-    backgroundColor: Colors.warning,
+    backgroundColor: Colors.danger,
     padding: Spacing.s,
     width: '100%',
   },
-  termsHeader: {...Fonts.h4, marginBottom: Spacing.s},
-  termsBody: {...Fonts.sub1, color: Colors.dark},
+  termsHeader: {...Fonts.h4, color: Colors.white, marginBottom: Spacing.s},
+  termsBody: {...Fonts.sub1, color: Colors.white},
 });
 
 export default memo(PriceChart);

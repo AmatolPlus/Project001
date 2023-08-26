@@ -11,7 +11,7 @@ import OrderSummary from '@/components/OrderSummary/OrderSummary';
 
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin} from '@/utils/spacing';
 
 import {Button, TextInput, Text, Image, Modal} from '@/ui';
@@ -25,6 +25,7 @@ interface IJoinEventModal {
   entryFee: number | string;
   contestName: string;
   wallet: string | number;
+  is_free: boolean;
   mobile_number: string | number;
 }
 
@@ -46,6 +47,7 @@ const JoinEventConfirmModal = ({
   mobile_number,
   started_on,
   ends_on,
+  is_free,
 }: IJoinEventModal) => {
   const [imageId, setImageId] = useState();
   const [image, setImage] = useState('');
@@ -125,10 +127,22 @@ const JoinEventConfirmModal = ({
         });
         setImageId(data?.data?.storage_id);
         setImage(data?.data?.url);
-        handleImageUploaded();
+        if (is_free) {
+          handleOnConfirm();
+          onClose();
+        } else {
+          handleImageUploaded();
+        }
       }
     } catch (e) {}
-  }, [handleImageUploaded, upload, uploadPost]);
+  }, [
+    handleImageUploaded,
+    handleOnConfirm,
+    is_free,
+    onClose,
+    upload,
+    uploadPost,
+  ]);
 
   return (
     <Portal>
@@ -163,13 +177,27 @@ const JoinEventConfirmModal = ({
                 textColor={Colors.white}
                 style={styles.button}
                 onPress={pickImageFromLibrary}>
-                Choose from Library
+                <Text
+                  style={{
+                    ...Fonts.h3,
+                    fontSize: fontSize.s1,
+                    color: Colors.white,
+                  }}>
+                  Choose from Library
+                </Text>
               </Button>
               <Button
                 style={styles.button}
                 textColor={Colors.white}
                 onPress={pickImageCamera}>
-                Take a Photo
+                <Text
+                  style={{
+                    ...Fonts.h3,
+                    fontSize: fontSize.s1,
+                    color: Colors.white,
+                  }}>
+                  Take a Photo
+                </Text>
               </Button>
             </View>
             <Button
@@ -183,7 +211,14 @@ const JoinEventConfirmModal = ({
                   ? Colors.danger
                   : Colors.grey,
               }}>
-              Upload
+              <Text
+                style={{
+                  ...Fonts.h3,
+                  fontSize: fontSize.h6,
+                  color: Colors.white,
+                }}>
+                Upload
+              </Text>
             </Button>
           </View>
         ) : (

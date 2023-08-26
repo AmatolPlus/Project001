@@ -232,6 +232,7 @@ export default function Details() {
               <Text style={styles.buttonText}>View Prize Chart</Text>
             </Button>
             <JoinEvent
+              is_free={data?.is_free}
               mobile_number={user?.mobile_number}
               started_on={data?.published_on}
               thresholdOccupancy={data?.total_competators}

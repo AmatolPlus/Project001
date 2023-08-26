@@ -20,6 +20,7 @@ export const JoinEvent = ({
   mobile_number,
   currentOccupancy,
   thresholdOccupancy,
+  is_free,
   onJoinEvent,
 }: IJoinEvent) => {
   const [isOpen, setOpen] = useState(false);
@@ -65,6 +66,7 @@ export const JoinEvent = ({
         wallet={wallet?.earned_amount}
         entryFee={entryFee}
         isOpen={isOpen}
+        is_free={is_free}
         onClose={handleToggleModal}
         onConfirm={handleJoin}
       />

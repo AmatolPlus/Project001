@@ -86,7 +86,7 @@ function App(): JSX.Element {
                 headerStyle: {
                   backgroundColor: Colors.light,
                 },
-                headerTitle: route?.params?.concept_name,
+                headerTitle: route?.params?.concept_name?.toUpperCase(),
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },

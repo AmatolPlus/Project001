@@ -11,8 +11,11 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   link: {
-    color: Colors.info,
+    marginLeft: Spacing.m,
+    color: Colors.danger,
     marginBottom: Spacing.s,
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
   },
   card: {
     backgroundColor: Colors.white,

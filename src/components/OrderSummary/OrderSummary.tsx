@@ -83,7 +83,10 @@ const OrderSummary = ({
       <Divider style={styles.divider} />
       <View>
         <Button onPress={handlePayment} style={styles.button}>
-          <Text style={styles.buttonText}>{'Pay' + ' ₹' + entryFee}</Text>
+          <Text style={styles.buttonText}>
+            {isfree}
+            {'Pay' + ' ₹' + entryFee}
+          </Text>
         </Button>
       </View>
     </View>

@@ -7,4 +7,5 @@ export interface IJoinEvent {
   contestName: string;
   started_on: string;
   onJoinEvent: any;
+  is_free: boolean;
 }

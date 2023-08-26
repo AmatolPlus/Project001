@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ToastAndroid, View} from 'react-native';
+import {Linking, ToastAndroid, View} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
 import {getFullName} from '@/utils/getFullName';
@@ -22,7 +22,7 @@ import PrivateInformation from '@/components/PrivateInformation/PrivateInformati
 import {FormData} from '@/components/UserDetailsModal/UserDetailModal.types';
 
 export default function Profile() {
-  const {data: user, refetch} = useUserDetailsQuery({});
+  const {data: user, refetch, isLoading} = useUserDetailsQuery({});
   const [form, setForm] = useState<FormData>({
     first_name: '',
     last_name: '',
@@ -44,6 +44,10 @@ export default function Profile() {
     }));
   };
 
+  const handleOpenPrivacyPolicy = useCallback(() => {
+    Linking.openURL('https://site.highfive.one/policy');
+  }, []);
+
   const handleSubmit = useCallback(() => {
     try {
       update(form);
@@ -63,8 +67,6 @@ export default function Profile() {
     setForm(user);
   }, [user]);
 
-  console.log(form);
-
   const handleLogout = useCallback(() => {
     remove('token');
     navigation.dispatch(
@@ -78,15 +80,15 @@ export default function Profile() {
   return (
     <ScrollView
       refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={userRefetch} />
+        <RefreshControl refreshing={isLoading} onRefresh={refetch} />
       }
       style={styles.container}>
       <View style={styles.card}>
         <View>
-          <ProfileInfo refetch={userRefetch} data={user} fullName={fullName} />
+          <ProfileInfo refetch={refetch} data={user} fullName={fullName} />
           <PersnolInformation
             form={form}
-            refetch={userRefetch}
+            refetch={refetch}
             onChange={handleChange}
             onSubmit={handleSubmit}
           />
@@ -96,6 +98,9 @@ export default function Profile() {
             onSubmit={handleSubmit}
           />
           <ChangePasswordModal type="component" />
+          <Text style={styles.link} onPress={handleOpenPrivacyPolicy}>
+            Privacy Policy
+          </Text>
           <Button style={styles.logout} onPress={handleLogout}>
             <Text style={styles.logoutText}>Logout</Text>
           </Button>

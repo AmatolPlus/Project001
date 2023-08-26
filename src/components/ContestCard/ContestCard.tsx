@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {Text, Image} from '@/ui';
+import {Text, Image, Divider} from '@/ui';
 import {ProgressBar} from 'react-native-paper';
 import JoinTag from '../JoinTag/JoinTag';
 import {styles} from './ContestCard.styles';
@@ -38,9 +38,11 @@ export const ContestCard = ({
     showPrizeChartButton,
     join_end_date,
     sample_image_url,
+    like_end_date,
   } = item || {};
   let progress = 0;
-  const end_date = moment(join_end_date);
+  const joinEndDate = moment(join_end_date);
+  const LikeEndDate = moment(like_end_date);
   const computeProgress = (joined_list_count / total_competators / 100) * 100;
 
   if (isNaN(computeProgress) || !computeProgress) {
@@ -77,24 +79,46 @@ export const ContestCard = ({
               <Text style={styles.label}>Prize Pool</Text>
               <Text style={styles.price}>₹ {total_prize_money}</Text>
             </View>
-            <View>
-              <Text
-                style={{
-                  ...Fonts.sub1,
-                  color: Colors.info,
-                  textAlign: 'center',
-                }}>
-                Joins in
-              </Text>
-              <CountdownTimer
-                textStyle={{
-                  color: Colors.danger,
-                  ...Fonts.h3,
-                  fontSize: fontSize.s1,
-                }}
-                targetDate={end_date}
-              />
+            <View style={{flexDirection: 'row'}}>
+              <View>
+                <Text
+                  style={{
+                    ...Fonts.sub2,
+                    color: Colors.info,
+                    textAlign: 'center',
+                  }}>
+                  HighFive
+                </Text>
+                <CountdownTimer
+                  textStyle={{
+                    color: Colors.danger,
+                    ...Fonts.h3,
+                    fontSize: fontSize.s2,
+                  }}
+                  targetDate={LikeEndDate}
+                />
+              </View>
+              <View className="border-r-2 h-8 border-r-danger opacity-25 p-1 color" />
+              <View style={{marginLeft: 8}}>
+                <Text
+                  style={{
+                    ...Fonts.sub2,
+                    color: Colors.info,
+                    textAlign: 'center',
+                  }}>
+                  Joins in
+                </Text>
+                <CountdownTimer
+                  textStyle={{
+                    color: Colors.danger,
+                    ...Fonts.h3,
+                    fontSize: fontSize.s2,
+                  }}
+                  targetDate={joinEndDate}
+                />
+              </View>
             </View>
+
             <View>
               <Text style={styles.label}>Entry</Text>
               <Text style={styles.entryFee}>₹ {entry_price}</Text>
@@ -118,6 +142,7 @@ export const ContestCard = ({
             </View>
           </View>
         </View>
+
         {number_of_join_days_for_contest_extension !== 0 && (
           <Text style={{paddingHorizontal: Spacing.l}}>
             Like Days Extended for{' '}
