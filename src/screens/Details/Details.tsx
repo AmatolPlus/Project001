@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useCallback, useState} from 'react';
 import {
-  Pressable,
   RefreshControl,
   ScrollView,
   ToastAndroid,
