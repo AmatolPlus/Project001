@@ -113,6 +113,7 @@ const Transactions = () => {
   }, [currentPage, handleChangePage, maxPages, page]);
 
   const renderHistory = ({item}: any) => {
+    console.log(item?.data[0]?.status);
     return (
       <View style={styles.card}>
         <View style={styles.cardItemsContainer}>
@@ -127,9 +128,12 @@ const Transactions = () => {
           <Text
             style={{
               ...styles.amount,
-              color: item.status === 'credit' ? Colors.info : Colors.danger,
+              color:
+                item?.data[0]?.status === 'CREDIT'
+                  ? Colors.info
+                  : Colors.danger,
             }}>
-            {item.status === 'credit' ? '+' : '-'} ₹ {item.amount}
+            {item?.data[0]?.status === 'CREDIT' ? '+' : '-'} ₹ {item.amount}
           </Text>
         </View>
       </View>

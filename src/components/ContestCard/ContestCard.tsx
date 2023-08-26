@@ -80,6 +80,26 @@ export const ContestCard = ({
               <Text style={styles.price}>₹ {total_prize_money}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>
+              <View style={{marginLeft: 8}}>
+                <Text
+                  style={{
+                    ...Fonts.sub2,
+                    color: Colors.info,
+                    textAlign: 'center',
+                  }}>
+                  JOIN ENDS IN
+                </Text>
+                <CountdownTimer
+                  textStyle={{
+                    color: Colors.danger,
+                    ...Fonts.h3,
+                    fontSize: fontSize.s2,
+                  }}
+                  targetDate={joinEndDate}
+                />
+              </View>
+
+              <View className="border-r-2 h-8 border-r-danger opacity-25 p-1 color" />
               <View>
                 <Text
                   style={{
@@ -96,25 +116,6 @@ export const ContestCard = ({
                     fontSize: fontSize.s2,
                   }}
                   targetDate={LikeEndDate}
-                />
-              </View>
-              <View className="border-r-2 h-8 border-r-danger opacity-25 p-1 color" />
-              <View style={{marginLeft: 8}}>
-                <Text
-                  style={{
-                    ...Fonts.sub2,
-                    color: Colors.info,
-                    textAlign: 'center',
-                  }}>
-                  JOINS ENDS IN
-                </Text>
-                <CountdownTimer
-                  textStyle={{
-                    color: Colors.danger,
-                    ...Fonts.h3,
-                    fontSize: fontSize.s2,
-                  }}
-                  targetDate={joinEndDate}
                 />
               </View>
             </View>

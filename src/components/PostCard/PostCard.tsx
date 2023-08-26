@@ -51,7 +51,6 @@ const PostCard = ({
       />
       {canLike ? (
         <TouchableOpacity
-          className="shadow-md shadow-indigo-500"
           onPress={handleToggleConfirmModal}
           style={styles(small).likeBtn}>
           {loading ? (
@@ -59,7 +58,7 @@ const PostCard = ({
           ) : (
             <>
               {!liked ? (
-                <View className="w-5 h-5 rounded-full overflow-hidden flex items-center">
+                <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
                   <Image
                     resizeMode="contain"
                     source={require('@/assets/images/highfive-unlike.jpeg')}
@@ -67,7 +66,7 @@ const PostCard = ({
                   />
                 </View>
               ) : (
-                <View className="w-5 h-5 rounded-full overflow-hidden flex items-center">
+                <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
                   <Image
                     resizeMode="contain"
                     source={require('@/assets/images/highfive.jpeg')}

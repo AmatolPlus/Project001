@@ -53,7 +53,7 @@ export const styles = props =>
       width: 50,
       alignItems: 'center',
       position: 'absolute',
-      bottom: 45,
+      bottom: 16,
       right: Spacing.m,
     },
   });
