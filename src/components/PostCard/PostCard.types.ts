@@ -7,4 +7,5 @@ export interface IPostCard {
   loading: any;
   caption: string;
   contest_ended: boolean;
+  small: boolean;
 }

@@ -15,6 +15,7 @@ export const ContestInfoBanner = ({
   is_joined_by_me,
   canJoin,
   tnc,
+  like_end_date,
 }: any) => (
   <View className="flex-row items-center rounded-lg p-1">
     {!is_cancelled && (

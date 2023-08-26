@@ -1,21 +1,21 @@
-import {FlatList, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
+import {FlatList, RefreshControl, View} from 'react-native';
+import {useRoute} from '@react-navigation/native';
 import {
   useLikeContestMutation,
   useMorePostsQuery,
 } from '@/services/apis/contests.api';
 import PostCard from '@/components/PostCard/PostCard';
-import {styles} from './MorePosts.styles';
-import {useRoute} from '@react-navigation/native';
 import {Spacing} from '@/utils/constants';
 import {Text} from '@/ui';
 import {Colors} from '@/utils/colors';
+import {styles} from './MorePosts.styles';
 
 export default function MorePosts() {
   const route: any = useRoute();
   const [page, setPage] = useState(1);
   const {id, likeEndDate} = route?.params;
-  const {data, refetch} = useMorePostsQuery({id, page});
+  const {data, isLoading: postLoading, refetch} = useMorePostsQuery({id, page});
   const [like, {isLoading}] = useLikeContestMutation({});
 
   const pageInfo = data?.current || '<Page 1 of 2>';
@@ -75,17 +75,21 @@ export default function MorePosts() {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.light, padding: Spacing.s}}>
-      <View style={styles.listContainer}>
-        <FlatList
-          ListFooterComponent={maxPages > 1 ? renderFooter : null}
-          style={styles.list}
-          numColumns={2}
-          data={data?.results}
-          showsVerticalScrollIndicator={false}
-          renderItem={renderPosts}
-        />
-      </View>
-    </View>
+    <FlatList
+      contentContainerStyle={{
+        alignItems: 'center',
+        backgroundColor: Colors.light,
+        padding: Spacing.s,
+      }}
+      ListFooterComponent={maxPages > 1 ? renderFooter : null}
+      style={styles.list}
+      numColumns={2}
+      refreshControl={
+        <RefreshControl refreshing={postLoading} onRefresh={refetch} />
+      }
+      data={data?.results}
+      showsVerticalScrollIndicator={false}
+      renderItem={renderPosts}
+    />
   );
 }
