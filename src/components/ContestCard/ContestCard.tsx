@@ -87,7 +87,7 @@ export const ContestCard = ({
                     color: Colors.info,
                     textAlign: 'center',
                   }}>
-                  HighFive
+                  HIGHFIVE
                 </Text>
                 <CountdownTimer
                   textStyle={{
@@ -106,7 +106,7 @@ export const ContestCard = ({
                     color: Colors.info,
                     textAlign: 'center',
                   }}>
-                  Joins in
+                  JOINS IN
                 </Text>
                 <CountdownTimer
                   textStyle={{

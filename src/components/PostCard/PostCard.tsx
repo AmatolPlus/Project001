@@ -62,7 +62,7 @@ const PostCard = ({
                 <View className="w-5 h-5 rounded-full overflow-hidden flex items-center">
                   <Image
                     resizeMode="contain"
-                    source={require('@/assets/images/highfive-unlike.png')}
+                    source={require('@/assets/images/highfive-unlike.jpeg')}
                     style={{...StyleSheet.absoluteFillObject}}
                   />
                 </View>
@@ -70,7 +70,7 @@ const PostCard = ({
                 <View className="w-5 h-5 rounded-full overflow-hidden flex items-center">
                   <Image
                     resizeMode="contain"
-                    source={require('@/assets/images/highfive.png')}
+                    source={require('@/assets/images/highfive.jpeg')}
                     style={styles(small).likeImage}
                   />
                 </View>

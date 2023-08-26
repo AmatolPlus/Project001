@@ -172,7 +172,7 @@ const Transactions = () => {
           </Text>
         </View>
       </View>
-      <View className="h-48 justify-center w-full bg-white mt-12 rounded-md">
+      {/* <View className="h-48 justify-center w-full bg-white mt-12 rounded-md">
         <Text className="text-center color-info font-sans-bold text-2xl ">
           Overview
         </Text>
@@ -183,7 +183,7 @@ const Transactions = () => {
         <Text className="color-emerald-400 font-sans text-sm text-center mt-0">
           competition
         </Text>
-      </View>
+      </View> */}
       {formattedData?.length !== 0 ? (
         <FlashList
           style={{marginTop: Spacing.xl}}

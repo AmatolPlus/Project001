@@ -13,12 +13,10 @@ export const fontSize = {
 export const Fonts = {
   title: {
     fontSize: fontSize.h1,
-    fontWeight: '700',
     fontFamily: 'Queen of Camelot',
   },
   title2: {
     fontSize: fontSize.h4,
-    fontWeight: '700',
     fontFamily: 'Queen of Camelot',
   },
   h1: {

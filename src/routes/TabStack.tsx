@@ -95,7 +95,7 @@ export default function TabStack() {
                   fontSize: fontSize.title,
                   color: Colors.info,
                 }}>
-                HighFive
+                HIGHFIVE
               </Text>
             </View>
           ),

@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
   button: {
     borderRadius: BorderRadius.xs,
     marginTop: Spacing.l,
-    backgroundColor: Colors.success,
+    backgroundColor: Colors.danger,
   },
   buttonText: {
     ...Fonts.h3,
