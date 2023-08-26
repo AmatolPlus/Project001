@@ -8,31 +8,21 @@ import {ScreenNames} from '@/utils/screenName';
 import {remove} from '@/utils/storage';
 
 import {
-  useGetCreditMutation,
-  useWalletAmountQuery,
-} from '@/services/apis/wallet.api';
-import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
 
-import {Button, Divider, Text} from '@/ui';
-import Wallet from '@/components/Wallet';
+import {Button, Text} from '@/ui';
 import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
-import AddressModal from '@/components/AddressModal/AddressModal';
-import SocialMediaModal from '@/components/SocialMediaModal/SocialMediaModal';
-import PrivacyPolicy from '@/components/PrivacyPolicy';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
-import UserDetails from '@/components/UserDetail/UserDetails';
 import PersnolInformation from '@/components/PersnolInformation/PersnolInformation';
 import PrivateInformation from '@/components/PrivateInformation/PrivateInformation';
 import {FormData} from '@/components/UserDetailsModal/UserDetailModal.types';
 
 export default function Profile() {
-  const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
-  const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
+  const {data: user, refetch} = useUserDetailsQuery({});
   const [form, setForm] = useState<FormData>({
     first_name: '',
     last_name: '',

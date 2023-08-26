@@ -73,14 +73,14 @@ const PrivateInformation = ({form, onChange, onSubmit}: any) => {
           className="h-8 p-0 w-52 bg-white text-info font-sans  text-sm border-b-2 border-b-info"
         />
       </View>
-      {/* <Button
+      <Button
         disabled={disabled}
         className="mt-4"
         style={[{backgroundColor: disabled ? Colors.grey : Colors.danger}]}
         textColor={Colors.white}
         onPress={onSubmit}>
         <Text>Update</Text>
-      </Button> */}
+      </Button>
     </View>
   );
 };

@@ -29,29 +29,29 @@ import PostCard from '@/components/PostCard/PostCard';
 import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
 import {Fonts, fontSize} from '@/utils/fonts';
-import TermsAndConditionsModal from '@/components/TermsAndConditions/TermsAndConditions';
-import LikeExpiry from '@/components/LikeExpiry/LikeExpiry';
 import {ScreenNames} from '@/utils/screenName';
 import FinalPrize from '@/components/FinalPrize/FinalPrize';
 import {ContestCard} from '@/components/ContestCard/ContestCard';
 import {width} from '@/utils/Dimension';
 import {canJoinEvent} from '@/utils/event';
-import moment from 'moment';
 import {JoinEvent} from '@/components/JoinEvent/JointEvent';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import Snackbar from '@/ui/SnackBar';
+import {ContestInfoBanner} from './LikeInfoBanner';
 
 export default function Details() {
+  const navigation: any = useNavigation();
   const {params}: any = useRoute();
   const id: string = params?.id;
+
+  const {data: finalPrize}: any = useFinalPrizeQuery(id);
+  const {data: user} = useUserDetailsQuery({});
+  const [like, {isLoading: isLikeLoading}] = useLikeContestMutation({});
+
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [joinEvent]: any = useJoinContestMutation();
   const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
-  const {data: finalPrize}: any = useFinalPrizeQuery(id);
-  const {data: user} = useUserDetailsQuery({});
-  const navigation: any = useNavigation();
-  const [like, {isLoading: isLikeLoading}] = useLikeContestMutation({});
 
   const handleMorePostsNavigation = useCallback(() => {
     try {
@@ -204,7 +204,7 @@ export default function Details() {
             </View>
           </View>
         )}
-        <View style={{display: 'flex', alignItems: 'center'}}>
+        <View className="flex items-center">
           <ContestCard
             navigation={null}
             showPrizeChartButton={true}
@@ -227,13 +227,7 @@ export default function Details() {
           />
         </View>
         {!data?.is_canceled && (
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginTop: 12,
-            }}>
+          <View className="flex-row justify-between m-3">
             <Button onPress={handlePrizeChartToggle}>
               <Text style={styles.buttonText}>View Prize Chart</Text>
             </Button>
@@ -294,44 +288,8 @@ export default function Details() {
           <></>
         )}
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            shadowColor: Colors.info,
-            padding: 2,
-          }}>
-          {!data?.is_cancelled && (
-            <>
-              <View style={{width: '50%'}}>
-                <View
-                  style={[
-                    styles.note,
-                    {
-                      opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
-                    },
-                  ]}>
-                  <View style={styles.noteTextContainer}>
-                    <Text style={{color: Colors.info}}>
-                      Join date for the contest {canJoin ? 'ends' : 'ended'}{' '}
-                      on&nbsp;
-                      <Text style={styles.noteDate}>
-                        {moment(data?.join_end_date).format('DD MMM YYYY')}
-                      </Text>
-                    </Text>
-                  </View>
-                </View>
-                <TermsAndConditionsModal message={data?.tnc} />
-              </View>
-              <View style={{width: '50%', alignItems: 'center'}}>
-                <View style={styles.contestDetails}>
-                  <LikeExpiry like_end_date={data?.like_end_date} />
-                </View>
-              </View>
-            </>
-          )}
-        </View>
-        <View style={styles.footer}></View>
+        <ContestInfoBanner {...data} canJoin={canJoin} />
+
         {!data?.is_canceled &&
           finalPrize?.length !== 0 &&
           data?.contest_ended && <FinalPrize data={finalPrize} />}

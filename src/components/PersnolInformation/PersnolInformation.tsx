@@ -6,7 +6,6 @@ import {Button, TextInput} from '@/ui';
 import {validateUserDetails} from '@/utils/validateUserDetails';
 import {Colors} from '@/utils/colors';
 import DatePicker from '../DatePicker/DatePicker';
-import GenderSelector from '../GenderSelector/GenderSelector';
 import AddressModal from '../AddressModal/AddressModal';
 import {getFullName} from '@/utils/getFullName';
 import UserDetailsModal from '../UserDetailsModal/UserDetailsModal';
@@ -17,7 +16,6 @@ const PersnolInformation = ({form, onChange, refetch, onSubmit}: any) => {
     useState<boolean>(false);
   const [date, setDate] = useState<string>('');
   const [userNameModalVisible, showUserNameModal] = useState<boolean>(false);
-  let styles = {};
   let username = getFullName(form?.first_name, form?.last_name);
 
   const disabled = useMemo(() => {
@@ -129,16 +127,16 @@ const PersnolInformation = ({form, onChange, refetch, onSubmit}: any) => {
           className="h-8 p-0 w-48 bg-white text-info font-sans  text-sm border-b-2 border-b-info"
         />
       </View>
-      {/* <View>
+      <View>
         <Button
           disabled={disabled}
           className="mt-4"
           style={[{backgroundColor: disabled ? Colors.grey : Colors.danger}]}
           textColor={Colors.white}
           onPress={onSubmit}>
-          <Text style={styles.updateText}>Update</Text>
+          <Text>Update</Text>
         </Button>
-      </View> */}
+      </View>
       <DatePicker
         date={date || form?.birthday}
         visible={showDatePicker}

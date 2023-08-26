@@ -28,7 +28,6 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   list: {height: 270},
-  contestDetails: {},
   label: {
     color: Colors.dark,
     ...Fonts.sub1,
@@ -158,7 +157,6 @@ export const styles = StyleSheet.create({
   note: {
     padding: Spacing.m,
     width: '100%',
-    backgroundColor: Colors.light,
   },
   noteTextContainer: {width: '100%'},
   noteDate: {

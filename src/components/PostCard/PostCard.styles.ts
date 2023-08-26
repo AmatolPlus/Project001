@@ -42,6 +42,7 @@ export const styles = props =>
     username: {
       color: Colors.info,
       ...Fonts.h6,
+      maxWidth: '60%',
     },
     likeBtn: {
       borderRadius: BorderRadius.l,

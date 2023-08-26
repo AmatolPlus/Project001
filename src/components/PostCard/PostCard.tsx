@@ -51,6 +51,7 @@ const PostCard = ({
       />
       {canLike ? (
         <TouchableOpacity
+          className="shadow-md shadow-indigo-500"
           onPress={handleToggleConfirmModal}
           style={styles(small).likeBtn}>
           {loading ? (
@@ -58,19 +59,23 @@ const PostCard = ({
           ) : (
             <>
               {!liked ? (
-                <Image
-                  resizeMode="contain"
-                  source={require('@/assets/images/highfive-unlike.png')}
-                  style={styles(small).likeImage}
-                />
+                <View className="w-5 h-5 rounded-full overflow-hidden flex items-center">
+                  <Image
+                    resizeMode="contain"
+                    source={require('@/assets/images/highfive-unlike.png')}
+                    style={{...StyleSheet.absoluteFillObject}}
+                  />
+                </View>
               ) : (
-                <Image
-                  resizeMode="contain"
-                  source={require('@/assets/images/highfive.png')}
-                  style={styles(small).likeImage}
-                />
+                <View className="w-5 h-5 rounded-full overflow-hidden flex items-center">
+                  <Image
+                    resizeMode="contain"
+                    source={require('@/assets/images/highfive.png')}
+                    style={styles(small).likeImage}
+                  />
+                </View>
               )}
-              <Text style={{...Fonts.h4}}>{likeCount + ' '}</Text>
+              <Text style={{...Fonts.sub1}}>{likeCount + ' '}</Text>
             </>
           )}
         </TouchableOpacity>
@@ -82,7 +87,7 @@ const PostCard = ({
         <View>
           <View style={styles(small).bannerTextAlignment}>
             <View style={styles(small).bannerTextAlignment}>
-              <Text style={styles(small).username}>
+              <Text style={styles(small).username} numberOfLines={1}>
                 @{item?.user?.profile_id || '-'}
               </Text>
             </View>

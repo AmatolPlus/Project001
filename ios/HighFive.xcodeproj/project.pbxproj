@@ -39,7 +39,7 @@
 		FD22891737534DE09518F51F /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F8D202213E9C478E833DFD03 /* Poppins-SemiBoldItalic.ttf */; };
 		168290246D56418B9F9BEEE8 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3CAAA41DC13C4FB5B6BD3CD2 /* Poppins-Thin.ttf */; };
 		8016BC4B15964FEB9AD48552 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 657EAC6CA8BB497DBE751A52 /* Poppins-ThinItalic.ttf */; };
-		CAE44CF6ADE643F6AFF0282E /* Queen-of-Camelot.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 005DC173664E40E1AA8179B0 /* Queen-of-Camelot.ttf */; };
+		F659FB578D364DD4BA20FE1A /* Queen of Camelot.otf in Resources */ = {isa = PBXBuildFile; fileRef = E5DD526E20DE4BCC94A2A365 /* Queen of Camelot.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,7 +111,7 @@
 		F8D202213E9C478E833DFD03 /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBoldItalic.ttf"; path = "../src/assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		3CAAA41DC13C4FB5B6BD3CD2 /* Poppins-Thin.ttf */ = {isa = PBXFileReference; name = "Poppins-Thin.ttf"; path = "../src/assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		657EAC6CA8BB497DBE751A52 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ThinItalic.ttf"; path = "../src/assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		005DC173664E40E1AA8179B0 /* Queen-of-Camelot.ttf */ = {isa = PBXFileReference; name = "Queen-of-Camelot.ttf"; path = "../src/assets/fonts/Queen-of-Camelot.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E5DD526E20DE4BCC94A2A365 /* Queen of Camelot.otf */ = {isa = PBXFileReference; name = "Queen of Camelot.otf"; path = "../src/assets/fonts/Queen of Camelot.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -203,7 +203,7 @@
 				F8D202213E9C478E833DFD03 /* Poppins-SemiBoldItalic.ttf */,
 				3CAAA41DC13C4FB5B6BD3CD2 /* Poppins-Thin.ttf */,
 				657EAC6CA8BB497DBE751A52 /* Poppins-ThinItalic.ttf */,
-				005DC173664E40E1AA8179B0 /* Queen-of-Camelot.ttf */,
+				E5DD526E20DE4BCC94A2A365 /* Queen of Camelot.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -395,7 +395,7 @@
 				FD22891737534DE09518F51F /* Poppins-SemiBoldItalic.ttf in Resources */,
 				168290246D56418B9F9BEEE8 /* Poppins-Thin.ttf in Resources */,
 				8016BC4B15964FEB9AD48552 /* Poppins-ThinItalic.ttf in Resources */,
-				CAE44CF6ADE643F6AFF0282E /* Queen-of-Camelot.ttf in Resources */,
+				F659FB578D364DD4BA20FE1A /* Queen of Camelot.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
