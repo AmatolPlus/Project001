@@ -6,10 +6,9 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   note: {
     padding: Spacing.m,
-    marginBottom: Spacing.m,
     backgroundColor: Colors.light,
   },
-  noteTextContainer: {width: '70%'},
+  noteTextContainer: {width: '100%'},
   noteDate: {
     ...Fonts.h3,
     fontSize: fontSize.h6,

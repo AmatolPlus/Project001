@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {ToastAndroid, View} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
 
@@ -11,7 +11,10 @@ import {
   useGetCreditMutation,
   useWalletAmountQuery,
 } from '@/services/apis/wallet.api';
-import {useUserDetailsQuery} from '@/services/apis/login.api';
+import {
+  useUpdateUserDetailsMutation,
+  useUserDetailsQuery,
+} from '@/services/apis/login.api';
 
 import {Button, Divider, Text} from '@/ui';
 import Wallet from '@/components/Wallet';
@@ -22,13 +25,55 @@ import PrivacyPolicy from '@/components/PrivacyPolicy';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import {ScrollView} from 'react-native';
 import {RefreshControl} from 'react-native';
+import UserDetails from '@/components/UserDetail/UserDetails';
+import PersnolInformation from '@/components/PersnolInformation/PersnolInformation';
+import PrivateInformation from '@/components/PrivateInformation/PrivateInformation';
+import {FormData} from '@/components/UserDetailsModal/UserDetailModal.types';
 
 export default function Profile() {
   const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
   const {data: wallet, isLoading, refetch} = useWalletAmountQuery({});
+  const [form, setForm] = useState<FormData>({
+    first_name: '',
+    last_name: '',
+    email: '',
+    hobby: '',
+    birthday: '',
+    gender: '',
+    mobile_number: '',
+  });
+  const [update, {error}]: any = useUpdateUserDetailsMutation();
   const navigation: any = useNavigation();
 
   const fullName = getFullName(user?.first_name, user?.last_name);
+
+  const handleChange = (key: keyof FormData, value: string) => {
+    setForm(prevState => ({
+      ...prevState,
+      [key]: value,
+    }));
+  };
+
+  const handleSubmit = useCallback(() => {
+    try {
+      update(form);
+      refetch();
+      if (error) {
+        console.log(error);
+      } else {
+        ToastAndroid.show(
+          'User Details Updated SuccessFully',
+          ToastAndroid.LONG,
+        );
+      }
+    } catch (e) {}
+  }, [form, refetch, error, update]);
+
+  useEffect(() => {
+    setForm(user);
+  }, [user]);
+
+  console.log(form);
 
   const handleLogout = useCallback(() => {
     remove('token');
@@ -49,18 +94,22 @@ export default function Profile() {
       <View style={styles.card}>
         <View>
           <ProfileInfo refetch={userRefetch} data={user} fullName={fullName} />
-          <Divider style={styles.divider} />
-          <AddressModal />
-          <SocialMediaModal />
+          <PersnolInformation
+            form={form}
+            refetch={userRefetch}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+          />
+          <PrivateInformation
+            form={form}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+          />
           <ChangePasswordModal type="component" />
-          <PrivacyPolicy />
-
-          <Divider style={styles.divider} />
+          <Button style={styles.logout} onPress={handleLogout}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </Button>
         </View>
-
-        <Button style={styles.logout} onPress={handleLogout}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </Button>
       </View>
     </ScrollView>
   );

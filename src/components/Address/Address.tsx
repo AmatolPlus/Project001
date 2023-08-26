@@ -37,6 +37,8 @@ const Address = ({form, onChange}: any) => {
       <TextInput
         value={form?.address_detail?.street}
         style={styles.input}
+        outlineColor={Colors.info}
+        activeOutlineColor={Colors.info}
         onChangeText={val => handleFormUpdate('street', val)}
         placeholder="Address"
       />
@@ -44,6 +46,8 @@ const Address = ({form, onChange}: any) => {
         <TouchableOpacity onPress={() => handleOpenModal('stateModal', true)}>
           <TextInput
             style={styles.stateButton}
+            outlineColor={Colors.info}
+            activeOutlineColor={Colors.info}
             value={form?.address_detail?.state}
             onFocus={() => handleOpenModal('stateModal', true)}
             placeholder="Select a state"
@@ -75,6 +79,8 @@ const Address = ({form, onChange}: any) => {
 
       <TextInput
         mode="outlined"
+        outlineColor={Colors.info}
+        activeOutlineColor={Colors.info}
         maxLength={6}
         keyboardType="number-pad"
         value={form?.address_detail?.postal_code}

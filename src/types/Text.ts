@@ -1,6 +1,6 @@
 import React from 'react';
-import {TextStyle, TextProps} from 'react-native';
-import {} from 'react-native-paper';
+import {TextStyle} from 'react-native';
+import {TextProps} from 'react-native-paper';
 
 export interface IText extends TextProps<Text> {
   style?: TextStyle;

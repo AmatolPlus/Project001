@@ -62,6 +62,7 @@ export default function MorePosts() {
 
   const renderPosts = ({item}: any) => (
     <PostCard
+      small
       contestImage={item?.contest_image_url}
       likeCount={item?.like_count}
       item={item}
@@ -74,15 +75,14 @@ export default function MorePosts() {
   );
 
   return (
-    <View style={{flex: 1, backgroundColor: Colors.light}}>
+    <View style={{flex: 1, backgroundColor: Colors.light, padding: Spacing.s}}>
       <View style={styles.listContainer}>
         <FlatList
           ListFooterComponent={maxPages > 1 ? renderFooter : null}
-          contentContainerStyle={{paddingBottom: Spacing.xl}}
           style={styles.list}
           numColumns={2}
           data={data?.results}
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           renderItem={renderPosts}
         />
       </View>

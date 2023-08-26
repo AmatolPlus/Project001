@@ -78,18 +78,19 @@ export default function SignIn() {
         </Text>
       </View>
       <View className="mt-12">
-        <Text className="text-center font-sans-bold color-info text-xl">
+        <Text className="text-center font-sans color-info text-xl">
           {' '}
           Enter Your Number
         </Text>
         <TextInput
+          placeholderTextColor={Colors.info}
           onChangeText={val => handleFormUpdate('mobile_number', val)}
           keyboardType="number-pad"
           maxLength={10}
-          placeholder="+91  00000 00000"
+          placeholder="  00000 00000"
           className="mt-4 text-center font-sans-bold text-xl bg-primary color-info border-b-secondary p-1 border-b-2"
         />
-        <Text className="color-danger font-sans-bold text-8xs text-center mt-8">
+        <Text className="color-danger font-sans text-8xs text-center mt-8">
           Facing Any Issue? Contact Us
         </Text>
         {error && (
@@ -108,7 +109,7 @@ export default function SignIn() {
               ? 'bg-danger rounded-md p-2 mt-5'
               : 'rounded-md p-2 mt-5 bg-zinc-600'
           }>
-          <Text className="color-white font-sans-bold">GET OTP</Text>
+          <Text className="color-white font-sans-bold">Login</Text>
         </Button>
       </View>
     </View>

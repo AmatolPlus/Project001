@@ -3,11 +3,12 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {ActivityIndicator, Image, Text} from '@/ui';
 import {styles} from './PostCard.styles';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {IPostCard} from './PostCard.types';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
 import {canLikeEvent} from '@/utils/event';
 import RankTag from '../RankTag/RankTag';
+import {Colors} from '@/utils/colors';
 
 const PostCard = ({
   contestImage,
@@ -16,8 +17,8 @@ const PostCard = ({
   likeEndDate,
   onLike,
   loading,
-  morePosts,
   item,
+  small,
 }: IPostCard) => {
   const [confirmModalShown, setShowConfirmModal] = useState(false);
   const [liked, setLiked] = useState(false);
@@ -39,7 +40,7 @@ const PostCard = ({
   }, [onLike, item, liked, handleToggleConfirmModal]);
 
   return (
-    <View style={styles.postCard}>
+    <View style={styles(small).postCard}>
       <RankTag rank={item?.rank} />
 
       <Image
@@ -49,7 +50,7 @@ const PostCard = ({
       {canLike && !liked ? (
         <TouchableOpacity
           onPress={handleToggleConfirmModal}
-          style={styles.likeBtn}>
+          style={styles(small).likeBtn}>
           {loading ? (
             <ActivityIndicator />
           ) : (
@@ -57,7 +58,7 @@ const PostCard = ({
               <Image
                 resizeMode="contain"
                 source={require('@/assets/images/highfive.png')}
-                style={styles.likeImage}
+                style={styles(small).likeImage}
               />
               <Text style={{...Fonts.h4}}>{likeCount + ' '}</Text>
             </>
@@ -67,20 +68,26 @@ const PostCard = ({
         <></>
       )}
 
-      <View style={styles.postCardImage}>
+      <View style={styles(small).postCardImage}>
         <View>
-          <View style={styles.bannerTextAlignment}>
+          <View style={styles(small).bannerTextAlignment}>
+            <View style={styles(small).bannerTextAlignment}>
+              <Text style={styles(small).username}>
+                @{item?.user?.profile_id || '-'}
+              </Text>
+            </View>
             <Text
               ellipsizeMode={'tail'}
               numberOfLines={1}
-              style={{...Fonts.h4, maxWidth: '70%'}}>
+              style={{
+                ...Fonts.h3,
+                fontSize: fontSize.h6,
+                color: Colors.info,
+                maxWidth: '70%',
+              }}>
               {caption}
             </Text>
             <View style={{flexDirection: 'row', alignItems: 'center'}}></View>
-          </View>
-
-          <View style={styles.bannerTextAlignment}>
-            <Text style={styles.username}>{item?.user?.profile_id || '-'}</Text>
           </View>
         </View>
       </View>

@@ -73,7 +73,7 @@ const LoginWithPin = () => {
         style={styles.close}
         name="closecircle"
         size={fontSize.h1}
-        color={Colors.dark}
+        color={Colors.info}
       />
       <Text style={styles.title}>Login Your PIN</Text>
       <Text style={styles.info}>
@@ -104,19 +104,20 @@ const LoginWithPin = () => {
           <ResetPassword />
         </View>
         <Button
+          className="shadow-lg shadow-danger"
           loading={isLoading}
           onPress={handleLogin}
           buttonColor={Colors.success}
           disabled={!isValid()}
           style={[
             styles.loginButton,
-            {backgroundColor: isValid() ? Colors.success : Colors.dark},
+            {backgroundColor: isValid() ? Colors.danger : Colors.dark},
           ]}>
           <Text
             style={{
               ...styles.loginButtonText,
             }}>
-            {'Login'}
+            {'Continue'}
           </Text>
         </Button>
       </View>

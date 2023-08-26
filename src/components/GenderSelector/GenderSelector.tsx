@@ -4,6 +4,8 @@ import {Pressable, TouchableOpacity, View} from 'react-native';
 import TextInput from '@/ui/TextInput';
 import {styles} from './GenderSelector.styles';
 import {Text, Modal} from '@/ui';
+import {Colors} from '@/utils/colors';
+
 interface IGenderDropdown {
   onChange: (props: string) => void;
   selectedOption: string;
@@ -30,10 +32,13 @@ const GenderSelector = ({onChange, selectedOption}: IGenderDropdown) => {
     <View>
       <Pressable onPress={() => setVisible(true)}>
         <TextInput
-          placeholder="Gender"
-          style={styles.input}
-          value={selectedOption}
           editable={false}
+          value={selectedOption}
+          placeholder="Gender"
+          cursorColor={Colors.info}
+          outlineColor={Colors.white}
+          activeOutlineColor={Colors.white}
+          className="h-8 p-0 w-52 bg-white text-info  text-sm border-b-2 border-b-info"
         />
       </Pressable>
       <Portal>

@@ -20,6 +20,7 @@ const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
     birthday: '',
     gender: '',
   });
+
   const [update, {error}]: any = useUpdateUserDetailsMutation();
   const {data: user, refetch} = useUserDetailsQuery({});
 

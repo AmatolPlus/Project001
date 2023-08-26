@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h6,
   },
   button: {
-    backgroundColor: Colors.info,
+    backgroundColor: Colors.danger,
     borderRadius: BorderRadius.xs,
   },
   buttonText: {
@@ -61,13 +61,13 @@ export const styles = StyleSheet.create({
     ...Fonts.h4,
     ...VerticalMargin('xs'),
     fontSize: fontSize.h4,
-    color: Colors.dark2,
+    color: Colors.info,
   },
   date: {
     ...Fonts.h4,
     ...VerticalMargin('xs'),
     fontSize: fontSize.h5,
-    color: Colors.dark2,
+    color: Colors.info,
   },
 
   entryFeeContainer: {
@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
   entryFee: {
     ...Fonts.h4,
     ...VerticalPadding('s'),
-    color: Colors.dark2,
+    color: Colors.info,
     fontSize: fontSize.h5,
   },
   wallet: {

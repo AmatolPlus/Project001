@@ -23,6 +23,7 @@ export const styles = StyleSheet.create({
     borderRadius: BorderRadius.xs,
     paddingHorizontal: Spacing.m,
     marginBottom: Spacing.m,
+    color: Colors.info,
   },
   error: {
     color: Colors.danger,

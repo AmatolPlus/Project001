@@ -197,7 +197,7 @@ const Transactions = () => {
         />
       ) : (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text className="font-sans">No Transactions Made</Text>
+          <Text className="text-info font-sans">No Transactions Made</Text>
         </View>
       )}
     </View>

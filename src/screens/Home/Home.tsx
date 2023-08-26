@@ -18,6 +18,7 @@ import {useStoragePermission} from '@/hooks/getStoragePermission';
 import {fontSize} from '@/utils/fonts';
 import {ContestCard} from '@/components/ContestCard/ContestCard';
 import {Spacing} from '@/utils/constants';
+import {Colors} from '@/utils/colors';
 
 function Home() {
   const navigation: any = useNavigation();
@@ -84,7 +85,7 @@ function Home() {
               onPress={() => handleContestNavigation(id)}
               name="arrow-right"
               size={fontSize.h6}
-              color="black"
+              color={Colors.info}
             />
           ) : (
             <></>

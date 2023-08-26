@@ -1,3 +1,4 @@
+import {height} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
@@ -10,6 +11,8 @@ export const styles = StyleSheet.create({
   },
   modal: {
     padding: Spacing.xl,
+    height: height / 1.2,
+    marginTop: height / 10.6,
   },
   modalContainer: {
     backgroundColor: Colors.white,

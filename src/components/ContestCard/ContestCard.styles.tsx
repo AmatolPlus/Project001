@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   imageContainer: {
     ...VerticalMargin('s'),
-    borderRadius: BorderRadius.s,
+    borderRadius: BorderRadius.m,
     width: width / 1.2,
     backgroundColor: Colors.primary,
     shadowColor: Colors.info,
@@ -55,12 +55,13 @@ export const styles = StyleSheet.create({
   },
   label: {
     textAlign: 'center',
-    ...Fonts.sub1,
-    color: Colors.info,
+    ...Fonts.h4,
+    fontSize: fontSize.h6,
+    color: Colors.danger,
   },
   entryFee: {
     alignSelf: 'center',
-    ...Fonts.h5,
+    ...Fonts.h4,
     color: Colors.info,
   },
   contestInfoContainer: {

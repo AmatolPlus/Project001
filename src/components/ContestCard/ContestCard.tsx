@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 import {Text, Image} from '@/ui';
 import {ProgressBar} from 'react-native-paper';
 import JoinTag from '../JoinTag/JoinTag';
@@ -15,9 +17,15 @@ interface IContestCard {
   showPrizeChartButton: boolean;
   navigation: any;
   width: any;
+  showShare: any;
 }
 
-export const ContestCard = ({item, navigation, width}: IContestCard) => {
+export const ContestCard = ({
+  item,
+  navigation,
+  width,
+  showShare,
+}: IContestCard) => {
   const {
     joined_list_count,
     total_competators,
@@ -51,6 +59,7 @@ export const ContestCard = ({item, navigation, width}: IContestCard) => {
           marginHorizontal: !showPrizeChartButton ? Spacing.s : 0,
           width: width ? width : styles.imageContainer.width,
         }}>
+        {showShare ? showShare : <></>}
         <JoinTag isLive={contest_ended} />
         <Image
           resizeMode={'cover'}
@@ -69,9 +78,20 @@ export const ContestCard = ({item, navigation, width}: IContestCard) => {
               <Text style={styles.price}>₹ {total_prize_money}</Text>
             </View>
             <View>
-              <Text style={styles.label}>Ends in</Text>
+              <Text
+                style={{
+                  ...Fonts.sub1,
+                  color: Colors.info,
+                  textAlign: 'center',
+                }}>
+                Joins in
+              </Text>
               <CountdownTimer
-                textStyle={{color: Colors.danger}}
+                textStyle={{
+                  color: Colors.danger,
+                  ...Fonts.h3,
+                  fontSize: fontSize.s1,
+                }}
                 targetDate={end_date}
               />
             </View>
@@ -83,12 +103,18 @@ export const ContestCard = ({item, navigation, width}: IContestCard) => {
           <View style={styles.progressBarContainer}>
             <ProgressBar progress={progress} color={Colors.danger} />
             <View style={styles.contestInfoContainer}>
-              <Text style={{color: Colors.danger}}>
-                {total_competators - joined_list_count} spots left
-              </Text>
-              <Text style={{color: Colors.info}}>
-                {total_competators} spots
-              </Text>
+              <View className="flex-row">
+                <Ionicons name="md-person" size={18} color={Colors.info} />
+                <Text style={{color: Colors.danger, marginLeft: Spacing.xs}}>
+                  {total_competators - joined_list_count} spots left
+                </Text>
+              </View>
+              <View className="flex-row">
+                <Text style={{color: Colors.info, marginRight: Spacing.xs}}>
+                  {total_competators} spots
+                </Text>
+                <Ionicons name="md-person" size={18} color={Colors.info} />
+              </View>
             </View>
           </View>
         </View>

@@ -136,13 +136,11 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
       )}
       <Portal>
         <Modal
-          className="h-full "
+          className="h-full"
           visible={showPasswordModal}
           onDismiss={handleToggleChangePasswordModal}>
-          <ScrollView className={'h-full bg-primary '}>
-            <KeyboardAvoidingView
-              behavior="padding"
-              className="bg-primary h-full px-4 ">
+          <KeyboardAvoidingView className="bg-primary h-full px-8">
+            <ScrollView className="pb-2">
               <Text className="text-3xl mb-2 color-info font-sans-bold text-center mt-4">
                 HIGHFIVE
               </Text>
@@ -167,6 +165,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                       onChangeText={val =>
                         handlePasswordChange('old_password', val)
                       }
+                      className="mb-4"
                       placeholder="Old PIN"
                     />
                   )}
@@ -248,8 +247,8 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                   <Text className="color-white">{'Confirm'}</Text>
                 </Button>
               </View>
-            </KeyboardAvoidingView>
-          </ScrollView>
+            </ScrollView>
+          </KeyboardAvoidingView>
         </Modal>
       </Portal>
     </View>

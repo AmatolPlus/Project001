@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
   Share,
+  Image,
+  StyleSheet,
 } from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
@@ -56,6 +58,7 @@ export default function Details() {
     try {
       navigation.navigate(ScreenNames.morePosts, {
         id: data?.id,
+        contest_name: data?.concept_name,
         likeEndDate: data?.like_end_date,
       });
     } catch (error) {}
@@ -208,6 +211,20 @@ export default function Details() {
             showPrizeChartButton={true}
             width={width / 1.1}
             item={{...data, end_date}}
+            showShare={
+              <TouchableOpacity
+                className="absolute top-4 right-4 h-6 z-10 w-6"
+                onPress={shareLink}>
+                <Image
+                  style={{
+                    ...StyleSheet.absoluteFillObject,
+                  }}
+                  resizeMode="contain"
+                  className="h-6 w-6"
+                  source={require('@/assets/images/share.png')}
+                />
+              </TouchableOpacity>
+            }
           />
         </View>
         {!data?.is_canceled && (
@@ -282,38 +299,40 @@ export default function Details() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
+            shadowColor: Colors.info,
+            padding: 2,
           }}>
           {!data?.is_cancelled && (
             <>
-              <View
-                style={[
-                  styles.note,
-                  {
-                    opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
-                  },
-                ]}>
-                <View style={styles.noteTextContainer}>
-                  <Text style={{color: Colors.dark2}}>
-                    Join date for the contest {canJoin ? 'ends' : 'ended'}{' '}
-                    on&nbsp;
-                    <Text style={styles.noteDate}>
-                      {moment(data?.join_end_date).format('DD MMM YYYY')}
+              <View style={{width: '50%'}}>
+                <View
+                  style={[
+                    styles.note,
+                    {
+                      opacity: canJoin || !data?.is_joined_by_me ? 1 : 0.5,
+                    },
+                  ]}>
+                  <View style={styles.noteTextContainer}>
+                    <Text style={{color: Colors.info}}>
+                      Join date for the contest {canJoin ? 'ends' : 'ended'}{' '}
+                      on&nbsp;
+                      <Text style={styles.noteDate}>
+                        {moment(data?.join_end_date).format('DD MMM YYYY')}
+                      </Text>
                     </Text>
-                  </Text>
+                  </View>
                 </View>
+                <TermsAndConditionsModal message={data?.tnc} />
               </View>
-              <View style={styles.contestDetails}>
-                <LikeExpiry like_end_date={data?.like_end_date} />
+              <View style={{width: '50%', alignItems: 'center'}}>
+                <View style={styles.contestDetails}>
+                  <LikeExpiry like_end_date={data?.like_end_date} />
+                </View>
               </View>
             </>
           )}
         </View>
-        <View style={styles.footer}>
-          <TermsAndConditionsModal message={data?.tnc} />
-          <Pressable onPress={shareLink}>
-            <Text style={styles.link}>Share this event</Text>
-          </Pressable>
-        </View>
+        <View style={styles.footer}></View>
         {!data?.is_canceled &&
           finalPrize?.length !== 0 &&
           data?.contest_ended && <FinalPrize data={finalPrize} />}

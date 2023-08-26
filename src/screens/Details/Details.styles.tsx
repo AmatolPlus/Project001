@@ -7,6 +7,7 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingBottom: Spacing.l,
     backgroundColor: Colors.light,
     padding: Spacing.l,
@@ -27,9 +28,7 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   list: {height: 270},
-  contestDetails: {
-    marginTop: Spacing.m,
-  },
+  contestDetails: {},
   label: {
     color: Colors.dark,
     ...Fonts.sub1,
@@ -56,7 +55,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   link: {
-    color: Colors.info,
+    ...Fonts.h5,
+
+    color: Colors.light,
   },
   knowMore: {
     flexDirection: 'row',
@@ -110,7 +111,6 @@ export const styles = StyleSheet.create({
   eventDetailsHeader: {
     ...Fonts.h1,
     color: Colors.info,
-    marginBottom: Spacing.m,
     fontSize: fontSize.h3,
   },
   eventDetailsSubHeaderContainer: {
@@ -157,7 +157,7 @@ export const styles = StyleSheet.create({
   },
   note: {
     padding: Spacing.m,
-    width: '50%',
+    width: '100%',
     backgroundColor: Colors.light,
   },
   noteTextContainer: {width: '100%'},

@@ -1,21 +1,21 @@
 import React, {useCallback, useState} from 'react';
-import {Portal} from 'react-native-paper';
-import {PESDK} from 'react-native-photoeditorsdk';
-import Modal from './Modal';
-import OrderSummary from '@/components/OrderSummary/OrderSummary';
-import Text from './Text';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Portal} from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
+
+import {useUploadImageMutation} from '@/services/apis/contests.api';
+
+import OrderSummary from '@/components/OrderSummary/OrderSummary';
+
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
-import Button from './Button';
-import Image from './Image';
 import {Fonts} from '@/utils/fonts';
-import {useUploadImageMutation} from '@/services/apis/contests.api';
-import ImagePicker from 'react-native-image-crop-picker';
-import TextInput from './TextInput';
-import ImageCropPicker from 'react-native-image-crop-picker';
 import {HorizontalMargin} from '@/utils/spacing';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import {Button, TextInput, Text, Image, Modal} from '@/ui';
+
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;

@@ -9,20 +9,23 @@ export const styles = StyleSheet.create({
     height: 200,
     flex: 1,
     width: width - Spacing.s,
+    marginTop: Spacing.l,
   },
   header: {
     ...Fonts.h1,
     marginBottom: Spacing.m,
+    color: Colors.info,
     fontSize: fontSize.h3,
   },
   cardContainer: {
     padding: Spacing.m,
     paddingLeft: 0,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.light,
   },
 
   card: {
     flexDirection: 'row',
+    backgroundColor: Colors.light,
     gap: 10,
   },
   image: {

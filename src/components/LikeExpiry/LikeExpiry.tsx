@@ -8,7 +8,6 @@ import {canLikeEvent} from '@/utils/event';
 
 export default function LikeExpiry({like_end_date}: any) {
   const canLike = canLikeEvent(like_end_date);
-  console.log(like_end_date);
   return (
     <View
       style={[
@@ -18,7 +17,7 @@ export default function LikeExpiry({like_end_date}: any) {
         },
       ]}>
       <View style={styles.noteTextContainer}>
-        <Text style={{color: Colors.dark2}}>
+        <Text style={{color: Colors.info}}>
           Like date for the contest {canLike ? 'ends' : 'ended'} on&nbsp;
           <Text style={styles.noteDate}>
             {moment(like_end_date).format('DD MMM YYYY')}

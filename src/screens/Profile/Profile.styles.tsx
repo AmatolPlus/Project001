@@ -7,15 +7,21 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: Spacing.xl * 1.5,
+    padding: Spacing.xl,
+    backgroundColor: Colors.white,
   },
   link: {
     color: Colors.info,
     marginBottom: Spacing.s,
   },
-  card: {},
+  card: {
+    backgroundColor: Colors.white,
+  },
   divider: {...VerticalMargin('m')},
-  logout: {},
+  logout: {
+    marginBottom: Spacing.xl,
+    marginTop: Spacing.m,
+  },
   logoutText: {
     ...Fonts.h5,
     color: Colors.danger,
