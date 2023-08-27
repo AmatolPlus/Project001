@@ -1,11 +1,14 @@
 import React, {useCallback, useState} from 'react';
-import {FlatList, RefreshControl, View} from 'react-native';
+import {RefreshControl, View} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
 import {useRoute} from '@react-navigation/native';
 import {
   useLikeContestMutation,
   useMorePostsQuery,
 } from '@/services/apis/contests.api';
+
 import PostCard from '@/components/PostCard/PostCard';
+
 import {Spacing} from '@/utils/constants';
 import {Text} from '@/ui';
 import {Colors} from '@/utils/colors';
@@ -75,9 +78,8 @@ export default function MorePosts() {
   );
 
   return (
-    <FlatList
+    <FlashList
       contentContainerStyle={{
-        alignItems: 'center',
         backgroundColor: Colors.light,
         padding: Spacing.s,
       }}

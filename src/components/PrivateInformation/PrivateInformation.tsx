@@ -3,15 +3,12 @@ import {Text, View} from 'react-native';
 
 import {Button, TextInput} from '@/ui';
 
+import GenderSelector from '../GenderSelector/GenderSelector';
 import {validateUserEmailAndPhone} from '@/utils/validateUserDetails';
 import {Colors} from '@/utils/colors';
-import DatePicker from '../DatePicker/DatePicker';
-import GenderSelector from '../GenderSelector/GenderSelector';
 
 const PrivateInformation = ({form, onChange, onSubmit}: any) => {
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [gender, setGender] = useState<string>();
-  let styles = {};
 
   const disabled = useMemo(() => {
     return !validateUserEmailAndPhone(

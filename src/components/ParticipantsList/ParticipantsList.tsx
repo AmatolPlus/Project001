@@ -1,15 +1,17 @@
 import React, {useCallback, useState} from 'react';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {View} from 'react-native';
 import {Portal} from 'react-native-paper';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {FlashList} from '@shopify/flash-list';
 
-import {Modal, Text} from '@/ui';
-import {styles} from './ParticipantsList.styles';
-import {Colors} from '@/utils/colors';
 import Participants from '../Participants/Participants';
-import Card from '../Card/Card';
+
+import {Modal, Text} from '@/ui';
+import {Colors} from '@/utils/colors';
 import {filteredList} from '@/utils/getFilteredList';
+import {styles} from './ParticipantsList.styles';
+
+import Card from '../Card/Card';
 
 const ParticipantsList = ({data}: {data: any[]}) => {
   const [visible, setVisible] = useState(false);

@@ -1,17 +1,19 @@
-import {Button, Modal, Text} from '@/ui';
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {Portal} from 'react-native-paper';
-import Address from '../Address/Address';
 import {ToastAndroid, View} from 'react-native';
-import {styles} from './AddressModal.style';
-import {Spacing} from '@/utils/constants';
-import {validateAddressForm} from '@/utils/addressConstants';
-import {Colors} from '@/utils/colors';
+
+import Address from '../Address/Address';
+
 import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
-import {Pressable} from 'react-native';
+
+import {Button, Modal, Text} from '@/ui';
+import {styles} from './AddressModal.style';
+import {Spacing} from '@/utils/constants';
+import {validateAddressForm} from '@/utils/addressConstants';
+import {Colors} from '@/utils/colors';
 
 const AddressModal = ({visible, onClose, refetch}: any) => {
   const [form, setForm] = useState<any>({});

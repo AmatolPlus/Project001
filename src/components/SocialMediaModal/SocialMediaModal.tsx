@@ -1,14 +1,17 @@
-import {Button, Modal, Text} from '@/ui';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
 import {Pressable, ToastAndroid, View} from 'react-native';
-import {Spacing} from '@/utils/constants';
+
 import Social from '../Social/Social';
-import {styles} from './SocialMediaModal.styles';
+import {Button, Modal, Text} from '@/ui';
+import {Spacing} from '@/utils/constants';
+
 import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
+
+import {styles} from './SocialMediaModal.styles';
 
 const SocialMediaModal = () => {
   const [form, setForm] = useState<any>({});

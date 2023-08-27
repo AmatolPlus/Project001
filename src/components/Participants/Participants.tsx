@@ -25,7 +25,7 @@ const Participants = ({
           {slicedParticipants.map((item: any, index: number): any => {
             return (
               <Image
-                key={item?.user?.profile_image_url}
+                key={item?.user?.profile_id}
                 source={{
                   uri: item?.user?.profile_image_url || USER_IMAGE_PLACEHOLDER,
                 }}

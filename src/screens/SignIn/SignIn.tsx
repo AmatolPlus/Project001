@@ -1,12 +1,14 @@
-import {View, Text, TextInput, Linking} from 'react-native';
 import React, {useCallback, useState} from 'react';
+import {View, Text, TextInput, Linking} from 'react-native';
+
 import {Button, Image} from '@/ui';
 import {useNavigation} from '@react-navigation/native';
 import {useBackHandler} from '@/hooks/useBackHandler';
+
 import {useLoginMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
-import {ILoginRequest, FormState} from '../Login/LoginTypes';
 import {Colors} from '@/utils/colors';
+import {ILoginRequest, FormState} from '../Login/LoginTypes';
 
 export default function SignIn() {
   const [loginForm, setForm] = useState<ILoginRequest>({

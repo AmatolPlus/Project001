@@ -4,9 +4,11 @@ import {
   ToastAndroid,
   View,
   Text,
+  ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
 import {Portal} from 'react-native-paper';
+
 import {Button, TextInput, Modal, Image} from '@/ui';
 import {styles} from './ChangePasswordModal.styles';
 import {validatePassword} from '@/utils/validatePassword';
@@ -17,7 +19,6 @@ import {
 } from '@/services/apis/login.api';
 import {IChangePassword} from './ChangePasswordModal.types';
 import {ScreenNames} from '@/utils/screenName';
-import {ScrollView} from 'react-native';
 
 const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   const [password, setPassword] = useState({
@@ -217,19 +218,25 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                     activeOutlineColor={Colors.info}
                     mode="outlined"
                     keyboardType={'number-pad'}
-                    className="bg-white mb-4 color-info"
+                    className="bg-white mb-2 color-info"
                     onChangeText={val => handlePasswordChange('password1', val)}
-                    placeholder="New PIN"
+                    placeholder="New 6 Digit PIN"
                   />
+                  <Text className="color-danger font-sans text-xs text-start mt-2">
+                    Enter The 6 Digit PIN
+                  </Text>
                   <TextInput
                     activeOutlineColor={Colors.info}
                     maxLength={6}
                     mode="outlined"
                     keyboardType={'number-pad'}
-                    className="bg-white mb-4 color-info"
+                    className="bg-white mb-2 color-info"
                     onChangeText={val => handlePasswordChange('password2', val)}
                     placeholder="Confirm PIN"
                   />
+                  <Text className="color-danger font-sans text-xs text-start mb-2">
+                    Enter The 6 Digit Confirm PIN
+                  </Text>
                 </View>
                 {error && (
                   <Text className="color-danger font-bold">

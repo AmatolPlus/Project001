@@ -2,14 +2,16 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-import {ActivityIndicator, Image, Text} from '@/ui';
-import {styles} from './PostCard.styles';
-import {Fonts, fontSize} from '@/utils/fonts';
-import {IPostCard} from './PostCard.types';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
-import {canLikeEvent} from '@/utils/event';
 import RankTag from '../RankTag/RankTag';
+
+import {ActivityIndicator, Image, Text} from '@/ui';
+import {Fonts, fontSize} from '@/utils/fonts';
+import {canLikeEvent} from '@/utils/event';
 import {Colors} from '@/utils/colors';
+
+import {IPostCard} from './PostCard.types';
+import {styles} from './PostCard.styles';
 
 const PostCard = ({
   contestImage,
@@ -19,6 +21,7 @@ const PostCard = ({
   onLike,
   loading,
   item,
+  index,
   small,
 }: IPostCard) => {
   const [confirmModalShown, setShowConfirmModal] = useState(false);
@@ -43,7 +46,7 @@ const PostCard = ({
   }, [onLike, item, liked, handleToggleConfirmModal]);
 
   return (
-    <View style={styles(small).postCard}>
+    <View key={index} style={styles(small).postCard}>
       <RankTag rank={item?.rank} />
 
       <Image

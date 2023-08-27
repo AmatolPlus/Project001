@@ -3,9 +3,10 @@ import {ToastAndroid, View} from 'react-native';
 
 import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 
+import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
+
 import {Button, Text} from '@/ui';
 import {canJoinEvent} from '@/utils/event';
-import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
 import {IJoinEvent} from './JoinEvent.types';
 import {Colors} from '@/utils/colors';

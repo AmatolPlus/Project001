@@ -1,21 +1,18 @@
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {ActivityIndicator, Image} from '@/ui';
-import {Colors} from '@/utils/colors';
-import {IProfileInfo} from './ProfileInfo.types';
+
 import {useUploadProfileImageMutation} from '@/services/apis/login.api';
+
+import {Image} from '@/ui';
+import {IProfileInfo} from './ProfileInfo.types';
 
 const USER_IMAGE_PLACEHOLDER =
   'https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg';
 
 const ProfileInfo = ({data, refetch}: IProfileInfo) => {
-  const [userModal, setShowUserModal] = useState(false);
-  const [upload, {isLoading}] = useUploadProfileImageMutation({});
+  const [upload] = useUploadProfileImageMutation({});
   const [image, setImage] = useState();
-  const handleModal = useCallback(() => {
-    setShowUserModal(!userModal);
-  }, [userModal]);
 
   const handlePickImage = useCallback(() => {
     try {
@@ -38,8 +35,6 @@ const ProfileInfo = ({data, refetch}: IProfileInfo) => {
       });
     }
   }, [image, refetch, upload]);
-
-  console.log(data);
 
   return (
     <View className="bg-white rounded-md justify-center flex-auto flex">

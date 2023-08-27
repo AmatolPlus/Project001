@@ -1,10 +1,10 @@
-import {Portal} from 'react-native-paper';
 import React, {useCallback, useState} from 'react';
+import {Portal} from 'react-native-paper';
 import {Pressable, TouchableOpacity, View} from 'react-native';
-import TextInput from '@/ui/TextInput';
-import {styles} from './GenderSelector.styles';
-import {Text, Modal} from '@/ui';
+
+import {Text, TextInput, Modal} from '@/ui';
 import {Colors} from '@/utils/colors';
+import {styles} from './GenderSelector.styles';
 
 interface IGenderDropdown {
   onChange: (props: string) => void;
@@ -49,7 +49,7 @@ const GenderSelector = ({onChange, selectedOption}: IGenderDropdown) => {
           <View style={styles.card}>
             {options.map((item: string) => {
               return (
-                <TouchableOpacity onPress={() => handleSelect(item)}>
+                <TouchableOpacity key={item} onPress={() => handleSelect(item)}>
                   <Text style={styles.option}>{item}</Text>
                 </TouchableOpacity>
               );

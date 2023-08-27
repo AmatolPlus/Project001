@@ -2,14 +2,17 @@ import {Modal} from '@/ui';
 import React, {memo, useCallback, useEffect, useState} from 'react';
 import {Portal} from 'react-native-paper';
 import {ToastAndroid, View} from 'react-native';
-import {Spacing} from '@/utils/constants';
-import {styles} from './UserDetailsModal.styles';
+
 import UserDetails from '../UserDetail/UserDetails';
+import {Spacing} from '@/utils/constants';
+
 import {
   useUpdateUserDetailsMutation,
   useUserDetailsQuery,
 } from '@/services/apis/login.api';
+
 import {FormData, IUserDetailsModal} from './UserDetailModal.types';
+import {styles} from './UserDetailsModal.styles';
 
 const UserDetailsModal = ({visible, onClose}: IUserDetailsModal) => {
   const [form, setForm] = useState<FormData>({

@@ -1,12 +1,15 @@
-import {useMoreContestsQuery} from '@/services/apis/contests.api';
-import {ActivityIndicator, Card, Image, Text} from '@/ui';
-import {ScreenNames} from '@/utils/screenName';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {FlashList} from '@shopify/flash-list';
 import React, {useCallback, useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {styles} from './ContestLists.styles';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {FlashList} from '@shopify/flash-list';
+
+import {ActivityIndicator, Card, Image, Text} from '@/ui';
+
+import {useMoreContestsQuery} from '@/services/apis/contests.api';
+
+import {ScreenNames} from '@/utils/screenName';
 import {Spacing} from '@/utils/constants';
+import {styles} from './ContestLists.styles';
 
 const COLUMN_COUNT = 2;
 

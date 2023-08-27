@@ -1,11 +1,13 @@
-import {View} from 'react-native';
 import React from 'react';
-import {Portal} from 'react-native-paper';
-import {Button, Modal, Text} from '@/ui';
-import {styles} from './ConfirmLikeModal.styles';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {View} from 'react-native';
+import {Portal} from 'react-native-paper';
+
+import {Button, Modal, Text} from '@/ui';
 import {fontSize} from '@/utils/fonts';
 import {Colors} from '@/utils/colors';
+
+import {styles} from './ConfirmLikeModal.styles';
 
 interface IConfirmLike {
   visible: boolean;

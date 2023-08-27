@@ -3,14 +3,16 @@ import {Text, TouchableOpacity, View} from 'react-native';
 
 import {Button, TextInput} from '@/ui';
 
-import {validateUserDetails} from '@/utils/validateUserDetails';
-import {Colors} from '@/utils/colors';
+import UserDetailsModal from '../UserDetailsModal/UserDetailsModal';
 import DatePicker from '../DatePicker/DatePicker';
 import AddressModal from '../AddressModal/AddressModal';
+
+import {validateUserDetails} from '@/utils/validateUserDetails';
+import {Colors} from '@/utils/colors';
 import {getFullName} from '@/utils/getFullName';
-import UserDetailsModal from '../UserDetailsModal/UserDetailsModal';
 
 const PersnolInformation = ({form, onChange, refetch, onSubmit}: any) => {
+  const address = form?.address_detail?.street;
   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
   const [addressModalVisible, setAddressModalVisible] =
     useState<boolean>(false);
@@ -101,11 +103,15 @@ const PersnolInformation = ({form, onChange, refetch, onSubmit}: any) => {
             editable={false}
             value={
               form?.address_detail &&
-              form?.address_detail?.street +
-                ', ' +
-                form?.address_detail?.city +
-                ', ' +
-                form?.address_detail?.state
+              (form?.address_detail?.street === undefined
+                ? 'Select Your Region'
+                : form?.address_detail
+                ? form?.address_detail?.street +
+                  ', ' +
+                  form?.address_detail?.city +
+                  ', ' +
+                  form?.address_detail?.state
+                : '')
             }
             outlineColor={Colors.white}
             cursorColor={Colors.info}

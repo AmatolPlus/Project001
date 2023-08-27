@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, LogBox} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {NavigationContainer, NavigationProp} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import {Provider as PaperProvider, Text} from 'react-native-paper';
@@ -51,7 +51,7 @@ const HeaderIcon = ({navigation}: any) => {
 
 function App(): JSX.Element {
   checkForUpdate();
-
+  LogBox.ignoreLogs(['Warning:']);
   const MainStack = createNativeStackNavigator();
 
   return (
@@ -62,6 +62,9 @@ function App(): JSX.Element {
           fallback={<Text>Loading...</Text>}>
           <MainStack.Navigator
             screenOptions={{
+              animation: 'slide_from_right',
+              presentation: 'modal',
+              animationTypeForReplace: 'push',
               headerTitleStyle: {color: Colors.info, ...Fonts.h1},
               headerShadowVisible: false,
             }}>

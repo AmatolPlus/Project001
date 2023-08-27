@@ -1,14 +1,15 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import moment from 'moment';
+import {TouchableOpacity, View} from 'react-native';
+import {ProgressBar} from 'react-native-paper';
+
+import JoinTag from '../JoinTag/JoinTag';
+import CountdownTimer from '../CountdownTImer/CountdownTImer';
 
 import {Text, Image} from '@/ui';
-import {ProgressBar} from 'react-native-paper';
-import JoinTag from '../JoinTag/JoinTag';
 import {styles} from './ContestCard.styles';
-import moment from 'moment';
-import CountdownTimer from '../CountdownTImer/CountdownTImer';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
@@ -21,12 +22,7 @@ interface IContestCard {
   showShare: any;
 }
 
-export const ContestCard = ({
-  item,
-  navigation,
-  width,
-  showShare,
-}: IContestCard) => {
+const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
   const {
     joined_list_count,
     total_competators,
@@ -55,6 +51,7 @@ export const ContestCard = ({
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        delayPressIn={0}
         activeOpacity={navigation !== null ? 0.5 : 1}
         onPress={() => navigation !== null && navigation(item)}
         style={{
@@ -166,3 +163,5 @@ export const ContestCard = ({
     </View>
   );
 };
+
+export default ContestCard;

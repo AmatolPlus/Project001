@@ -71,6 +71,15 @@ export const contestService = createApi({
       }),
     }),
 
+    trackOrder: build.query({
+      query: id => {
+        return {
+          method: 'GET',
+          url: `payment/track_status/phonepe?order_tracking_id=${id}`,
+        };
+      },
+    }),
+
     uploadImage: build.mutation({
       query: (body: any) => {
         const formData: any = new FormData();
@@ -94,6 +103,7 @@ export const contestService = createApi({
 });
 
 export const {
+  useTrackOrderQuery,
   useConfirmPaymentMutation,
   useUploadImageMutation,
   useContestDetailQuery,

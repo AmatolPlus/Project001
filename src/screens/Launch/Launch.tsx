@@ -1,12 +1,12 @@
-import {useUserDetailsQuery} from '@/services/apis/login.api';
-import {Image} from '@/ui';
-import ActivityIndicator from '@/ui/ActvityIndicator';
-import {height, width} from '@/utils/Dimension';
-import {Colors} from '@/utils/colors';
-import {get} from '@/utils/storage';
-import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {useUserDetailsQuery} from '@/services/apis/login.api';
+
+import {Image} from '@/ui';
+
+import {Colors} from '@/utils/colors';
+import {get} from '@/utils/storage';
 
 export default function Launch() {
   const navigation: any = useNavigation();

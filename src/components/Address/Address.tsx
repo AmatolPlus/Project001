@@ -1,10 +1,11 @@
 import React, {memo, useState} from 'react';
 import {ToastAndroid, TouchableOpacity, View} from 'react-native';
 
-import TextInput from '@/ui/TextInput';
-import {styles} from './Address.styles';
-import StateModal from '../StatesModal/StateModal';
 import CityModal from '../CityModal/CityModal';
+import TextInput from '@/ui/TextInput';
+import StateModal from '../StatesModal/StateModal';
+
+import {styles} from './Address.styles';
 import {AddressState} from './Address.types';
 import {Colors} from '@/utils/colors';
 

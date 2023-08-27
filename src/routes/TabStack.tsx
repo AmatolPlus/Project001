@@ -11,8 +11,8 @@ import {TouchableOpacity, View} from 'react-native';
 import {get} from '@/utils/storage';
 import {Colors} from '@/utils/colors';
 import {options} from '@/utils/navigationConfig';
-import {BorderRadius, Spacing} from '@/utils/constants';
 import {height, width} from '@/utils/Dimension';
+
 import Transactions from '@/screens/Transactions/Transactions';
 
 const ProfileIcon = ({color, size, focused}: any) =>
@@ -49,6 +49,7 @@ export default function TabStack() {
     <Tab.Navigator
       screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
+
         tabBarInactiveTintColor: Colors.dark2,
         tabBarActiveTintColor: Colors.purple,
         tabBarLabel: ({focused}) => {

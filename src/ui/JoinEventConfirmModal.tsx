@@ -1,20 +1,24 @@
-import React, {useCallback, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  PermissionsAndroid,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Portal} from 'react-native-paper';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageCropPicker from 'react-native-image-crop-picker';
 
-import {useUploadImageMutation} from '@/services/apis/contests.api';
-
 import OrderSummary from '@/components/OrderSummary/OrderSummary';
+
+import {useUploadImageMutation} from '@/services/apis/contests.api';
+import {Button, TextInput, Text, Image, Modal} from '@/ui';
 
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin} from '@/utils/spacing';
-
-import {Button, TextInput, Text, Image, Modal} from '@/ui';
 
 interface IJoinEventModal {
   isOpen: boolean;
@@ -49,8 +53,17 @@ const JoinEventConfirmModal = ({
   ends_on,
   is_free,
 }: IJoinEventModal) => {
-  const [imageId, setImageId] = useState();
+  const [imageId, setImageId] = useState('');
   const [image, setImage] = useState('');
+
+  useEffect(() => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    );
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    );
+  }, []);
 
   const [uploadPost, setPost]: any = useState({
     imageUrl: undefined,
@@ -63,9 +76,12 @@ const JoinEventConfirmModal = ({
     setImageUploaded(!hasImageUploaded);
   }, [hasImageUploaded]);
 
-  const handleOnConfirm = useCallback(async () => {
-    onConfirm(imageId);
-  }, [imageId, onConfirm]);
+  const handleOnConfirm = useCallback(
+    async (image_id: any) => {
+      onConfirm(image_id);
+    },
+    [onConfirm],
+  );
 
   const handlePostChange = useCallback(
     (key: string, value: string): any => {
@@ -127,8 +143,9 @@ const JoinEventConfirmModal = ({
         });
         setImageId(data?.data?.storage_id);
         setImage(data?.data?.url);
+
         if (is_free) {
-          handleOnConfirm();
+          handleOnConfirm(data?.data?.storage_id);
           onClose();
         } else {
           handleImageUploaded();
@@ -141,7 +158,8 @@ const JoinEventConfirmModal = ({
     is_free,
     onClose,
     upload,
-    uploadPost,
+    uploadPost.caption,
+    uploadPost.imageUrl,
   ]);
 
   return (

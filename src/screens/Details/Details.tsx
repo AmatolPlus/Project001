@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -9,35 +9,45 @@ import {
   Share,
   Image,
   StyleSheet,
+  Linking,
 } from 'react-native';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {FlashList} from '@shopify/flash-list';
 import Entypo from 'react-native-vector-icons/Entypo';
+import {FlashList} from '@shopify/flash-list';
+import {useNavigation, useRoute} from '@react-navigation/native';
+
+import PostCard from '@/components/PostCard/PostCard';
+import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
+import ContestCard from '@/components/ContestCard/ContestCard';
+import FinalPrize from '@/components/FinalPrize/FinalPrize';
+
+import {
+  ActivityIndicator,
+  Snackbar,
+  PrizeChart as PriceChart,
+  Button,
+  Text,
+  Section,
+} from '@/ui';
 
 import {
   useContestDetailQuery,
   useFinalPrizeQuery,
   useJoinContestMutation,
   useLikeContestMutation,
+  useTrackOrderQuery,
 } from '@/services/apis/contests.api';
-
-import PriceChart from '@/ui/PrizeChart';
-import {ActivityIndicator, Button, Text, Section} from '@/ui';
-import {Colors} from '@/utils/colors';
-import {styles} from './Details.styles';
-import PostCard from '@/components/PostCard/PostCard';
-import ParticipantsList from '@/components/ParticipantsList/ParticipantsList';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
+
+import {styles} from './Details.styles';
+import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {ScreenNames} from '@/utils/screenName';
-import FinalPrize from '@/components/FinalPrize/FinalPrize';
-import {ContestCard} from '@/components/ContestCard/ContestCard';
 import {width} from '@/utils/Dimension';
 import {canJoinEvent} from '@/utils/event';
 import {JoinEvent} from '@/components/JoinEvent/JointEvent';
 import {BorderRadius, Spacing} from '@/utils/constants';
-import Snackbar from '@/ui/SnackBar';
 import {ContestInfoBanner} from './LikeInfoBanner';
+import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 
 export default function Details() {
   const navigation: any = useNavigation();
@@ -47,11 +57,16 @@ export default function Details() {
   const {data: finalPrize}: any = useFinalPrizeQuery(id);
   const {data: user} = useUserDetailsQuery({});
   const [like, {isLoading: isLikeLoading}] = useLikeContestMutation({});
-
+  const {data: walletAmount} = useWalletAmountQuery({});
   const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [orderId, setOrderId] = useState('');
   const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
   const [joinEvent]: any = useJoinContestMutation();
   const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
+
+  const {isSuccess, isError: isPhonePeError} = useTrackOrderQuery(orderId, {
+    skip: !orderId,
+  });
 
   const handleMorePostsNavigation = useCallback(() => {
     try {
@@ -87,19 +102,25 @@ export default function Details() {
     setSnackbarVisible(!snackbarVisible);
   }, [snackbarVisible]);
 
-  const handleRazorPayPayment = useCallback(
-    async (response: any) => {
-      if (response?.data?.amount !== 0) {
-        handleToggleSnackBar();
-      } else {
+  const handlePhonePePayment = useCallback((response: any) => {
+    if (response?.data?.amount !== 0) {
+      try {
+        setOrderId(response?.data?.order_tracking_id);
+        let url = response?.data?.redirect_url;
+        Linking.openURL(url);
+      } catch (e) {
         ToastAndroid.show(
-          'You Post Has Been Uploaded Successfully',
+          'Please Install PhonePe to continue',
           ToastAndroid.LONG,
         );
       }
-    },
-    [handleToggleSnackBar],
-  );
+    } else {
+      ToastAndroid.show(
+        'You Post Has Been Uploaded Successfully',
+        ToastAndroid.LONG,
+      );
+    }
+  }, []);
 
   const handlePrizeChartToggle = useCallback(() => {
     setPriceChartShown(!isPrizeChartShown);
@@ -115,18 +136,39 @@ export default function Details() {
         joinEvent({
           contest: id,
           sample_image: image,
-          use_wallet: true,
+          use_wallet: !!(walletAmount?.earned_amount >= data?.entry_fee),
         }).then((response: any) => {
           if (response?.data) {
-            handleRazorPayPayment(response);
+            handlePhonePePayment(response);
           } else {
-            handleToggleSnackBar();
+            ToastAndroid.show('Payment Failed', ToastAndroid.LONG);
           }
         });
+        refetch();
       } catch (e) {}
     },
-    [handleRazorPayPayment, handleToggleSnackBar, id, joinEvent],
+    [
+      data?.entry_fee,
+      handlePhonePePayment,
+      id,
+      joinEvent,
+      refetch,
+      walletAmount?.earned_amount,
+    ],
   );
+
+  useEffect(() => {
+    if (isSuccess) {
+      ToastAndroid.show(
+        'You Post Has Been Uploaded Successfully',
+        ToastAndroid.LONG,
+      );
+    }
+
+    if (isPhonePeError) {
+      ToastAndroid.show('Payment Failed. Please Try Again', ToastAndroid.LONG);
+    }
+  }, [isSuccess, isPhonePeError]);
 
   if (isLoading) {
     return (
@@ -140,9 +182,11 @@ export default function Details() {
     return <></>;
   }
 
-  const renderPosts = ({item}: any) => {
+  const renderPosts = ({item, index}: any) => {
     return (
       <PostCard
+        small={false}
+        index={index}
         contest_ended={data?.contest_ended}
         likeEndDate={data?.like_end_date}
         onLike={handleLike}
@@ -274,6 +318,7 @@ export default function Details() {
                 style={{
                   height: 250,
                 }}
+                keyExtractor={(item: any) => item?.id}
                 data={data?.joined_contest}
                 estimatedItemSize={200}
                 horizontal

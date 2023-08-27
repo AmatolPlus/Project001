@@ -1,15 +1,14 @@
 import React, {memo} from 'react';
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native';
-import Modal from '../../ui/Modal';
+import {View, ScrollView, TouchableOpacity} from 'react-native';
 import {Portal} from 'react-native-paper';
 
-import Text from '../../ui/Text';
+import {Modal, Text} from '@/ui';
+
 import {Spacing} from '@/utils/constants';
-import {styles} from './CityList.styles';
 import {getCitiesByState} from '@/utils/cities';
-import {ScrollView} from 'react-native';
+
 import {ICityModal} from './CityModal.types';
+import {styles} from './CityList.styles';
 
 const CitiesModal = ({visible, closeModal, onSelect, state}: ICityModal) => {
   let cities = getCitiesByState(state);

@@ -7,19 +7,20 @@ import {
   Cursor,
   useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
-import Snackbar from '@/ui/SnackBar';
 import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
+
+import {Button, Snackbar, Image} from '@/ui';
 import {set} from '@/utils/storage';
-import {Button, Image} from '@/ui';
-import {OtpState} from '../Login/LoginTypes';
 import {
   IValidateRequest,
   useResendOtpMutation,
   useValidateOtpMutation,
 } from '@/services/apis/login.api';
 import {saveUserInfo} from '@/services/reducers/login.slice';
-import {styles} from './Verification.styles';
 import {ScreenNames} from '@/utils/screenName';
+
+import {OtpState} from '../Login/LoginTypes';
+import {styles} from './Verification.styles';
 
 const CELL_COUNT = 6;
 
@@ -130,7 +131,8 @@ const VerificationScreen = () => {
             </View>
           )}
         />
-        <Text className="color-info font-sans-bold text-center mt-8">
+
+        <Text className="color-info font-sans-bold text-center mt-4">
           Dont't recive the OTP ?{'  '}
           <Text className="color-danger" onPress={handleResend}>
             RESEND OTP

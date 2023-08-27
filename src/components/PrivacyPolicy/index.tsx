@@ -1,11 +1,13 @@
+import React, {useState} from 'react';
+import {Pressable, ScrollView} from 'react-native';
+
 import {usePrivacyQuery} from '@/services/apis/login.api';
+
 import {Button, Modal, Text} from '@/ui';
 import {Spacing} from '@/utils/constants';
-import React, {useState} from 'react';
-import {Dimensions, Pressable, ScrollView, View} from 'react-native';
-import {styles} from '../SocialMediaModal/SocialMediaModal.styles';
 import {Fonts} from '@/utils/fonts';
 import {Colors} from '@/utils/colors';
+import {styles} from '../SocialMediaModal/SocialMediaModal.styles';
 
 const PrivacyPolicy = () => {
   const [isOpen, setOpen] = useState(false);

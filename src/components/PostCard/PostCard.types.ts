@@ -8,4 +8,5 @@ export interface IPostCard {
   caption: string;
   contest_ended: boolean;
   small: boolean;
+  index: number;
 }

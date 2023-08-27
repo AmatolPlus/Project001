@@ -1,6 +1,17 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Linking, ToastAndroid, View} from 'react-native';
+import {
+  Linking,
+  ScrollView,
+  RefreshControl,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import {useNavigation, CommonActions} from '@react-navigation/native';
+
+import PersnolInformation from '@/components/PersnolInformation/PersnolInformation';
+import PrivateInformation from '@/components/PrivateInformation/PrivateInformation';
+import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
+import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 
 import {getFullName} from '@/utils/getFullName';
 import {styles} from './Profile.styles';
@@ -13,12 +24,6 @@ import {
 } from '@/services/apis/login.api';
 
 import {Button, Text} from '@/ui';
-import ProfileInfo from '@/components/ProfileInfo/ProfileInfo';
-import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
-import {ScrollView} from 'react-native';
-import {RefreshControl} from 'react-native';
-import PersnolInformation from '@/components/PersnolInformation/PersnolInformation';
-import PrivateInformation from '@/components/PrivateInformation/PrivateInformation';
 import {FormData} from '@/components/UserDetailsModal/UserDetailModal.types';
 
 export default function Profile() {

@@ -2,23 +2,26 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {SectionList, RefreshControl, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
+
+import ContestCard from '@/components/ContestCard/ContestCard';
+import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
+
 import {ActivityIndicator, Text} from '@/ui';
 import {ScreenNames} from '@/utils/screenName';
+
 import {useSectionQuery} from '@/services/apis/contests.api';
-import {styles} from './Home.styles';
-import formatArray from '@/utils/formatData';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
-import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 import {useStoragePermission} from '@/hooks/getStoragePermission';
+
+import formatArray from '@/utils/formatData';
 import {fontSize} from '@/utils/fonts';
-import {ContestCard} from '@/components/ContestCard/ContestCard';
-import {Spacing} from '@/utils/constants';
 import {Colors} from '@/utils/colors';
+import {styles} from './Home.styles';
 
 function Home() {
   const navigation: any = useNavigation();

@@ -1,7 +1,8 @@
+import React from 'react';
+
 import {View} from 'react-native';
 import {styles} from './Card.styles';
 import {Image, Text} from '@/ui';
-import React from 'react';
 
 const Card = ({item, type, userName}: any) => {
   const USER_IMAGE_PLACEHOLDER =
