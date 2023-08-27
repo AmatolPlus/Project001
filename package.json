@@ -31,6 +31,7 @@
     "react-native-image-crop-picker": "^0.40.0",
     "react-native-image-picker": "^5.3.1",
     "react-native-keychain": "^8.1.1",
+    "react-native-lightbox-v2": "^0.9.0",
     "react-native-mmkv": "^2.10.1",
     "react-native-paper": "^5.5.2",
     "react-native-razorpay": "^2.3.0",

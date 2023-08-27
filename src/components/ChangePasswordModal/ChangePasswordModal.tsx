@@ -43,11 +43,6 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   const handleToggleChangePasswordModal = useCallback(() => {
     if (type === 'component') {
       setShowPasswordModal(!showPasswordModal);
-    } else {
-      ToastAndroid.show(
-        'Enter the New Password before You Proceed',
-        ToastAndroid.LONG,
-      );
     }
   }, [showPasswordModal, type]);
 
@@ -96,8 +91,8 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
         if (type === 'modal') {
           await handleUpdateUserName();
         }
-        let data = await update(password);
 
+        let data = await update(password);
         if (userNameError?.data?.details || data?.error) {
           return ToastAndroid.show(
             userNameError?.data?.details || `${data?.error?.data?.details}`,
@@ -222,7 +217,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                     onChangeText={val => handlePasswordChange('password1', val)}
                     placeholder="New 6 Digit PIN"
                   />
-                  <Text className="color-danger font-sans text-xs text-start mt-2">
+                  <Text className="color-danger font-sans text-xs text-start mt-0">
                     Enter The 6 Digit PIN
                   </Text>
                   <TextInput
