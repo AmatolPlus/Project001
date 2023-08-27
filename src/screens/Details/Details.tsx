@@ -102,25 +102,29 @@ export default function Details() {
     setSnackbarVisible(!snackbarVisible);
   }, [snackbarVisible]);
 
-  const handlePhonePePayment = useCallback((response: any) => {
-    if (response?.data?.amount !== 0) {
-      try {
-        setOrderId(response?.data?.order_tracking_id);
-        let url = response?.data?.redirect_url;
-        Linking.openURL(url);
-      } catch (e) {
+  const handlePhonePePayment = useCallback(
+    (response: any) => {
+      if (response?.data?.amount !== 0) {
+        // try {
+        //   setOrderId(response?.data?.order_tracking_id);
+        //   let url = response?.data?.redirect_url;
+        //   Linking.openURL(url);
+        // } catch (e) {
+        //   ToastAndroid.show(
+        //     'Please Install PhonePe to continue',
+        //     ToastAndroid.LONG,
+        //   );
+        // }
+        handleToggleSnackBar();
+      } else {
         ToastAndroid.show(
-          'Please Install PhonePe to continue',
+          'You Post Has Been Uploaded Successfully',
           ToastAndroid.LONG,
         );
       }
-    } else {
-      ToastAndroid.show(
-        'You Post Has Been Uploaded Successfully',
-        ToastAndroid.LONG,
-      );
-    }
-  }, []);
+    },
+    [handleToggleSnackBar],
+  );
 
   const handlePrizeChartToggle = useCallback(() => {
     setPriceChartShown(!isPrizeChartShown);
@@ -136,7 +140,7 @@ export default function Details() {
         joinEvent({
           contest: id,
           sample_image: image,
-          use_wallet: !!(walletAmount?.earned_amount >= data?.entry_fee),
+          use_wallet: !!(walletAmount?.earned_amount >= data?.entry_price),
         }).then((response: any) => {
           if (response?.data) {
             handlePhonePePayment(response);
@@ -148,7 +152,7 @@ export default function Details() {
       } catch (e) {}
     },
     [
-      data?.entry_fee,
+      data?.entry_price,
       handlePhonePePayment,
       id,
       joinEvent,
