@@ -25,9 +25,16 @@ import {
 
 import {Button, Text} from '@/ui';
 import {FormData} from '@/components/UserDetailsModal/UserDetailModal.types';
+import ErrorPage from '@/components/ErrorPage/ErrorPage';
 
 export default function Profile() {
-  const {data: user, refetch, isLoading} = useUserDetailsQuery({});
+  const {
+    data: user,
+    refetch,
+    error: userError,
+    isError,
+    isLoading,
+  } = useUserDetailsQuery({});
   const [form, setForm] = useState<FormData>({
     first_name: '',
     last_name: '',
@@ -82,6 +89,10 @@ export default function Profile() {
     );
   }, [navigation]);
 
+  if (isError) {
+    return <ErrorPage onReload={refetch} error={error} />;
+  }
+
   return (
     <ScrollView
       refreshControl={
@@ -102,10 +113,11 @@ export default function Profile() {
             onChange={handleChange}
             onSubmit={handleSubmit}
           />
-          <ChangePasswordModal type="component" />
           <Text style={styles.link} onPress={handleOpenPrivacyPolicy}>
             Privacy Policy
           </Text>
+          <ChangePasswordModal type="component" />
+
           <Button style={styles.logout} onPress={handleLogout}>
             <Text style={styles.logoutText}>Logout</Text>
           </Button>

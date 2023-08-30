@@ -19,7 +19,7 @@ export const ContestInfoBanner = ({
 }: any) => (
   <View className="flex-row items-center rounded-lg p-1">
     {!is_cancelled && (
-      <View className="flex-row bg-white">
+      <View className="flex-row bg-white rounded-md">
         <View className="w-2/4">
           <View
             style={[

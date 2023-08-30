@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {View} from 'react-native';
 import {Portal} from 'react-native-paper';
@@ -20,6 +20,11 @@ export default function ConfirmLikeModal({
   onClose,
   onConfirmLike,
 }: IConfirmLike) {
+  const like = useCallback(() => {
+    onConfirmLike();
+    onClose();
+  }, [onClose, onConfirmLike]);
+
   return (
     <Portal>
       <Modal style={styles.modal} visible={visible} onDismiss={onClose}>
@@ -34,7 +39,7 @@ export default function ConfirmLikeModal({
             />
           </View>
           <View style={styles.buttonContainer}>
-            <Button onPress={onConfirmLike} style={styles.button}>
+            <Button onPress={like} style={styles.button}>
               <Text style={styles.buttonText}>Go Ahead</Text>
             </Button>
           </View>

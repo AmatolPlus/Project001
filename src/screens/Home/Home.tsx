@@ -22,11 +22,12 @@ import formatArray from '@/utils/formatData';
 import {fontSize} from '@/utils/fonts';
 import {Colors} from '@/utils/colors';
 import {styles} from './Home.styles';
+import ErrorPage from '@/components/ErrorPage/ErrorPage';
 
 function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
-  const {data, isError, refetch, isLoading}: any = useSectionQuery({});
+  const {data, isError, error, refetch, isLoading}: any = useSectionQuery({});
   const {data: user}: any = useUserDetailsQuery({});
 
   useBackHandler();
@@ -54,7 +55,7 @@ function Home() {
   );
 
   if (isError) {
-    return <></>;
+    return <ErrorPage onReload={refetch} error={error} />;
   }
 
   if (isLoading) {

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -48,11 +48,14 @@ import {JoinEvent} from '@/components/JoinEvent/JointEvent';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {ContestInfoBanner} from './LikeInfoBanner';
 import {useWalletAmountQuery} from '@/services/apis/wallet.api';
+import ErrorPage from '@/components/ErrorPage/ErrorPage';
+import PostView from '@/components/PostView/PostView';
 
 export default function Details() {
   const navigation: any = useNavigation();
   const {params}: any = useRoute();
   const id: string = params?.id;
+  const detailsRef: any = useRef(null);
 
   const {data: finalPrize}: any = useFinalPrizeQuery(id);
   const {data: user} = useUserDetailsQuery({});
@@ -60,7 +63,8 @@ export default function Details() {
   const {data: walletAmount} = useWalletAmountQuery({});
   const [snackbarVisible, setSnackbarVisible] = useState(false);
   const [orderId, setOrderId] = useState('');
-  const {data, refetch, isError, isLoading}: any = useContestDetailQuery(id);
+  const {data, refetch, isError, error, isLoading}: any =
+    useContestDetailQuery(id);
   const [joinEvent]: any = useJoinContestMutation();
   const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
 
@@ -142,10 +146,14 @@ export default function Details() {
           sample_image: image,
           use_wallet: !!(walletAmount?.earned_amount >= data?.entry_price),
         }).then((response: any) => {
+          // console.log(response);
           if (response?.data) {
             handlePhonePePayment(response);
           } else {
-            ToastAndroid.show('Payment Failed', ToastAndroid.LONG);
+            ToastAndroid.show(
+              'Payment Failed. Please Try Again Later',
+              ToastAndroid.LONG,
+            );
           }
         });
         refetch();
@@ -168,7 +176,6 @@ export default function Details() {
         ToastAndroid.LONG,
       );
     }
-
     if (isPhonePeError) {
       ToastAndroid.show('Payment Failed. Please Try Again', ToastAndroid.LONG);
     }
@@ -183,23 +190,22 @@ export default function Details() {
   }
 
   if (isError) {
-    return <></>;
+    return <ErrorPage onReload={refetch} error={error} />;
   }
 
   const renderPosts = ({item, index}: any) => {
     return (
-      <PostCard
-        small={false}
-        index={index}
-        contest_ended={data?.contest_ended}
-        likeEndDate={data?.like_end_date}
-        onLike={handleLike}
-        loading={isLikeLoading}
-        likeCount={item?.like_count}
-        contestImage={item?.contest_image_url}
-        caption={item?.img_caption}
-        item={item}
-      />
+      <>
+        <PostCard
+          likeEndDate={data?.like_end_date}
+          small={false}
+          index={index}
+          data={data}
+          item={item}
+          onLike={handleLike}
+          loading={isLikeLoading}
+        />
+      </>
     );
   };
 
@@ -217,7 +223,7 @@ export default function Details() {
         key={data?.id}
         refreshControl={
           <RefreshControl
-            colors={[Colors.primary, Colors.info]}
+            colors={[Colors.danger, Colors.info]}
             refreshing={isLoading || isLikeLoading}
             onRefresh={refetch}
           />

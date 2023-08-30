@@ -1,6 +1,5 @@
 import React, {useCallback, useState} from 'react';
 import {View, Text, TextInput, Linking} from 'react-native';
-
 import {Button, Image} from '@/ui';
 import {useNavigation} from '@react-navigation/native';
 import {useBackHandler} from '@/hooks/useBackHandler';
@@ -64,6 +63,10 @@ export default function SignIn() {
           HIGHFIVE
         </Text>
       </View>
+      {/* <View className="items-center">
+        <Logo width={width / 1.19} height={height / 4} />
+      </View> */}
+
       <Image
         resizeMode="contain"
         className="h-48"

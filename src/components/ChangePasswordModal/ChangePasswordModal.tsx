@@ -36,7 +36,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
     ...password,
     type,
   });
-  const [update, {error}]: any = useUpdatePasswordMutation({});
+  const [update, {error, isError}]: any = useUpdatePasswordMutation({});
   const [updateUser, {error: userNameError}]: any =
     useUpdateUserDetailsMutation({});
 
@@ -99,10 +99,11 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
             ToastAndroid.LONG,
           );
         } else {
-          handleToggleChangePasswordModal(),
-            navigation.replace(ScreenNames.mainStack);
-          type === 'component' && handleToggleChangePasswordModal();
+          handleToggleChangePasswordModal();
           ToastAndroid.show('Password Updated Successfully', ToastAndroid.LONG);
+
+          navigation.replace(ScreenNames.mainStack);
+          type === 'component' && handleToggleChangePasswordModal();
         }
       } catch (e) {}
       setLoading(!loading);
@@ -120,7 +121,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
   ]);
 
   if (error) {
-    return <></>;
+    console.log(error);
   }
 
   return (
@@ -233,8 +234,8 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
                     Enter The 6 Digit Confirm PIN
                   </Text>
                 </View>
-                {error && (
-                  <Text className="color-danger font-bold">
+                {isError && (
+                  <Text className="text-danger text-xs text-center mb-2 font-bold">
                     {error?.data?.details || userNameError?.data?.details}
                   </Text>
                 )}

@@ -30,7 +30,6 @@ export const ContestCard = ({
     setPriceChartShown(!isPrizeChartShown);
   }, [isPrizeChartShown]);
 
-  console.log(item?.joined_list_count, item?.total_competators);
 
   let progress = 0;
 
@@ -46,7 +45,6 @@ export const ContestCard = ({
   } else {
     progress = computeProgress;
   }
-  console.log(progress);
 
   const end_date = moment(item?.join_end_date);
   return (

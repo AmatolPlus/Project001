@@ -113,14 +113,13 @@ const Transactions = () => {
   }, [currentPage, handleChangePage, maxPages, page]);
 
   const renderHistory = ({item}: any) => {
-    console.log(item?.data[0]?.status);
     return (
       <View style={styles.card}>
         <View style={styles.cardItemsContainer}>
           <View>
             <Text style={styles.to}>{item.remarks}</Text>
             <Text style={styles.transferredOn}>
-              {moment(item.created_on).format('h:mm a, D MMMM YYYY')}
+              {moment(item?.data[0]?.created).format('h:mm a, D MMMM YYYY')}
             </Text>
           </View>
         </View>

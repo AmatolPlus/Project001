@@ -63,17 +63,14 @@ export default function MorePosts() {
     [like, refetch],
   );
 
-  const renderPosts = ({item}: any) => (
+  const renderPosts = ({item, index}: any) => (
     <PostCard
       small
-      contestImage={item?.contest_image_url}
-      likeCount={item?.like_count}
+      likeEndDate={likeEndDate}
       item={item}
-      caption={item?.img_caption}
       onLike={handleLike}
       loading={isLoading}
-      likeEndDate={likeEndDate}
-      contest_ended={false}
+      index={index}
     />
   );
 
@@ -81,7 +78,6 @@ export default function MorePosts() {
     <FlashList
       contentContainerStyle={{
         backgroundColor: Colors.light,
-        padding: Spacing.s,
       }}
       ListFooterComponent={maxPages > 1 ? renderFooter : null}
       style={styles.list}

@@ -62,9 +62,9 @@ const OrderSummary = ({
           <Text
             style={{
               ...styles.entryFee,
-              color: wallet_amount === 0 ? Colors.danger : Colors.success,
+              color: wallet_amount === 0 ? Colors.info : Colors.info,
             }}>
-            - ₹ {wallet_amount}
+            ₹ {wallet_amount}
           </Text>
         </View>
         <View style={styles.entryFeeContainer}>
