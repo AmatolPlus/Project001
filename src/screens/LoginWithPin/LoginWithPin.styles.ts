@@ -44,7 +44,7 @@ let styles = StyleSheet.create({
   },
   loginButtonText: {
     ...Fonts.h3,
-    fontSize: fontSize.h4,
+    fontSize: fontSize.h5,
     color: Colors.white,
   },
   close: {

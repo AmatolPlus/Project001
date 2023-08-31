@@ -101,17 +101,14 @@ const PersnolInformation = ({form, onChange, refetch, onSubmit}: any) => {
         <TouchableOpacity onPress={handleAddressModalToggle}>
           <TextInput
             editable={false}
+            placeholder="Select Your Region"
             value={
               form?.address_detail &&
-              (form?.address_detail?.street === undefined
-                ? 'Select Your Region'
-                : form?.address_detail
-                ? form?.address_detail?.street +
-                  ', ' +
-                  form?.address_detail?.city +
-                  ', ' +
-                  form?.address_detail?.state
-                : '')
+              form?.address_detail?.street +
+                ', ' +
+                form?.address_detail?.city +
+                ', ' +
+                form?.address_detail?.state
             }
             outlineColor={Colors.white}
             cursorColor={Colors.info}
