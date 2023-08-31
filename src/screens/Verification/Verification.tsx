@@ -99,7 +99,7 @@ const VerificationScreen = () => {
       </View>
       <Image
         className="h-48"
-        source={require('@/assets/images/verification.jpeg')}
+        source={require('@/assets/images/verification.png')}
         resizeMode="contain"
       />
       <View className="flex-col mt-12">

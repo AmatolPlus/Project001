@@ -70,7 +70,7 @@ export default function SignIn() {
       <Image
         resizeMode="contain"
         className="h-48"
-        source={require('@/assets/images/login.jpeg')}
+        source={require('@/assets/images/login.png')}
       />
       <View className="flex-col mt-12">
         <Text className="font-sans-bold color-info text-center text-xl">

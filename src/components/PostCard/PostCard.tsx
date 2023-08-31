@@ -61,6 +61,7 @@ const PostCard = ({
         <RankTag rank={item?.rank} />
 
         <Image
+          resizeMode="contain"
           style={{...StyleSheet.absoluteFillObject}}
           source={{uri: item?.contest_image_url}}
         />

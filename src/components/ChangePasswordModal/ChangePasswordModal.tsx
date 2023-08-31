@@ -143,7 +143,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
               </Text>
 
               <Image
-                source={require('@/assets/images/login.jpeg')}
+                source={require('@/assets/images/complete_profile.png')}
                 className="h-48"
               />
               <View className="bg-white p-6 rounded-xl shadow-info shadow-xl mt-4">
