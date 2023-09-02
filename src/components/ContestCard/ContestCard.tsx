@@ -36,6 +36,7 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
     join_end_date,
     sample_image_url,
     like_end_date,
+    is_canceled,
   } = item || {};
   let progress = 0;
   const joinEndDate = moment(join_end_date);
@@ -77,46 +78,59 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
               <Text style={styles.label}>Prize Pool</Text>
               <Text style={styles.price}>₹ {total_prize_money}</Text>
             </View>
-            <View style={{flexDirection: 'row'}}>
-              <View>
-                <Text
-                  style={{
-                    ...Fonts.sub2,
-                    color: Colors.info,
-                    textAlign: 'center',
-                  }}>
-                  JOIN ENDS IN
-                </Text>
-                <CountdownTimer
-                  textStyle={{
-                    color: Colors.danger,
-                    ...Fonts.h3,
-                    fontSize: fontSize.s2,
-                  }}
-                  targetDate={joinEndDate}
-                />
-              </View>
+            {!is_canceled ? (
+              <View style={{flexDirection: 'row'}}>
+                <View>
+                  <Text
+                    style={{
+                      ...Fonts.sub2,
+                      color: Colors.info,
+                      textAlign: 'center',
+                    }}>
+                    JOIN ENDS IN
+                  </Text>
+                  <CountdownTimer
+                    textStyle={{
+                      color: Colors.danger,
+                      ...Fonts.h3,
+                      fontSize: fontSize.s2,
+                    }}
+                    targetDate={joinEndDate}
+                  />
+                </View>
 
-              <View className="border-r-2 h-8 border-r-danger opacity-25 p-1 color" />
-              <View style={{marginLeft: 8}}>
+                <View className="border-r-2 h-8 border-r-danger opacity-25 p-1 color" />
+                <View style={{marginLeft: 8}}>
+                  <Text
+                    style={{
+                      ...Fonts.sub2,
+                      color: Colors.info,
+                      textAlign: 'center',
+                    }}>
+                    LIKE ENDS IN
+                  </Text>
+                  <CountdownTimer
+                    textStyle={{
+                      color: Colors.danger,
+                      ...Fonts.h3,
+                      fontSize: fontSize.s2,
+                    }}
+                    targetDate={LikeEndDate}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View className="jusify-center self-center">
                 <Text
                   style={{
                     ...Fonts.sub2,
-                    color: Colors.info,
+                    color: Colors.danger,
                     textAlign: 'center',
                   }}>
-                  LIKE ENDS IN
+                  CONTEST CANCELLED
                 </Text>
-                <CountdownTimer
-                  textStyle={{
-                    color: Colors.danger,
-                    ...Fonts.h3,
-                    fontSize: fontSize.s2,
-                  }}
-                  targetDate={LikeEndDate}
-                />
               </View>
-            </View>
+            )}
 
             <View>
               <Text style={styles.label}>Entry</Text>
