@@ -121,13 +121,14 @@ export default function Details() {
         // }
         handleToggleSnackBar();
       } else {
+        refetch();
         ToastAndroid.show(
           'You Post Has Been Uploaded Successfully',
           ToastAndroid.LONG,
         );
       }
     },
-    [handleToggleSnackBar],
+    [handleToggleSnackBar, refetch],
   );
 
   const handlePrizeChartToggle = useCallback(() => {

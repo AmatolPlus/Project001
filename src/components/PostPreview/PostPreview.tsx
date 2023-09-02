@@ -81,10 +81,10 @@ export default function PostPreview({
   }, [item]);
 
   const handleToggleConfirmModal = useCallback(() => {
-    if (!liked) {
+    if (!liked && canLike) {
       setShowConfirmModal(!confirmModalShown);
     }
-  }, [confirmModalShown, liked]);
+  }, [canLike, confirmModalShown, liked]);
 
   const canLike = canLikeEvent(likeEndDate);
 
@@ -98,41 +98,38 @@ export default function PostPreview({
         className={`w-[350] h-full`}
         source={{uri: item?.contest_image_url}}
       />
+      <TouchableOpacity
+        activeOpacity={canLike ? 0.7 : 1}
+        onPress={handleToggleConfirmModal}
+        style={styles.likeBtn}>
+        {isLikeLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <>
+            {!liked ? (
+              <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
+                <Image
+                  resizeMode="contain"
+                  source={require('@/assets/images/highfive-unlike.jpeg')}
+                  style={styles.likeImage}
+                />
+              </View>
+            ) : (
+              <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
+                <Image
+                  resizeMode="contain"
+                  source={require('@/assets/images/highfive.jpeg')}
+                  style={styles.likeImage}
+                />
+              </View>
+            )}
+            <Text style={{...Fonts.sub1, color: Colors.info}}>
+              {item?.like_count + ' '}
+            </Text>
+          </>
+        )}
+      </TouchableOpacity>
 
-      {canLike ? (
-        <TouchableOpacity
-          onPress={handleToggleConfirmModal}
-          style={styles.likeBtn}>
-          {isLikeLoading ? (
-            <ActivityIndicator />
-          ) : (
-            <>
-              {!liked ? (
-                <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
-                  <Image
-                    resizeMode="contain"
-                    source={require('@/assets/images/highfive-unlike.jpeg')}
-                    style={styles.likeImage}
-                  />
-                </View>
-              ) : (
-                <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
-                  <Image
-                    resizeMode="contain"
-                    source={require('@/assets/images/highfive.jpeg')}
-                    style={styles.likeImage}
-                  />
-                </View>
-              )}
-              <Text style={{...Fonts.sub1, color: Colors.info}}>
-                {item?.like_count + ' '}
-              </Text>
-            </>
-          )}
-        </TouchableOpacity>
-      ) : (
-        <></>
-      )}
       <View style={styles.postCardImage}>
         <View>
           <View style={styles.bannerTextAlignment}>

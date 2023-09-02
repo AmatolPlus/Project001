@@ -40,10 +40,10 @@ const PostCard = ({
   }, [item]);
 
   const handleToggleConfirmModal = useCallback(() => {
-    if (!liked) {
+    if (!liked && canLike) {
       setShowConfirmModal(!confirmModalShown);
     }
-  }, [confirmModalShown, liked]);
+  }, [canLike, confirmModalShown, liked]);
 
   const handleOnLike = useCallback(() => {
     try {
@@ -54,7 +54,6 @@ const PostCard = ({
   return (
     <>
       <TouchableOpacity
-        activeOpacity={0.8}
         onPress={handleOpenPost}
         key={index}
         style={styles(small).postCard}>
@@ -65,40 +64,38 @@ const PostCard = ({
           style={{...StyleSheet.absoluteFillObject}}
           source={{uri: item?.contest_image_url}}
         />
-        {canLike ? (
-          <TouchableOpacity
-            onPress={handleToggleConfirmModal}
-            style={styles(small).likeBtn}>
-            {loading ? (
-              <ActivityIndicator />
-            ) : (
-              <>
-                {!liked ? (
-                  <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
-                    <Image
-                      resizeMode="contain"
-                      source={require('@/assets/images/highfive-unlike.jpeg')}
-                      style={styles(small).likeImage}
-                    />
-                  </View>
-                ) : (
-                  <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
-                    <Image
-                      resizeMode="contain"
-                      source={require('@/assets/images/highfive.jpeg')}
-                      style={styles(small).likeImage}
-                    />
-                  </View>
-                )}
-                <Text style={{...Fonts.sub1, color: Colors.info}}>
-                  {item?.like_count + ' '}
-                </Text>
-              </>
-            )}
-          </TouchableOpacity>
-        ) : (
-          <></>
-        )}
+
+        <TouchableOpacity
+          activeOpacity={canLike ? 0.7 : 1}
+          onPress={handleToggleConfirmModal}
+          style={styles(small).likeBtn}>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <>
+              {!liked ? (
+                <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
+                  <Image
+                    resizeMode="contain"
+                    source={require('@/assets/images/highfive-unlike.jpeg')}
+                    style={styles(small).likeImage}
+                  />
+                </View>
+              ) : (
+                <View className="w-8 h-8 rounded-full overflow-hidden flex items-center">
+                  <Image
+                    resizeMode="contain"
+                    source={require('@/assets/images/highfive.jpeg')}
+                    style={styles(small).likeImage}
+                  />
+                </View>
+              )}
+              <Text style={{...Fonts.sub1, color: Colors.info}}>
+                {item?.like_count + ' '}
+              </Text>
+            </>
+          )}
+        </TouchableOpacity>
 
         <View style={styles(small).postCardImage}>
           <View>

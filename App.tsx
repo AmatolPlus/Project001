@@ -12,7 +12,7 @@ import {LoginStack, TabStack} from './src/routes';
 import {store} from '@/services/store.config';
 import {ContestList, Launch, MorePosts, Details} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
-import {Fonts} from '@/utils/fonts';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
 import {checkForUpdate} from '@/utils/appUpdate';
@@ -86,6 +86,11 @@ function App(): JSX.Element {
             <MainStack.Screen
               options={({navigation, route}: any) => ({
                 headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  ...Fonts.h1,
+                  fontSize: fontSize.h4,
+                  color: Colors.info,
+                },
                 headerStyle: {
                   backgroundColor: Colors.light,
                 },

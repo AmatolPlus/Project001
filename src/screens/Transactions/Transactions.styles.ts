@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
     maxWidth: 200,
     color: Colors.info,
     ...Fonts.h3,
-    fontSize: fontSize.h4,
+    fontSize: fontSize.h6,
   },
   amount: {
     maxWidth: 100,

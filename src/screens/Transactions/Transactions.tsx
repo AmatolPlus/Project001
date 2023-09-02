@@ -147,7 +147,7 @@ const Transactions = () => {
     <View className="bg-primary flex-1 p-12">
       <View className="flex-row justify-between" style={{alignItems: 'center'}}>
         <Image
-          className="h-28 rounded-full shadow-xl shadow-info w-28"
+          className="h-28 rounded-full mr-4 shadow-xl shadow-info w-28"
           resizeMode="cover"
           source={{uri: user?.profile_image_url || USER_IMAGE_PLACEHOLDER}}
         />
