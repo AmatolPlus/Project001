@@ -10,7 +10,7 @@ import LikeExpiry from '@/components/LikeExpiry/LikeExpiry';
 import TermsAndConditionsModal from '@/components/TermsAndConditions/TermsAndConditions';
 
 export const ContestInfoBanner = ({
-  is_cancelled,
+  is_canceled,
   join_end_date,
   is_joined_by_me,
   canJoin,
@@ -18,7 +18,7 @@ export const ContestInfoBanner = ({
   like_end_date,
 }: any) => (
   <View className="flex-row items-center rounded-lg p-1">
-    {!is_cancelled && (
+    {!is_canceled && (
       <View className="flex-row bg-white rounded-md">
         <View className="w-2/4">
           <View
