@@ -9,7 +9,6 @@ import {
   Share,
   Image,
   StyleSheet,
-  Linking,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {FlashList} from '@shopify/flash-list';
@@ -49,7 +48,6 @@ import {BorderRadius, Spacing} from '@/utils/constants';
 import {ContestInfoBanner} from './LikeInfoBanner';
 import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 import ErrorPage from '@/components/ErrorPage/ErrorPage';
-import PostView from '@/components/PostView/PostView';
 
 export default function Details() {
   const navigation: any = useNavigation();
@@ -65,6 +63,7 @@ export default function Details() {
   const [orderId, setOrderId] = useState('');
   const {data, refetch, isError, error, isLoading}: any =
     useContestDetailQuery(id);
+  console.log({data});
   const [joinEvent]: any = useJoinContestMutation();
   const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
 
@@ -352,6 +351,7 @@ export default function Details() {
         {!data?.is_canceled &&
           finalPrize?.length !== 0 &&
           data?.contest_ended && <FinalPrize data={finalPrize} />}
+
         {!data?.is_canceled && (
           <PriceChart
             notes={data?.notes}
