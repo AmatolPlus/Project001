@@ -8,6 +8,7 @@ module.exports = {
         secondary: '#9ea0c0',
         info: '#585990',
         danger: '#FF506B',
+        light: '#e8e7f0',
       },
       fontFamily: {
         sans: [

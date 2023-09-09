@@ -1,14 +1,19 @@
 /// <reference types="nativewind/types" />
 
 import React, {useCallback, useEffect, useState} from 'react';
-import {View, RefreshControl, Text, ToastAndroid} from 'react-native';
+import {
+  View,
+  RefreshControl,
+  Text,
+  // ToastAndroid
+} from 'react-native';
 import {FlashList} from '@shopify/flash-list';
 import moment from 'moment';
 
 import {ActivityIndicator, Button, Image} from '@/ui';
 import {Colors} from '@/utils/colors';
 import {
-  useGetCreditMutation,
+  // useGetCreditMutation,
   useWalletAmountQuery,
   useWalletTransactionsQuery,
 } from '@/services/apis/wallet.api';
@@ -56,30 +61,30 @@ const Transactions = () => {
     isLoading: walletLoading,
     refetch: walletRefresh,
   } = useWalletAmountQuery({});
-  const [getCredits] = useGetCreditMutation({});
+  // const [getCredits] = useGetCreditMutation({});
   let {data, refetch, isLoading} = useWalletTransactionsQuery(page);
   let [formattedData, setFormattedData] = useState([]);
-  const {data: user, refetch: userRefetch} = useUserDetailsQuery({});
+  const {data: user} = useUserDetailsQuery({});
 
   const pageInfo = data?.current || '<Page 1 of 2>';
   const currentPage = parseInt(pageInfo.split(' ')[1], 10);
   const maxPages = parseInt(pageInfo.split(' ')[3].slice(0, -1), 10);
 
-  const handleGetCredit = useCallback(async () => {
-    try {
-      let credit_data: any = await getCredits({});
-      if (credit_data?.data?.detail) {
-        return ToastAndroid.show(credit_data?.data?.detail, ToastAndroid.LONG);
-      } else {
-        return ToastAndroid.show(
-          credit_data?.error?.data?.detail,
-          ToastAndroid.LONG,
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }, [getCredits]);
+  // const handleGetCredit = useCallback(async () => {
+  //   try {
+  //     let credit_data: any = await getCredits({});
+  //     if (credit_data?.data?.detail) {
+  //       return ToastAndroid.show(credit_data?.data?.detail, ToastAndroid.LONG);
+  //     } else {
+  //       return ToastAndroid.show(
+  //         credit_data?.error?.data?.detail,
+  //         ToastAndroid.LONG,
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }, [getCredits]);
 
   const handleChangePage = useCallback(
     (action: 'next' | 'previous') => {
@@ -168,11 +173,11 @@ const Transactions = () => {
               <Text className="font-sans">Refresh Balance</Text>
             </Button>
           </View>
-          <Text
+          {/* <Text
             onPress={handleGetCredit}
             className="p-2 text-center color-white rounded-md bg-danger">
             Get Credits
-          </Text>
+          </Text> */}
         </View>
       </View>
       {/* <View className="h-48 justify-center w-full bg-white mt-12 rounded-md">

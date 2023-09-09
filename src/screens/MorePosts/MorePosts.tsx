@@ -78,6 +78,7 @@ export default function MorePosts() {
     <FlashList
       contentContainerStyle={{
         backgroundColor: Colors.light,
+        paddingBottom: Spacing.l,
       }}
       ListFooterComponent={maxPages > 1 ? renderFooter : null}
       style={styles.list}

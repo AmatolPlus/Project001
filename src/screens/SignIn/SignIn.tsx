@@ -114,7 +114,7 @@ export default function SignIn() {
           disabled={!isValid()}
           buttonColor={Colors.danger}
           className={
-            isValid() || !error
+            isValid()
               ? 'bg-danger rounded-md p-2 mt-5'
               : 'rounded-md p-2 mt-5 bg-zinc-600'
           }>

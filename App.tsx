@@ -32,18 +32,16 @@ const linking = {
 const HeaderIcon = ({navigation}: any) => {
   return (
     <TouchableOpacity
-      style={{
-        backgroundColor: Colors.light,
-        elevation: 10,
-        display: 'flex',
-        height: Spacing.xl * 1.5,
-        width: Spacing.xl * 1.5,
-        borderRadius: BorderRadius.l,
-        alignItems: 'center',
-        shadowColor: Colors.info,
-        justifyContent: 'center',
-      }}
-      onPress={() => navigation.goBack()}>
+      className={
+        'shadow-md bg-light h-9 w-9 rounded-full shadow-info justify-center items-center'
+      }
+      onPress={() => {
+        if (navigation?.canGoBack()) {
+          navigation.goBack();
+        } else {
+          navigation.navigate(ScreenNames.mainStack);
+        }
+      }}>
       <AntDesign name="arrowleft" size={24} color={Colors.info} />
     </TouchableOpacity>
   );
@@ -84,7 +82,7 @@ function App(): JSX.Element {
               component={LoginStack}
             />
             <MainStack.Screen
-              options={({navigation, route}: any) => ({
+              options={({navigation}: any) => ({
                 headerTitleAlign: 'center',
                 headerTitleStyle: {
                   ...Fonts.h1,
@@ -94,7 +92,6 @@ function App(): JSX.Element {
                 headerStyle: {
                   backgroundColor: Colors.light,
                 },
-                headerTitle: route?.params?.concept_name?.toUpperCase(),
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },

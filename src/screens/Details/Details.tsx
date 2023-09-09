@@ -48,6 +48,7 @@ import {BorderRadius, Spacing} from '@/utils/constants';
 import {ContestInfoBanner} from './LikeInfoBanner';
 import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 import ErrorPage from '@/components/ErrorPage/ErrorPage';
+import {Linking} from 'react-native';
 
 export default function Details() {
   const navigation: any = useNavigation();
@@ -108,17 +109,17 @@ export default function Details() {
   const handlePhonePePayment = useCallback(
     (response: any) => {
       if (response?.data?.amount !== 0) {
-        // try {
-        //   setOrderId(response?.data?.order_tracking_id);
-        //   let url = response?.data?.redirect_url;
-        //   Linking.openURL(url);
-        // } catch (e) {
-        //   ToastAndroid.show(
-        //     'Please Install PhonePe to continue',
-        //     ToastAndroid.LONG,
-        //   );
-        // }
-        handleToggleSnackBar();
+        try {
+          setOrderId(response?.data?.order_tracking_id);
+          let url = response?.data?.redirect_url;
+          Linking.openURL(url);
+        } catch (e) {
+          ToastAndroid.show(
+            'Please Install PhonePe to continue',
+            ToastAndroid.LONG,
+          );
+        }
+        // handleToggleSnackBar();
       } else {
         refetch();
         ToastAndroid.show(
@@ -127,7 +128,7 @@ export default function Details() {
         );
       }
     },
-    [handleToggleSnackBar, refetch],
+    [refetch],
   );
 
   const handlePrizeChartToggle = useCallback(() => {
@@ -180,6 +181,12 @@ export default function Details() {
       ToastAndroid.show('Payment Failed. Please Try Again', ToastAndroid.LONG);
     }
   }, [isSuccess, isPhonePeError]);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: data?.concept_name?.toUpperCase(),
+    });
+  }, [data, navigation]);
 
   if (isLoading) {
     return (
