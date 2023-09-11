@@ -143,6 +143,7 @@ const ChangePasswordModal = ({isOpen, type, navigation}: IChangePassword) => {
               </Text>
 
               <Image
+                resizeMode="contain"
                 source={require('@/assets/images/complete_profile.png')}
                 className="h-48"
               />
