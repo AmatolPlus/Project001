@@ -3,7 +3,7 @@
 
 import React, {useCallback, useEffect, useState} from 'react';
 import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
-import {SectionList, RefreshControl, View} from 'react-native';
+import {RefreshControl, View, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 
@@ -32,7 +32,6 @@ function Home() {
 
   useBackHandler();
   useStoragePermission();
-
   useEffect(() => {
     if (data) {
       let formattedList: any = formatArray(data);
@@ -73,14 +72,19 @@ function Home() {
         item={item}
         navigation={handleDetailNavigation}
         width={undefined}
+        showShare={true}
       />
     );
   };
 
   // 5 to 25 chars // profile_id @ . + - _
 
-  const renderHeader = ({section: {title, data, id}}: any) =>
-    data.length ? (
+  const renderHeader = ({section: {title, data, id}}: any) => {
+    if (!data?.length) {
+      return <></>;
+    }
+
+    return (
       <View>
         <View style={styles.sectionHeader}>
           <Text style={styles.header}>{title}</Text>
@@ -105,24 +109,19 @@ function Home() {
           renderItem={renderItem}
         />
       </View>
-    ) : (
-      <></>
     );
+  };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl onRefresh={refetch} refreshing={false} />}
+      style={styles.container}>
       {!user?.password_configured && <PasswordCheck />}
-      <SectionList
-        refreshControl={
-          <RefreshControl onRefresh={refetch} refreshing={false} />
-        }
-        sections={formattedData}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({}) => <></>}
-        renderSectionHeader={renderHeader}
-      />
-    </View>
+      {formattedData?.map((item: any) => {
+        return renderHeader({section: {...item}});
+      })}
+    </ScrollView>
   );
 }
 

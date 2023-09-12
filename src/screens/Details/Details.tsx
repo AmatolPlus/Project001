@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   RefreshControl,
   ScrollView,
@@ -54,7 +54,6 @@ export default function Details() {
   const navigation: any = useNavigation();
   const {params}: any = useRoute();
   const id: string = params?.id;
-  const detailsRef: any = useRef(null);
 
   const {data: finalPrize}: any = useFinalPrizeQuery(id);
   const {data: user} = useUserDetailsQuery({});
@@ -64,13 +63,16 @@ export default function Details() {
   const [orderId, setOrderId] = useState('');
   const {data, refetch, isError, error, isLoading}: any =
     useContestDetailQuery(id);
-  console.log({data});
   const [joinEvent]: any = useJoinContestMutation();
   const [isPrizeChartShown, setPriceChartShown]: [any, any] = useState(false);
 
-  const {isSuccess, isError: isPhonePeError} = useTrackOrderQuery(orderId, {
-    skip: !orderId,
-  });
+  const {data: phonePeData, isError: isPhonePeError} = useTrackOrderQuery(
+    orderId,
+    {
+      skip: !orderId,
+      pollingInterval: 10000,
+    },
+  );
 
   const handleMorePostsNavigation = useCallback(() => {
     try {
@@ -106,30 +108,29 @@ export default function Details() {
     setSnackbarVisible(!snackbarVisible);
   }, [snackbarVisible]);
 
-  const handlePhonePePayment = useCallback(
-    (response: any) => {
-      if (response?.data?.amount !== 0) {
-        try {
-          setOrderId(response?.data?.order_tracking_id);
-          let url = response?.data?.redirect_url;
-          Linking.openURL(url);
-        } catch (e) {
-          ToastAndroid.show(
-            'Please Install PhonePe to continue',
-            ToastAndroid.LONG,
-          );
-        }
-        // handleToggleSnackBar();
-      } else {
-        refetch();
+  const handlePhonePePayment = useCallback((response: any) => {
+    if (response?.data?.amount !== 0) {
+      try {
+        setOrderId(response?.data?.order_tracking_id);
+        let url = response?.data?.redirect_url;
+        return Linking.openURL(url);
+      } catch (e) {
         ToastAndroid.show(
-          'You Post Has Been Uploaded Successfully',
+          'Please Install PhonePe to continue',
           ToastAndroid.LONG,
         );
       }
-    },
-    [refetch],
-  );
+      return;
+    } else {
+      refetch();
+      ToastAndroid.show(
+        'Your Post Has Been Uploaded Successfully',
+        ToastAndroid.LONG,
+      );
+      return;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handlePrizeChartToggle = useCallback(() => {
     setPriceChartShown(!isPrizeChartShown);
@@ -147,7 +148,6 @@ export default function Details() {
           sample_image: image,
           use_wallet: !!(walletAmount?.earned_amount >= data?.entry_price),
         }).then((response: any) => {
-          // console.log(response);
           if (response?.data) {
             handlePhonePePayment(response);
           } else {
@@ -171,16 +171,13 @@ export default function Details() {
   );
 
   useEffect(() => {
-    if (isSuccess) {
-      ToastAndroid.show(
-        'You Post Has Been Uploaded Successfully',
-        ToastAndroid.LONG,
-      );
+    if (phonePeData?.details?.toUpperCase() === 'SUCCESS') {
+      ToastAndroid.show('Payment Completed', ToastAndroid.LONG);
     }
     if (isPhonePeError) {
       ToastAndroid.show('Payment Failed. Please Try Again', ToastAndroid.LONG);
     }
-  }, [isSuccess, isPhonePeError]);
+  }, [isPhonePeError, phonePeData]);
 
   useEffect(() => {
     navigation.setOptions({
