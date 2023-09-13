@@ -29,7 +29,6 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
     number_of_join_days_for_contest_extension,
     number_of_like_days_for_contest_extension,
     total_prize_money,
-    join_days_extended,
     entry_price,
     contest_ended,
     showPrizeChartButton,
@@ -131,7 +130,6 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
                 </Text>
               </View>
             )}
-
             <View>
               <Text style={styles.label}>Entry</Text>
               <Text style={styles.entryFee}>₹ {entry_price}</Text>
@@ -156,20 +154,27 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
           </View>
         </View>
 
-        {number_of_join_days_for_contest_extension !== 0 && (
-          <Text style={{paddingHorizontal: Spacing.l}}>
+        {number_of_like_days_for_contest_extension !== 0 && (
+          <Text
+            style={{
+              paddingHorizontal: Spacing.l,
+              color: Colors.info,
+              marginTop: Spacing.s,
+            }}>
             Like Days Extended for{' '}
-            <Text style={{...Fonts.h3, fontSize: fontSize.h5}}>
-              {item?.join_days_extended} days
+            <Text
+              style={{...Fonts.h3, fontSize: fontSize.h5, color: Colors.info}}>
+              {number_of_like_days_for_contest_extension} days
             </Text>
           </Text>
         )}
 
-        {number_of_like_days_for_contest_extension !== 0 && (
-          <Text style={{paddingHorizontal: Spacing.l}}>
+        {number_of_join_days_for_contest_extension !== 0 && (
+          <Text style={{paddingHorizontal: Spacing.l, color: Colors.info}}>
             Join Days Extended for{' '}
-            <Text style={{...Fonts.h3, fontSize: fontSize.h5}}>
-              {join_days_extended} days
+            <Text
+              style={{...Fonts.h3, fontSize: fontSize.h5, color: Colors.info}}>
+              {number_of_join_days_for_contest_extension} days
             </Text>
           </Text>
         )}

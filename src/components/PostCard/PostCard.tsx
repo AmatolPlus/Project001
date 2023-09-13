@@ -2,9 +2,6 @@
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
-import RankTag from '../RankTag/RankTag';
-
 import {ActivityIndicator, Image, Text} from '@/ui';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {canLikeEvent} from '@/utils/event';
@@ -13,6 +10,8 @@ import {Colors} from '@/utils/colors';
 import {IPostCard} from './PostCard.types';
 import {styles} from './PostCard.styles';
 import PostView from '../PostView/PostView';
+import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
+import RankTag from '../RankTag/RankTag';
 
 const PostCard = ({
   data,
@@ -28,7 +27,7 @@ const PostCard = ({
   const detailsRef: any = useRef(null);
 
   const handleOpenPost = useCallback(() => {
-    if (detailsRef.current) {
+    if (detailsRef?.current) {
       detailsRef.current?.open();
     }
   }, []);
