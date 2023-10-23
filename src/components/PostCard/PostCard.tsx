@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Share, StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {ActivityIndicator, Image, Text} from '@/ui';
 import {Fonts, fontSize} from '@/utils/fonts';
@@ -12,6 +12,7 @@ import {styles} from './PostCard.styles';
 import PostView from '../PostView/PostView';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
 import RankTag from '../RankTag/RankTag';
+import {ScreenNames} from '@/utils/screenName';
 
 const PostCard = ({
   data,
@@ -31,6 +32,15 @@ const PostCard = ({
       detailsRef.current?.open();
     }
   }, []);
+  const shareLink = async () => {
+    try {
+      await Share.share({
+        message: `https://site.highfive.one/${ScreenNames.postPreview}/${item?.id}`,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const canLike = canLikeEvent(likeEndDate);
 
@@ -57,7 +67,18 @@ const PostCard = ({
         key={index}
         style={styles(small).postCard}>
         <RankTag rank={item?.rank} />
-
+        <TouchableOpacity
+          className="absolute top-4 right-4 h-6 z-10 w-6"
+          onPress={shareLink}>
+          <Image
+            style={{
+              ...StyleSheet.absoluteFillObject,
+            }}
+            resizeMode="contain"
+            className="h-6 w-6"
+            source={require('@/assets/images/share.png')}
+          />
+        </TouchableOpacity>
         <Image
           resizeMode="contain"
           style={{...StyleSheet.absoluteFillObject}}

@@ -13,14 +13,15 @@ import {store} from '@/services/store.config';
 import {ContestList, Launch, MorePosts, Details} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
 import {Fonts, fontSize} from '@/utils/fonts';
-import {BorderRadius, Spacing} from '@/utils/constants';
 import {options} from '@/utils/navigationConfig';
 import {checkForUpdate} from '@/utils/appUpdate';
 import {Colors} from '@/utils/colors';
+import PostDetail from '@/screens/PostDetail/PostDetail';
 
 const config = {
   screens: {
     [ScreenNames.details]: `${ScreenNames.details}/:id`,
+    [ScreenNames.postPreview]: `${ScreenNames.postPreview}/:id`,
   },
 };
 
@@ -118,6 +119,21 @@ function App(): JSX.Element {
               component={MorePosts}
               options={({navigation}) => ({
                 headerTitle: 'Contests',
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
+                headerLeft: () => {
+                  return <HeaderIcon navigation={navigation} />;
+                },
+              })}
+            />
+            <MainStack.Screen
+              name={ScreenNames.postPreview}
+              component={PostDetail}
+              options={({navigation}) => ({
+                headerTitle: 'Preview',
+                headerShown: false,
                 headerTitleAlign: 'center',
                 headerStyle: {
                   backgroundColor: Colors.light,

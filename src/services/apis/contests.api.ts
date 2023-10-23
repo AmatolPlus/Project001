@@ -80,6 +80,14 @@ export const contestService = createApi({
       },
     }),
 
+    postDetail: build.query({
+      query: id => {
+        return {
+          method: 'GET',
+          url: `contest/post/${id}/`,
+        };
+      },
+    }),
     uploadImage: build.mutation({
       query: (body: any) => {
         const formData: any = new FormData();
@@ -114,6 +122,7 @@ export const {
   useFinalPrizeQuery,
   useLikeContestMutation,
   useMoreContestsQuery,
+  usePostDetailQuery,
 } = contestService;
 
 export const contestReducerPath = contestService.reducerPath;

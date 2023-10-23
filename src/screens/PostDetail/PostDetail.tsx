@@ -1,14 +1,19 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import {ActivityIndicator, Image} from '@/ui';
-import {width} from '@/utils/Dimension';
-import {Fonts, fontSize} from '@/utils/fonts';
-import {BorderRadius, Spacing} from '@/utils/constants';
-import {Colors} from '@/utils/colors';
-import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
-import {canLikeEvent} from '@/utils/event';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  useLikeContestMutation,
+  usePostDetailQuery,
+} from '@/services/apis/contests.api';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
+import {ActivityIndicator, Image} from '@/ui';
+import ConfirmLikeModal from '@/components/ConfirmLikeModal/ConfirmLikeModal';
+import {BorderRadius, Spacing} from '@/utils/constants';
+import {Colors} from '@/utils/colors';
+import {Fonts, fontSize} from '@/utils/fonts';
+import {canLikeEvent} from '@/utils/event';
+import {ScreenNames} from '@/utils/screenName';
 const styles = StyleSheet.create({
   likeImage: {
     height: 28,
@@ -61,42 +66,52 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PostPreview({
-  item,
-  likeEndDate,
-  handleOnLike,
-  isLikeLoading,
-  close,
-}: any) {
-  const [confirmModalShown, setShowConfirmModal] = useState(false);
+export default function PostDetail() {
+  let [showConfirmModal, setShowConfirmModal] = useState(false);
+  const {params}: any = useRoute();
+  const navigation = useNavigation();
+  const {data, refetch} = usePostDetailQuery(params?.id);
   const [liked, setLiked] = useState(false);
-  const canLike = canLikeEvent(likeEndDate);
+  const [like, {isLoading: isLikeLoading}] = useLikeContestMutation({});
 
-  const handleLike = useCallback(() => {
-    handleOnLike();
-    close();
-  }, [close, handleOnLike]);
+  const handleLike = useCallback(async () => {
+    setLiked(!liked);
+    if (!data?.is_liked_by_me) {
+      await like({
+        contest_id: params?.id,
+      });
+    }
+    refetch();
+  }, [data?.is_liked_by_me, like, liked, params?.id, refetch]);
+
+  const close = useCallback(() => {
+    return navigation.navigate(ScreenNames.details, {
+      id: data?.contest,
+    });
+  }, [data?.contest, navigation]);
 
   useEffect(() => {
-    setLiked(item?.is_liked_by_me);
-  }, [item]);
+    setLiked(data?.is_liked_by_me);
+  }, [data]);
+
+  const canLike = canLikeEvent(data?.like_end_date);
 
   const handleToggleConfirmModal = useCallback(() => {
     if (!liked && canLike) {
-      setShowConfirmModal(!confirmModalShown);
+      setShowConfirmModal(!showConfirmModal);
     }
-  }, [canLike, confirmModalShown, liked]);
+  }, [canLike, showConfirmModal, liked]);
 
   return (
-    <View className="h-5/6 overflow-hidden rounded-xl bg-white w-full">
+    <View className="h-full flex  overflow-hidden justify-center items-center rounded-xl bg-white w-full">
+      <Image
+        resizeMode="contain"
+        className={'w-full h-full'}
+        source={{uri: data?.contest_image_url}}
+      />
       <TouchableOpacity style={styles.close} onPress={close}>
         <AntDesign color={Colors.white} size={18} name="close" />
       </TouchableOpacity>
-      <Image
-        resizeMode="contain"
-        className={`w-[350] h-full`}
-        source={{uri: item?.contest_image_url}}
-      />
       <TouchableOpacity
         activeOpacity={canLike ? 0.7 : 1}
         onPress={handleToggleConfirmModal}
@@ -123,7 +138,7 @@ export default function PostPreview({
               </View>
             )}
             <Text style={{...Fonts.sub1, color: Colors.info}}>
-              {item?.like_count + ' '}
+              {data?.like_count + ' '}
             </Text>
           </>
         )}
@@ -134,24 +149,18 @@ export default function PostPreview({
           <View style={styles.bannerTextAlignment}>
             <View style={styles.bannerTextAlignment}>
               <Text style={styles.username} numberOfLines={2}>
-                @{item?.user?.profile_id || '-'}
+                @{data?.user?.profile_id || '-'}
               </Text>
             </View>
             <Text
               ellipsizeMode={'tail'}
               numberOfLines={1}
-              style={{
-                ...Fonts.h3,
-                fontSize: fontSize.h6,
-                color: Colors.info,
-                maxWidth: '70%',
-              }}>
-              {item?.img_caption}
+              className="text-md font-sans-bold text-info max-w-[70%]">
+              {data?.img_caption}
             </Text>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}></View>
           </View>
           <ConfirmLikeModal
-            visible={confirmModalShown}
+            visible={showConfirmModal}
             onClose={handleToggleConfirmModal}
             onConfirmLike={handleLike}
           />

@@ -19,7 +19,6 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.primary,
     shadowColor: Colors.info,
     elevation: 12,
-    marginTop: 12,
     shadowOpacity: 8,
     overflow: 'hidden',
     paddingBottom: Spacing.s,
