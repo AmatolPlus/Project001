@@ -49,7 +49,10 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
   }
 
   return (
-    <View className="shadow-info shadow-md">
+    <View
+      className={
+        !width ? 'shadow-info mr-4 shadow-md' : 'shadow-info shadow-md'
+      }>
       <TouchableOpacity
         style={{width: width ? width : Dimensions.get('window').width / 1.2}}
         className={
