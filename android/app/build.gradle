@@ -128,7 +128,7 @@ android {
         applicationId "com.highfive.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
+        versionCode 34
         vectorDrawables.useSupportLibrary = true
         versionName "1.0.1"
     }
@@ -148,6 +148,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+        release {
+            storeFile file('highfive-release')
+            storePassword 'highfive'
+            keyAlias 'key0'
+            keyPassword 'highfive'
+        }
     }
     buildTypes {
         debug {
@@ -156,7 +162,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

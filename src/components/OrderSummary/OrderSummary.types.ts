@@ -10,5 +10,6 @@ export interface IOrderSummary {
   ends_on: string;
   started_on: string;
   mobile_number: any;
+  is_free: boolean;
   wallet_amount: string | number;
 }

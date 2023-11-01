@@ -123,7 +123,14 @@ const ContestCard = ({item, navigation, width, showShare}: IContestCard) => {
               <Text className="text-center text-danger font-sans-bold">
                 Entry
               </Text>
-              <Text className="text-info font-sans">₹ {entry_price}</Text>
+              <Text
+                style={{
+                  textDecorationStyle: 'solid',
+                  textDecorationLine: item?.is_free ? 'line-through' : '',
+                }}
+                className="text-info font-sans">
+                ₹ {entry_price}
+              </Text>
             </View>
           </View>
           <View className="mt-2">

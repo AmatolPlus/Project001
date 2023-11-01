@@ -241,6 +241,7 @@ const JoinEventConfirmModal = ({
           </View>
         ) : (
           <OrderSummary
+            is_free={is_free}
             handleImageUploaded={handleImageUploaded}
             started_on={started_on}
             cancel={setImageUploaded}

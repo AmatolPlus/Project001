@@ -13,6 +13,7 @@ const OrderSummary = ({
   imageId,
   image,
   entryFee,
+  is_free,
   ends_on,
   mobile_number,
   started_on,
@@ -54,8 +55,20 @@ const OrderSummary = ({
       <View>
         <Text style={styles.title}>Payment Details</Text>
         <View style={styles.entryFeeContainer}>
-          <Text style={styles.entryFee}>Entryfee: </Text>
-          <Text style={styles.entryFee}>₹ {entryFee}</Text>
+          <Text
+            style={{
+              ...styles.entryFee,
+            }}>
+            Entryfee:{' '}
+          </Text>
+          <Text
+            style={{
+              textDecorationStyle: 'solid',
+              textDecorationLine: is_free ? 'line-through' : '',
+              ...styles.entryFee,
+            }}>
+            ₹ {entryFee}
+          </Text>
         </View>
         <View style={styles.entryFeeContainer}>
           <Text style={styles.entryFee}>Wallet Amount: </Text>
@@ -69,7 +82,14 @@ const OrderSummary = ({
         </View>
         <View style={styles.entryFeeContainer}>
           <Text style={styles.entryFee}>Total Amount </Text>
-          <Text style={styles.entryFee}>₹ {entryFee}</Text>
+          <Text
+            style={{
+              textDecorationStyle: 'solid',
+              textDecorationLine: is_free ? 'line-through' : '',
+              ...styles.entryFee,
+            }}>
+            ₹ {entryFee}
+          </Text>
         </View>
       </View>
       <Divider style={styles.divider} />
