@@ -8,6 +8,7 @@ import {Colors} from '@/utils/colors';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
 import {canLikeEvent} from '@/utils/event';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {formatNumber} from '@/utils/formatData';
 
 const styles = StyleSheet.create({
   likeImage: {
@@ -123,7 +124,7 @@ export default function PostPreview({
               </View>
             )}
             <Text style={{...Fonts.sub1, color: Colors.info}}>
-              {item?.like_count + ' '}
+              {formatNumber(item?.like_count) + ' '}
             </Text>
           </>
         )}

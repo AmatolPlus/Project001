@@ -13,6 +13,7 @@ import PostView from '../PostView/PostView';
 import ConfirmLikeModal from '../ConfirmLikeModal/ConfirmLikeModal';
 import RankTag from '../RankTag/RankTag';
 import {ScreenNames} from '@/utils/screenName';
+import {formatNumber} from '@/utils/formatData';
 
 const PostCard = ({
   data,
@@ -111,7 +112,7 @@ const PostCard = ({
                 </View>
               )}
               <Text style={{...Fonts.sub1, color: Colors.info}}>
-                {item?.like_count + ' '}
+                {formatNumber(item?.like_count) + ' '}
               </Text>
             </>
           )}

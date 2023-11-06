@@ -14,6 +14,7 @@ import {Colors} from '@/utils/colors';
 import {Fonts, fontSize} from '@/utils/fonts';
 import {canLikeEvent} from '@/utils/event';
 import {ScreenNames} from '@/utils/screenName';
+import {formatNumber} from '@/utils/formatData';
 const styles = StyleSheet.create({
   likeImage: {
     height: 28,
@@ -138,7 +139,7 @@ export default function PostDetail() {
               </View>
             )}
             <Text style={{...Fonts.sub1, color: Colors.info}}>
-              {data?.like_count + ' '}
+              {formatNumber(data?.like_count) + ' '}
             </Text>
           </>
         )}
