@@ -123,8 +123,8 @@ export default function PostPreview({
                 />
               </View>
             )}
-            <Text style={{...Fonts.sub1, color: Colors.info}}>
-              {formatNumber(item?.like_count) + ' '}
+            <Text style={{...Fonts.sub2, color: Colors.info}}>
+              {item?.like_count + ' '}
             </Text>
           </>
         )}

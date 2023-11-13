@@ -138,8 +138,8 @@ export default function PostDetail() {
                 />
               </View>
             )}
-            <Text style={{...Fonts.sub1, color: Colors.info}}>
-              {formatNumber(data?.like_count) + ' '}
+            <Text style={{...Fonts.sub2, color: Colors.info}}>
+              {data?.like_count}
             </Text>
           </>
         )}
