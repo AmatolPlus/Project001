@@ -12,40 +12,9 @@ import DatePicker from '../DatePicker/DatePicker';
 import GenderSelector from '../GenderSelector/GenderSelector';
 
 const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
-  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
-  const [date, setDate] = useState<string>('');
-  const [gender, setGender] = useState<string>();
-
   const disabled = useMemo(() => {
-    return !validateUserDetails(
-      form?.first_name,
-      form?.last_name,
-      form?.gender,
-      form?.hobby,
-      form?.birthday,
-      form?.email,
-    );
+    return !validateUserDetails(form?.first_name, form?.last_name);
   }, [form]);
-
-  const handleDateChange = useCallback(
-    (_date: string) => {
-      setDate(_date);
-      onChange('birthday', _date);
-    },
-    [onChange],
-  );
-
-  const handleGenderChange = useCallback(
-    (option: string) => {
-      setGender(option);
-      onChange('gender', option);
-    },
-    [onChange],
-  );
-
-  const handleDatePickerToggle = useCallback(() => {
-    setShowDatePicker(!showDatePicker);
-  }, [showDatePicker]);
 
   return (
     <View style={styles.container}>
@@ -55,28 +24,32 @@ const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
             label={'First Name'}
             style={styles.username}
             value={form?.first_name}
+            outlineColor={Colors.info}
+            activeOutlineColor={Colors.info}
             onChangeText={value => onChange('first_name', value)}
           />
           <TextInput
             label={'Last Name'}
+            outlineColor={Colors.info}
+            activeOutlineColor={Colors.info}
             style={styles.username}
             value={form?.last_name}
             onChangeText={value => onChange('last_name', value)}
           />
         </View>
-        <TextInput
+        {/* <TextInput
           label={'Email'}
           style={styles.input}
           value={form?.email}
           onChangeText={value => onChange('email', value)}
-        />
-        <View>
+        /> */}
+        {/* <View>
           <GenderSelector
             onChange={handleGenderChange}
             selectedOption={gender || form?.gender}
           />
-        </View>
-        <TextInput
+        </View> */}
+        {/* <TextInput
           label={'Hobby'}
           style={styles.input}
           value={form?.hobby}
@@ -89,21 +62,21 @@ const UserDetails = ({form, onChange, onSubmit}: IuserDetails) => {
             style={styles.input}
             value={date || form?.birthday}
           />
-        </Pressable>
+        </Pressable> */}
       </View>
-      <DatePicker
+      {/* <DatePicker
         date={date || form?.birthday}
         visible={showDatePicker}
         onDateChange={handleDateChange}
         onClose={handleDatePickerToggle}
-      />
+      /> */}
 
       <View>
         <Button
           disabled={disabled}
           style={[
             styles.updateButton,
-            {backgroundColor: disabled ? Colors.grey : Colors.success},
+            {backgroundColor: disabled ? Colors.grey : Colors.danger},
           ]}
           textColor={Colors.white}
           onPress={onSubmit}>

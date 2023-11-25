@@ -1,11 +1,13 @@
 import React, {memo, useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {ToastAndroid, TouchableOpacity, View} from 'react-native';
 
-import TextInput from '@/ui/TextInput';
-import {styles} from './Address.styles';
-import StateModal from '../StatesModal/StateModal';
 import CityModal from '../CityModal/CityModal';
+import TextInput from '@/ui/TextInput';
+import StateModal from '../StatesModal/StateModal';
+
+import {styles} from './Address.styles';
 import {AddressState} from './Address.types';
+import {Colors} from '@/utils/colors';
 
 const Address = ({form, onChange}: any) => {
   let [modals, setModals] = useState({
@@ -36,6 +38,8 @@ const Address = ({form, onChange}: any) => {
       <TextInput
         value={form?.address_detail?.street}
         style={styles.input}
+        outlineColor={Colors.info}
+        activeOutlineColor={Colors.info}
         onChangeText={val => handleFormUpdate('street', val)}
         placeholder="Address"
       />
@@ -43,15 +47,29 @@ const Address = ({form, onChange}: any) => {
         <TouchableOpacity onPress={() => handleOpenModal('stateModal', true)}>
           <TextInput
             style={styles.stateButton}
+            outlineColor={Colors.info}
+            activeOutlineColor={Colors.info}
             value={form?.address_detail?.state}
             onFocus={() => handleOpenModal('stateModal', true)}
             placeholder="Select a state"
             editable={false}
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleOpenModal('citiesModal', true)}>
+        <TouchableOpacity
+          onPress={() => {
+            if (form?.address_detail?.state) {
+              handleOpenModal('citiesModal', true);
+            } else {
+              ToastAndroid.show('Select the State', ToastAndroid.SHORT);
+            }
+          }}>
           <TextInput
-            style={styles.stateButton}
+            style={{
+              ...styles.stateButton,
+              backgroundColor: !form?.address_detail?.state
+                ? Colors.light
+                : Colors.white,
+            }}
             value={form?.address_detail?.city}
             onFocus={() => handleOpenModal('citiesModal', true)}
             placeholder="Select a city"
@@ -62,6 +80,8 @@ const Address = ({form, onChange}: any) => {
 
       <TextInput
         mode="outlined"
+        outlineColor={Colors.info}
+        activeOutlineColor={Colors.info}
         maxLength={6}
         keyboardType="number-pad"
         value={form?.address_detail?.postal_code}

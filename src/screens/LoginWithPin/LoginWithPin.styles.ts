@@ -12,11 +12,13 @@ let styles = StyleSheet.create({
   },
   title: {
     alignSelf: 'center',
+    color: Colors.info,
     ...Fonts.h1,
   },
   info: {
     textAlign: 'center',
     ...Fonts.h5,
+    color: Colors.info,
     ...VerticalMargin('l'),
   },
 
@@ -42,7 +44,7 @@ let styles = StyleSheet.create({
   },
   loginButtonText: {
     ...Fonts.h3,
-    fontSize: fontSize.h4,
+    fontSize: fontSize.h5,
     color: Colors.white,
   },
   close: {
@@ -74,7 +76,7 @@ let styles = StyleSheet.create({
   },
   cellText: {
     ...Fonts.h1,
-    color: Colors.dark,
+    color: Colors.info,
     textAlign: 'center',
   },
   focusCell: {

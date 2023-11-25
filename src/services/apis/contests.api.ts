@@ -71,6 +71,23 @@ export const contestService = createApi({
       }),
     }),
 
+    trackOrder: build.query({
+      query: id => {
+        return {
+          method: 'GET',
+          url: `payment/track_status/phonepe?order_tracking_id=${id}`,
+        };
+      },
+    }),
+
+    postDetail: build.query({
+      query: id => {
+        return {
+          method: 'GET',
+          url: `contest/post/${id}/`,
+        };
+      },
+    }),
     uploadImage: build.mutation({
       query: (body: any) => {
         const formData: any = new FormData();
@@ -94,6 +111,7 @@ export const contestService = createApi({
 });
 
 export const {
+  useTrackOrderQuery,
   useConfirmPaymentMutation,
   useUploadImageMutation,
   useContestDetailQuery,
@@ -104,6 +122,7 @@ export const {
   useFinalPrizeQuery,
   useLikeContestMutation,
   useMoreContestsQuery,
+  usePostDetailQuery,
 } = contestService;
 
 export const contestReducerPath = contestService.reducerPath;

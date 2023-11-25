@@ -1,7 +1,8 @@
+import React from 'react';
+
 import {View} from 'react-native';
 import {styles} from './Card.styles';
 import {Image, Text} from '@/ui';
-import React from 'react';
 
 const Card = ({item, type, userName}: any) => {
   const USER_IMAGE_PLACEHOLDER =
@@ -18,7 +19,7 @@ const Card = ({item, type, userName}: any) => {
         />
         <View style={styles.info}>
           <Text style={styles.username}>
-            {type !== 'prize' ? userName : item?.user?.mobile_number}
+            {type !== 'prize' ? userName : item?.user?.profile_id}
           </Text>
           <Text style={styles.rank}>Rank: {item?.rank}</Text>
           {type === 'prize' && (

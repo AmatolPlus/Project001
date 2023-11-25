@@ -81,6 +81,8 @@ const ResetPassword = () => {
               <>
                 <TextInput
                   mode="outlined"
+                  outlineColor={Colors.info}
+                  activeOutlineColor={Colors.info}
                   value={resetValue.otp}
                   onChangeText={val => handleChange('otp', val)}
                   style={styles.input}
@@ -93,6 +95,8 @@ const ResetPassword = () => {
                   value={resetValue.password1}
                   onChangeText={val => handleChange('password1', val)}
                   style={styles.input}
+                  outlineColor={Colors.info}
+                  activeOutlineColor={Colors.info}
                   keyboardType="number-pad"
                   maxLength={10}
                   label={'New Password'}
@@ -102,6 +106,8 @@ const ResetPassword = () => {
                   value={resetValue.password2}
                   onChangeText={val => handleChange('password2', val)}
                   style={styles.input}
+                  outlineColor={Colors.info}
+                  activeOutlineColor={Colors.info}
                   keyboardType="number-pad"
                   maxLength={10}
                   label={'Confirm New Password'}
@@ -116,9 +122,7 @@ const ResetPassword = () => {
                   style={[
                     styles.button,
                     {
-                      backgroundColor: isFormValid
-                        ? Colors.success
-                        : Colors.grey,
+                      backgroundColor: isFormValid ? Colors.info : Colors.grey,
                     },
                   ]}
                   onPress={handleConfirmReset}>
@@ -131,6 +135,8 @@ const ResetPassword = () => {
                   onChangeText={val => handleChange('mobile_number', val)}
                   style={styles.input}
                   value={resetValue.mobile_number}
+                  outlineColor={Colors.info}
+                  activeOutlineColor={Colors.info}
                   keyboardType="number-pad"
                   maxLength={10}
                   label={'Enter Your Mobile Number'}
@@ -143,7 +149,7 @@ const ResetPassword = () => {
                     styles.button,
                     {
                       backgroundColor: isMobileNumberValid
-                        ? Colors.success
+                        ? Colors.info
                         : Colors.grey,
                     },
                   ]}

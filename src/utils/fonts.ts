@@ -13,42 +13,42 @@ export const fontSize = {
 export const Fonts = {
   title: {
     fontSize: fontSize.h1,
-    fontFamily: 'LuckiestGuy-Regular',
+    fontFamily: 'Queen of Camelot',
   },
   title2: {
     fontSize: fontSize.h4,
-    fontFamily: 'LuckiestGuy-Regular',
+    fontFamily: 'Queen of Camelot',
   },
   h1: {
     fontSize: fontSize.h1,
-    fontFamily: 'Rubik-ExtraBold',
+    fontFamily: 'Poppins-ExtraBold',
   },
   h2: {
     fontSize: 22,
-    fontFamily: 'Rubik-Bold',
+    fontFamily: 'Poppins-Bold',
   },
   h3: {
     fontSize: 20,
-    fontFamily: 'Rubik-SemiBold',
+    fontFamily: 'Poppins-SemiBold',
   },
   h4: {
     fontSize: 18,
-    fontFamily: 'Rubik-Medium',
+    fontFamily: 'Poppins-Medium',
   },
   h5: {
     fontSize: 16,
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Poppins-Regular',
   },
   h6: {
     fontSize: 14,
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Poppins-Regular',
   },
   sub1: {
     fontSize: 12,
-    fontFamily: 'Rubik-Regular',
+    fontFamily: 'Poppins-Regular',
   },
   sub2: {
     fontSize: 10,
-    fontFamily: 'Rubik-Light',
+    fontFamily: 'Poppins-Light',
   },
 };

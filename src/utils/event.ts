@@ -24,8 +24,10 @@ export const canJoinEvent = (
 export const canLikeEvent = (like_end_date: string) => {
   const date = moment(like_end_date);
   const present_date = moment();
-
-  if (date.diff(present_date, 'days') > 0) {
+  if (
+    date.diff(present_date, 'hours') > 0 ||
+    date.diff(present_date, 'minutes') < 60
+  ) {
     return true;
   }
 

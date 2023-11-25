@@ -1,10 +1,14 @@
-import {useMoreContestsQuery} from '@/services/apis/contests.api';
-import {ActivityIndicator, Card, Image, Text} from '@/ui';
-import {ScreenNames} from '@/utils/screenName';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import {FlashList} from '@shopify/flash-list';
 import React, {useCallback, useEffect, useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {FlashList} from '@shopify/flash-list';
+
+import {ActivityIndicator, Card, Image, Text} from '@/ui';
+
+import {useMoreContestsQuery} from '@/services/apis/contests.api';
+
+import {ScreenNames} from '@/utils/screenName';
+import {Spacing} from '@/utils/constants';
 import {styles} from './ContestLists.styles';
 
 const COLUMN_COUNT = 2;
@@ -55,6 +59,8 @@ export default function ContestList() {
   return (
     <View style={styles.container}>
       <FlashList
+        contentContainerStyle={{paddingBottom: Spacing.l}}
+        showsVerticalScrollIndicator={false}
         estimatedItemSize={100}
         numColumns={COLUMN_COUNT}
         data={lists}

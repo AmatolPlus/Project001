@@ -19,6 +19,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     ...Fonts.h2,
+    color: Colors.info,
     fontSize: fontSize.h5,
   },
   button: {

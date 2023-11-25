@@ -1,11 +1,10 @@
 import React, {useCallback, useState} from 'react';
-import {View} from 'react-native';
+import {View, Alert, BackHandler} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-import {Button, TextInput, Text} from '@/ui';
+import {Button, TextInput, Text, Image} from '@/ui';
 import {FormState} from './LoginTypes';
-import {appConfig} from '@/utils/appConfig';
 import {ILoginRequest, useLoginMutation} from '@/services/apis/login.api';
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
@@ -61,8 +60,24 @@ const LoginScreen = () => {
   }, [handleLoginWithPinNavigation, login, loginForm, navigation]);
 
   const handleMainScreenNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.mainStack);
-  }, [navigation]);
+    Alert.alert(
+      'Confirm Exit',
+      'Are you sure you want to close the app?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Exit',
+          onPress: () => {
+            BackHandler.exitApp();
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  }, []);
 
   if (isError) {
     return (
@@ -82,7 +97,11 @@ const LoginScreen = () => {
         color={Colors.dark}
       />
       <View>
-        <Text style={styles.title}>{appConfig.name}</Text>
+        <Image
+          style={{width: 200, height: 60}}
+          resizeMode="contain"
+          source={require('@/assets/images/highfive_launch.jpeg')}
+        />
         <View style={styles.inputContainer}>
           <TextInput
             maxLength={10}
@@ -115,15 +134,7 @@ const LoginScreen = () => {
           </Text>
         </Button>
       </View>
-      <Text
-        style={{
-          position: 'absolute',
-          alignSelf: 'center',
-          bottom: 10,
-          color: Colors.info,
-        }}>
-        Facing Any Issue? Contact us
-      </Text>
+      <Text style={styles.footer}>Facing Any Issue? Contact us</Text>
     </View>
   );
 };

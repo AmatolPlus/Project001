@@ -1,3 +1,4 @@
+import {width} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
@@ -6,9 +7,10 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    padding: Spacing.l,
+    flex: 1,
     paddingBottom: Spacing.l,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.light,
+    padding: Spacing.l,
   },
   text: {
     ...Fonts.h1,
@@ -26,9 +28,6 @@ export const styles = StyleSheet.create({
     height: '100%',
   },
   list: {height: 270},
-  contestDetails: {
-    marginTop: Spacing.m,
-  },
   label: {
     color: Colors.dark,
     ...Fonts.sub1,
@@ -55,7 +54,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   link: {
-    color: Colors.info,
+    ...Fonts.h5,
+
+    color: Colors.light,
   },
   knowMore: {
     flexDirection: 'row',
@@ -84,7 +85,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.info},
+  buttonText: {...Fonts.h3, fontSize: fontSize.s1, color: Colors.danger},
   eventAttendees: {justifyContent: 'space-between', flexDirection: 'row'},
   eventAttendeesText: {...Fonts.h6, ...VerticalMargin('s')},
   joinedCount: {
@@ -108,7 +109,7 @@ export const styles = StyleSheet.create({
   },
   eventDetailsHeader: {
     ...Fonts.h1,
-    marginBottom: Spacing.m,
+    color: Colors.info,
     fontSize: fontSize.h3,
   },
   eventDetailsSubHeaderContainer: {
@@ -120,7 +121,7 @@ export const styles = StyleSheet.create({
   },
   eventDetailsSubHeader: {
     ...Fonts.h3,
-    color: Colors.grey,
+    color: Colors.info,
     marginLeft: 0,
     fontSize: fontSize.h6,
   },
@@ -154,17 +155,13 @@ export const styles = StyleSheet.create({
     gap: 4,
   },
   note: {
-    display: 'flex',
-    alignItems: 'center',
     padding: Spacing.m,
-    justifyContent: 'space-between',
-    marginVertical: Spacing.m,
-    flexDirection: 'row',
-    backgroundColor: Colors.light,
+    width: '100%',
   },
   noteTextContainer: {width: '100%'},
   noteDate: {
     ...Fonts.h3,
+    color: Colors.info,
     fontSize: fontSize.h6,
   },
   eventHeaderContainer: {
@@ -172,5 +169,24 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: Spacing.m,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  snackBar: {
+    position: 'absolute',
+    zIndex: 100,
+    bottom: 10,
+  },
+  snackbarText: {
+    ...Fonts.h5,
+    color: Colors.white,
+  },
+  snackBarLink: {
+    ...Fonts.h4,
+    fontWeight: '800',
+    color: Colors.info,
   },
 });

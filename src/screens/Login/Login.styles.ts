@@ -6,7 +6,7 @@ import {CenterItem, VerticalMargin} from '../../utils/spacing';
 
 let styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     padding: Spacing.xl * 2,
     ...CenterItem(),
   },
@@ -41,6 +41,12 @@ let styles = StyleSheet.create({
     position: 'absolute',
     top: Spacing.l,
     right: Spacing.l,
+  },
+  footer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    bottom: 10,
+    color: Colors.info,
   },
 });
 

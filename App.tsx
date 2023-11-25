@@ -1,45 +1,72 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, LogBox} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {NavigationContainer, NavigationProp} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
-import {Provider as PaperProvider} from 'react-native-paper';
+import {Provider as PaperProvider, Text} from 'react-native-paper';
 
 import {theme} from './src/utils/theme';
 import {LoginStack, TabStack} from './src/routes';
 import {store} from '@/services/store.config';
 import {ContestList, Launch, MorePosts, Details} from '@/screens';
 import {ScreenNames} from '@/utils/screenName';
-import {Fonts} from '@/utils/fonts';
-import {Spacing} from '@/utils/constants';
+import {Fonts, fontSize} from '@/utils/fonts';
 import {options} from '@/utils/navigationConfig';
 import {checkForUpdate} from '@/utils/appUpdate';
+import {Colors} from '@/utils/colors';
+import PostDetail from '@/screens/PostDetail/PostDetail';
+
+const config = {
+  screens: {
+    [ScreenNames.details]: `${ScreenNames.details}/:id`,
+    [ScreenNames.postPreview]: `${ScreenNames.postPreview}/:id`,
+  },
+};
+
+const linking = {
+  prefixes: ['highfive://', 'https://site.highfive.one/'],
+  config,
+};
 
 const HeaderIcon = ({navigation}: any) => {
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
-      <AntDesign
-        name="leftsquare"
-        style={{marginRight: Spacing.s}}
-        size={24}
-        color="black"
-      />
+    <TouchableOpacity
+      className={
+        'shadow-md bg-light h-9 w-9 rounded-full shadow-info justify-center items-center'
+      }
+      onPress={() => {
+        if (navigation?.canGoBack()) {
+          navigation.goBack();
+        } else {
+          navigation.navigate(ScreenNames.mainStack);
+        }
+      }}>
+      <AntDesign name="arrowleft" size={24} color={Colors.info} />
     </TouchableOpacity>
   );
 };
 
 function App(): JSX.Element {
   checkForUpdate();
-
+  LogBox.ignoreLogs(['Warning:']);
   const MainStack = createNativeStackNavigator();
 
   return (
     <Provider store={store}>
       <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <MainStack.Navigator>
+        <NavigationContainer
+          linking={linking}
+          fallback={<Text>Loading...</Text>}>
+          <MainStack.Navigator
+            screenOptions={{
+              animation: 'slide_from_right',
+              presentation: 'modal',
+              animationTypeForReplace: 'push',
+              headerTitleStyle: {color: Colors.info, ...Fonts.h1},
+              headerShadowVisible: false,
+            }}>
             <MainStack.Screen
               name={ScreenNames.launch}
               options={options}
@@ -56,9 +83,16 @@ function App(): JSX.Element {
               component={LoginStack}
             />
             <MainStack.Screen
-              options={({navigation, route}: any) => ({
-                headerTitle: route?.params?.concept_name,
-                headerTitleStyle: {...Fonts.h1},
+              options={({navigation}: any) => ({
+                headerTitleAlign: 'center',
+                headerTitleStyle: {
+                  ...Fonts.h1,
+                  fontSize: fontSize.h4,
+                  color: Colors.info,
+                },
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },
@@ -71,7 +105,10 @@ function App(): JSX.Element {
               component={ContestList}
               options={({navigation}) => ({
                 headerTitle: 'Contests',
-                headerTitleStyle: {...Fonts.h1},
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },
@@ -82,7 +119,25 @@ function App(): JSX.Element {
               component={MorePosts}
               options={({navigation}) => ({
                 headerTitle: 'Contests',
-                headerTitleStyle: {...Fonts.h1},
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
+                headerLeft: () => {
+                  return <HeaderIcon navigation={navigation} />;
+                },
+              })}
+            />
+            <MainStack.Screen
+              name={ScreenNames.postPreview}
+              component={PostDetail}
+              options={({navigation}) => ({
+                headerTitle: 'Preview',
+                headerShown: false,
+                headerTitleAlign: 'center',
+                headerStyle: {
+                  backgroundColor: Colors.light,
+                },
                 headerLeft: () => {
                   return <HeaderIcon navigation={navigation} />;
                 },

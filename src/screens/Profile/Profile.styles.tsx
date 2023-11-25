@@ -8,25 +8,26 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.xl,
+    backgroundColor: Colors.white,
+  },
+  link: {
+    marginLeft: Spacing.m,
+    color: Colors.danger,
+    marginBottom: Spacing.s,
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
   },
   card: {
-    height: height / 1.2,
     backgroundColor: Colors.white,
-    borderRadius: BorderRadius.m,
-    padding: Spacing.xl,
-    justifyContent: 'space-between',
   },
   divider: {...VerticalMargin('m')},
   logout: {
-    alignSelf: 'flex-end',
-    backgroundColor: Colors.danger,
-    padding: Spacing.xs,
-    borderRadius: BorderRadius.s,
-    width: '100%',
+    marginBottom: Spacing.xl,
+    marginTop: Spacing.m,
   },
   logoutText: {
     ...Fonts.h5,
-    color: Colors.white,
+    color: Colors.danger,
   },
   header: {
     ...Fonts.h3,

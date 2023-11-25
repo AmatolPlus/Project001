@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {View, TouchableOpacity} from 'react-native';
+import {Portal} from 'react-native-paper';
+
+import {Modal, Text} from '@/ui';
 
 import {styles} from './TermsAndConditions.styles';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import {Modal, Text} from '@/ui';
 import {fontSize} from '@/utils/fonts';
 import {Colors} from '@/utils/colors';
-import {Portal} from 'react-native-paper';
+import {ScrollView} from 'react-native';
 
 const TermsAndConditionsModal = ({message}: any) => {
   const [visible, setVisible] = useState(false);
@@ -33,7 +35,9 @@ const TermsAndConditionsModal = ({message}: any) => {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={styles.message}>{message}</Text>
+            <ScrollView>
+              <Text style={styles.message}>{message}</Text>
+            </ScrollView>
           </View>
         </Modal>
       </Portal>

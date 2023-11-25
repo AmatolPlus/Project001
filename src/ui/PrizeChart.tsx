@@ -9,10 +9,10 @@ import {Fonts, fontSize} from '@/utils/fonts';
 import {HorizontalMargin} from '@/utils/spacing';
 import Modal from './Modal';
 import Text from './Text';
-// import Section from './Section';
 import {width} from '@/utils/Dimension';
+import Section from './Section';
 
-const PriceChart = ({data, isOpen, setClosed, members}: IPrizeChart) => {
+const PriceChart = ({data, isOpen, setClosed, notes, members}: IPrizeChart) => {
   const renderRow = () => {
     if (data) {
       return Object.keys(data).map((item): any => {
@@ -37,13 +37,21 @@ const PriceChart = ({data, isOpen, setClosed, members}: IPrizeChart) => {
         visible={isOpen}>
         <View style={styles.container}>
           <DataTable>
-            <DataTable.Header>
+            <DataTable.Header
+              style={{
+                backgroundColor: Colors.info,
+                borderRadius: BorderRadius.m,
+              }}>
               <DataTable.Title textStyle={styles.tableTitle}>
                 Members ({members})
               </DataTable.Title>
               <DataTable.Title textStyle={styles.tableTitle}>
                 <Text
-                  style={{fontWeight: 'bold', fontSize: 16}}
+                  style={{
+                    fontWeight: 'bold',
+                    color: Colors.primary,
+                    fontSize: 16,
+                  }}
                   ellipsizeMode={'tail'}
                   numberOfLines={2}>
                   Amount Per Person
@@ -53,14 +61,14 @@ const PriceChart = ({data, isOpen, setClosed, members}: IPrizeChart) => {
 
             {renderRow()}
           </DataTable>
-          {/* <View style={styles.cardContentContainer}>
+          <View style={styles.cardContentContainer}>
             <Section style={styles.termsHeaderContainer}>
               <Text style={styles.termsHeader}>
                 Prizepool will depend on how many slots are filled
               </Text>
               <Text style={styles.termsBody}>{notes}</Text>
             </Section>
-          </View> */}
+          </View>
         </View>
       </Modal>
     </Portal>
@@ -83,7 +91,7 @@ const styles = StyleSheet.create({
     ...Fonts.h4,
     fontSize: 16,
     textAlign: 'center',
-    color: Colors.dark,
+    color: Colors.primary,
   },
   tableCell: {...Fonts.h5},
 
@@ -105,12 +113,12 @@ const styles = StyleSheet.create({
   },
   termsHeaderContainer: {
     borderRadius: BorderRadius.m,
-    backgroundColor: Colors.warning,
+    backgroundColor: Colors.danger,
     padding: Spacing.s,
     width: '100%',
   },
-  termsHeader: {...Fonts.h4, marginBottom: Spacing.s},
-  termsBody: {...Fonts.sub1, color: Colors.dark},
+  termsHeader: {...Fonts.h4, color: Colors.white, marginBottom: Spacing.s},
+  termsBody: {...Fonts.sub1, color: Colors.white},
 });
 
 export default memo(PriceChart);

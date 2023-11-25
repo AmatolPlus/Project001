@@ -3,9 +3,10 @@ import {ToastAndroid, View} from 'react-native';
 
 import {useWalletAmountQuery} from '@/services/apis/wallet.api';
 
+import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
+
 import {Button, Text} from '@/ui';
 import {canJoinEvent} from '@/utils/event';
-import JoinEventConfirmModal from '@/ui/JoinEventConfirmModal';
 import {styles} from './JoinEvent.styles';
 import {IJoinEvent} from './JoinEvent.types';
 import {Colors} from '@/utils/colors';
@@ -20,6 +21,7 @@ export const JoinEvent = ({
   mobile_number,
   currentOccupancy,
   thresholdOccupancy,
+  is_free,
   onJoinEvent,
 }: IJoinEvent) => {
   const [isOpen, setOpen] = useState(false);
@@ -52,7 +54,7 @@ export const JoinEvent = ({
         onPress={handleToggleModal}
         style={[
           styles.button,
-          {backgroundColor: !canJoin ? Colors.grey : Colors.success},
+          {backgroundColor: !canJoin ? Colors.grey : Colors.danger},
         ]}>
         <Text style={styles.buttonText}>Join</Text>
       </Button>
@@ -65,6 +67,7 @@ export const JoinEvent = ({
         wallet={wallet?.earned_amount}
         entryFee={entryFee}
         isOpen={isOpen}
+        is_free={is_free}
         onClose={handleToggleModal}
         onConfirm={handleJoin}
       />

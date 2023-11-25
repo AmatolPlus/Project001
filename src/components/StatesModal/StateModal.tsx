@@ -1,14 +1,14 @@
-import {states} from '@/utils/addressConstants';
 import React, {memo} from 'react';
-import {View} from 'react-native';
-import Modal from '../../ui/Modal';
-import {TouchableOpacity} from 'react-native';
-import Text from '../../ui/Text';
-import {Spacing} from '@/utils/constants';
+import {View, TouchableOpacity, ScrollView} from 'react-native';
 import {Portal} from 'react-native-paper';
-import {styles} from './StateList.styles';
-import {ScrollView} from 'react-native';
+
+import {Text, Modal} from '@/ui';
+
+import {Spacing} from '@/utils/constants';
+import {states} from '@/utils/addressConstants';
+
 import {IStateModal} from './StateModal.types';
+import {styles} from './StateList.styles';
 
 const StatesModal = ({visible, closeModal, onSelect}: IStateModal) => {
   const handleSelectState = (stateName: string) => {

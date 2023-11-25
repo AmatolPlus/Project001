@@ -13,9 +13,17 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://artifactory.img.ly/artifactory/imgly" }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.3.1")
         classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.32"
+        classpath("ly.img.android.sdk:plugin:10.4.1")
+    }
+    allprojects {
+        repositories {
+            maven { url 'https://artifactory.img.ly/artifactory/imgly' }
+        }
     }
 }

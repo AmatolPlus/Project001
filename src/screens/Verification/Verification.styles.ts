@@ -18,24 +18,26 @@ export const styles = StyleSheet.create({
   root: {padding: Spacing.xl},
   title: {textAlign: 'center', ...Fonts.h1},
   codeFieldRoot: {
-    width: '100%',
+    width: '80%',
+    alignSelf: 'center',
   },
   cellRoot: {
     ...CenterItem(),
     width: 48,
     display: 'flex',
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
     height: 60,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.info,
     margin: Spacing.xs,
-    borderRadius: Spacing.xl,
   },
   cellText: {
-    ...Fonts.h1,
-    color: Colors.dark,
+    ...Fonts.h2,
+    color: Colors.info,
     textAlign: 'center',
   },
   focusCell: {
-    backgroundColor: Colors.white,
+    backgroundColor: 'transparent',
   },
   submitButtonText: {
     color: Colors.white,

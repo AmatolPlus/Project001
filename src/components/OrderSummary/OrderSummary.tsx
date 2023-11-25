@@ -1,7 +1,7 @@
+import moment from 'moment';
 import {Button, Divider, Image, Text} from '@/ui';
 import React, {memo, useCallback} from 'react';
-import {View} from 'react-native';
-import moment from 'moment';
+import {TouchableOpacity, View} from 'react-native';
 
 import {styles} from './OrderSummary.styles';
 import {Colors} from '@/utils/colors';
@@ -13,12 +13,18 @@ const OrderSummary = ({
   imageId,
   image,
   entryFee,
+  is_free,
   ends_on,
   mobile_number,
   started_on,
+  cancel,
   wallet_amount,
   handleImageUploaded,
 }: IOrderSummary) => {
+  const handleCancel = useCallback(() => {
+    cancel(!cancel);
+  }, [cancel]);
+
   const handlePayment = useCallback(() => {
     onConfirm(imageId, image);
     handleImageUploaded();
@@ -30,7 +36,9 @@ const OrderSummary = ({
         <Image style={styles.image} source={{uri: image}} />
         <View style={styles.buttonContainer}>
           <Text style={styles.info}>You have Selected this image</Text>
-          <Text style={styles.changeButton}>Change</Text>
+          <TouchableOpacity onPress={handleCancel}>
+            <Text style={styles.changeButton}>Change</Text>
+          </TouchableOpacity>
         </View>
       </View>
       <View>
@@ -47,22 +55,41 @@ const OrderSummary = ({
       <View>
         <Text style={styles.title}>Payment Details</Text>
         <View style={styles.entryFeeContainer}>
-          <Text style={styles.entryFee}>Entryfee: </Text>
-          <Text style={styles.entryFee}>₹ {entryFee}</Text>
+          <Text
+            style={{
+              ...styles.entryFee,
+            }}>
+            Entryfee:{' '}
+          </Text>
+          <Text
+            style={{
+              textDecorationStyle: 'solid',
+              textDecorationLine: is_free ? 'line-through' : '',
+              ...styles.entryFee,
+            }}>
+            ₹ {entryFee}
+          </Text>
         </View>
         <View style={styles.entryFeeContainer}>
           <Text style={styles.entryFee}>Wallet Amount: </Text>
           <Text
             style={{
               ...styles.entryFee,
-              color: wallet_amount === 0 ? Colors.danger : Colors.success,
+              color: wallet_amount === 0 ? Colors.info : Colors.info,
             }}>
-            - ₹ {wallet_amount}
+            ₹ {wallet_amount}
           </Text>
         </View>
         <View style={styles.entryFeeContainer}>
           <Text style={styles.entryFee}>Total Amount </Text>
-          <Text style={styles.entryFee}>₹ {entryFee}</Text>
+          <Text
+            style={{
+              textDecorationStyle: 'solid',
+              textDecorationLine: is_free ? 'line-through' : '',
+              ...styles.entryFee,
+            }}>
+            ₹ {entryFee}
+          </Text>
         </View>
       </View>
       <Divider style={styles.divider} />

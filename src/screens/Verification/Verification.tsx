@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {
@@ -7,22 +7,20 @@ import {
   Cursor,
   useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
+import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 
+import {Button, Snackbar, Image} from '@/ui';
 import {set} from '@/utils/storage';
-import {Button} from '@/ui';
-import {OtpState} from '../Login/LoginTypes';
 import {
   IValidateRequest,
   useResendOtpMutation,
   useValidateOtpMutation,
 } from '@/services/apis/login.api';
 import {saveUserInfo} from '@/services/reducers/login.slice';
-import {styles} from './Verification.styles';
-import Text from '@/ui/Text';
-import Snackbar from '@/ui/SnackBar';
-import {ResendOtp} from '@/ui/ResendOtp';
-import ChangePasswordModal from '@/components/ChangePasswordModal/ChangePasswordModal';
 import {ScreenNames} from '@/utils/screenName';
+
+import {OtpState} from '../Login/LoginTypes';
+import {styles} from './Verification.styles';
 
 const CELL_COUNT = 6;
 
@@ -38,7 +36,7 @@ const VerificationScreen = () => {
   const value = otpForm.otp;
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const dispatch = useDispatch();
-  const [verify, {isLoading, error}]: any = useValidateOtpMutation();
+  const [verify, {error}]: any = useValidateOtpMutation();
   const [showChangePasswordModal, setShowChangePasswordModal] = useState(false);
   const [resend] = useResendOtpMutation();
   const [OTPStatus, setOTPStatus] = useState('');
@@ -93,54 +91,77 @@ const VerificationScreen = () => {
   }, [dispatch, handleToggleChangePasswordModal, navigation, otpForm, verify]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Verfication Code</Text>
-      <Text style={styles.info}>
-        we have sent a verification code to your number
-      </Text>
-      <CodeField
-        ref={ref}
-        value={otpForm.otp}
-        onChangeText={val => handleFormUpdate('otp', val)}
-        cellCount={CELL_COUNT}
-        rootStyle={styles.codeFieldRoot}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        renderCell={({index, symbol, isFocused}) => (
-          <View
-            key={index}
-            style={[styles.cellRoot, isFocused && styles.focusCell]}>
-            <Text style={styles.cellText}>
-              {symbol || (isFocused ? <Cursor /> : null)}
-            </Text>
-          </View>
-        )}
-      />
-      <View style={styles.resendButtonContainer}>
-        <Text style={styles.resendButton} onPress={() => navigation.goBack()}>
-          Change Number ?
+    <SafeAreaView className="flex flex-1 px-8 w-full justify-center bg-primary">
+      <View className="">
+        <Text className="text-center color-info text-3xl mb-8  font-sans-bold">
+          HIGHFIVE
         </Text>
-        <ResendOtp handleResend={handleResend} style={styles.resendButton} />
       </View>
-      <Button
-        disabled={!handleDisabled() || isLoading}
-        loading={isLoading}
-        onPress={handleVerification}
-        style={styles.submitButton}>
-        <Text style={styles.submitButtonText}>{'Confirm'}</Text>
-      </Button>
-      <Snackbar
-        onDismiss={() => {
-          setSnackbar(false);
-        }}
-        visible={showSnackbar}>
-        {error?.data.details || OTPStatus}
-      </Snackbar>
+      <Image
+        className="h-48"
+        source={require('@/assets/images/verification.png')}
+        resizeMode="contain"
+      />
+      <View className="flex-col mt-12">
+        <Text className="font-sans-bold color-info text-center text-xl">
+          OTP Verification
+        </Text>
+        <Text className="color-info font-sans text-center text-8xs mt-2">
+          We will send you an{' '}
+          <Text className="font-sans-bold color-info">One Time Password</Text>{' '}
+          on this mobile number
+        </Text>
+      </View>
+      <View className="mt-8">
+        <CodeField
+          ref={ref}
+          value={otpForm.otp}
+          onChangeText={val => handleFormUpdate('otp', val)}
+          cellCount={CELL_COUNT}
+          rootStyle={styles.codeFieldRoot}
+          keyboardType="number-pad"
+          textContentType="oneTimeCode"
+          renderCell={({index, symbol, isFocused}) => (
+            <View
+              key={index}
+              style={[styles.cellRoot, isFocused && styles.focusCell]}>
+              <Text style={styles.cellText}>
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </Text>
+            </View>
+          )}
+        />
+
+        <Text className="color-info font-sans-bold text-center mt-4">
+          Dont't recive the OTP ?{'  '}
+          <Text className="color-danger" onPress={handleResend}>
+            RESEND OTP
+          </Text>
+        </Text>
+        <Button
+          onPress={handleVerification}
+          className={
+            handleDisabled()
+              ? 'bg-danger rounded-md p-2 mt-5'
+              : 'rounded-md p-2 mt-5 bg-zinc-600'
+          }>
+          <Text className="color-white font-sans-bold">VERIFY AND PROCEED</Text>
+        </Button>
+      </View>
+
       <ChangePasswordModal
         type={'modal'}
         isOpen={showChangePasswordModal}
         navigation={navigation}
       />
+      <Snackbar
+        onDismiss={() => {
+          setSnackbar(false);
+        }}
+        className="w-full absolute bottom-2 left-6"
+        visible={showSnackbar}>
+        {error?.data.details || OTPStatus}
+      </Snackbar>
     </SafeAreaView>
   );
 };

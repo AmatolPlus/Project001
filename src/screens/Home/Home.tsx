@@ -2,31 +2,36 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 
 import React, {useCallback, useEffect, useState} from 'react';
-import {SectionList, RefreshControl, View} from 'react-native';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import {RefreshControl, View, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
+
+import ContestCard from '@/components/ContestCard/ContestCard';
+import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
+
 import {ActivityIndicator, Text} from '@/ui';
 import {ScreenNames} from '@/utils/screenName';
+
 import {useSectionQuery} from '@/services/apis/contests.api';
-import {styles} from './Home.styles';
-import formatArray from '@/utils/formatData';
-import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
 import {useBackHandler} from '@/hooks/useBackHandler';
 import {useUserDetailsQuery} from '@/services/apis/login.api';
-import PasswordCheck from '@/components/PasswordCheck/PasswordCheck';
 import {useStoragePermission} from '@/hooks/getStoragePermission';
+
+import formatArray from '@/utils/formatData';
 import {fontSize} from '@/utils/fonts';
-import {ContestCard} from '@/components/ContestCard/ContestCard';
+import {Colors} from '@/utils/colors';
+import {styles} from './Home.styles';
+import ErrorPage from '@/components/ErrorPage/ErrorPage';
 
 function Home() {
   const navigation: any = useNavigation();
   const [formattedData, setFormattedData] = useState([]);
-  const {data, isError, refetch, isLoading}: any = useSectionQuery({});
+  const {data, isError, error, refetch, isLoading}: any = useSectionQuery({});
   const {data: user}: any = useUserDetailsQuery({});
 
   useBackHandler();
   useStoragePermission();
-
   useEffect(() => {
     if (data) {
       let formattedList: any = formatArray(data);
@@ -49,7 +54,7 @@ function Home() {
   );
 
   if (isError) {
-    return <></>;
+    return <ErrorPage onReload={refetch} error={error} />;
   }
 
   if (isLoading) {
@@ -61,21 +66,25 @@ function Home() {
   }
 
   const renderItem = ({item}: any) => {
-    console.log(item);
     return (
       <ContestCard
         showPrizeChartButton={false}
         item={item}
         navigation={handleDetailNavigation}
         width={undefined}
+        showShare={true}
       />
     );
   };
 
   // 5 to 25 chars // profile_id @ . + - _
 
-  const renderHeader = ({section: {title, data, id}}: any) =>
-    data.length ? (
+  const renderHeader = ({section: {title, data, id}}: any) => {
+    if (!data?.length) {
+      return <></>;
+    }
+
+    return (
       <View>
         <View style={styles.sectionHeader}>
           <Text style={styles.header}>{title}</Text>
@@ -84,7 +93,7 @@ function Home() {
               onPress={() => handleContestNavigation(id)}
               name="arrow-right"
               size={fontSize.h6}
-              color="black"
+              color={Colors.info}
             />
           ) : (
             <></>
@@ -100,24 +109,19 @@ function Home() {
           renderItem={renderItem}
         />
       </View>
-    ) : (
-      <></>
     );
+  };
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      refreshControl={<RefreshControl onRefresh={refetch} refreshing={false} />}
+      style={styles.container}>
       {!user?.password_configured && <PasswordCheck />}
-      <SectionList
-        refreshControl={
-          <RefreshControl onRefresh={refetch} refreshing={false} />
-        }
-        sections={formattedData}
-        showsVerticalScrollIndicator={false}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({}) => <></>}
-        renderSectionHeader={renderHeader}
-      />
-    </View>
+      {formattedData?.map((item: any) => {
+        return renderHeader({section: {...item}});
+      })}
+    </ScrollView>
   );
 }
 

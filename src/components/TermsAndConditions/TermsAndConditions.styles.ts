@@ -1,4 +1,4 @@
-import {width} from '@/utils/Dimension';
+import {height} from '@/utils/Dimension';
 import {Colors} from '@/utils/colors';
 import {BorderRadius, Spacing} from '@/utils/constants';
 import {Fonts, fontSize} from '@/utils/fonts';
@@ -8,10 +8,11 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   link: {
     color: Colors.info,
-    marginTop: 10,
   },
   modal: {
     padding: Spacing.xl,
+    height: height / 1.2,
+    marginTop: height / 10.6,
   },
   modalContainer: {
     backgroundColor: Colors.white,

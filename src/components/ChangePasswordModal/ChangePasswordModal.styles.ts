@@ -21,10 +21,8 @@ export const styles = StyleSheet.create({
   },
 
   info: {
-    marginBottom: Spacing.m,
-    ...Fonts.h2,
-    fontSize: fontSize.h2 / 2,
-    color: Colors.danger,
+    marginBottom: Spacing.l,
+    fontSize: fontSize.s2,
   },
   input: {
     backgroundColor: Colors.white,
@@ -50,5 +48,11 @@ export const styles = StyleSheet.create({
     fontSize: fontSize.h5,
     marginTop: Spacing.l,
   },
-  link: {textAlign: 'left', marginTop: Spacing.m, color: Colors.info},
+  link: {
+    ...Fonts.h3,
+    fontSize: fontSize.h6,
+    marginTop: Spacing.m,
+    marginLeft: Spacing.m,
+    color: Colors.danger,
+  },
 });

@@ -1,6 +1,7 @@
 export interface IOrderSummary {
   onConfirm: any;
   onClose: () => void;
+  cancel: any;
   imageId: string;
   image: string;
   handleImageUploaded: () => void;
@@ -8,6 +9,7 @@ export interface IOrderSummary {
   entryFee: string | number;
   ends_on: string;
   started_on: string;
-  mobile_number: string;
+  mobile_number: any;
+  is_free: boolean;
   wallet_amount: string | number;
 }

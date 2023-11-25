@@ -91,6 +91,12 @@ export const loginService = createApi({
         body,
       }),
     }),
+    privacy: build.query({
+      query: () => ({
+        method: 'GET',
+        url: 'tnc/privacy_policy/',
+      }),
+    }),
   }),
 });
 
@@ -105,6 +111,7 @@ export const {
   useConfirmResetPasswordMutation,
   useLoginWithPinMutation,
   useUserDetailsQuery,
+  usePrivacyQuery,
 } = loginService;
 
 export const loginReducerPath = loginService.reducerPath;

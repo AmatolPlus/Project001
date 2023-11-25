@@ -11,4 +11,5 @@ export enum ScreenNames {
   transactions = 'Transactions',
   contestList = 'ContestListScreen',
   morePosts = 'MorePosts',
+  postPreview = 'PostPreview',
 }

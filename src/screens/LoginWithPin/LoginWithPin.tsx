@@ -1,25 +1,27 @@
 import React, {useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
 } from 'react-native-confirmation-code-field';
 
+import ResetPassword from '@/components/ResetPassword/ResetPassword';
+
 import {Button, Text} from '@/ui';
-import {FormState, ILoginRequest} from './LoginWithPin.types';
 import {useLoginWithPinMutation} from '@/services/apis/login.api';
+
 import {ScreenNames} from '@/utils/screenName';
 import {Colors} from '@/utils/colors';
-import styles from './LoginWithPin.styles';
 import {fontSize} from '@/utils/fonts';
 import {saveUserInfo} from '@/services/reducers/login.slice';
-import {useDispatch} from 'react-redux';
 import {set} from '@/utils/storage';
-import ResetPassword from '@/components/ResetPassword/ResetPassword';
+
+import styles from './LoginWithPin.styles';
+import {FormState, ILoginRequest} from './LoginWithPin.types';
 
 const CELL_COUNT = 6;
 
@@ -63,7 +65,7 @@ const LoginWithPin = () => {
   };
 
   const handleMainScreenNavigation = useCallback(() => {
-    navigation.navigate(ScreenNames.mainStack);
+    navigation.goBack();
   }, [navigation]);
 
   return (
@@ -73,7 +75,7 @@ const LoginWithPin = () => {
         style={styles.close}
         name="closecircle"
         size={fontSize.h1}
-        color={Colors.dark}
+        color={Colors.info}
       />
       <Text style={styles.title}>Login Your PIN</Text>
       <Text style={styles.info}>
@@ -104,19 +106,20 @@ const LoginWithPin = () => {
           <ResetPassword />
         </View>
         <Button
+          className="shadow-lg shadow-danger"
           loading={isLoading}
           onPress={handleLogin}
           buttonColor={Colors.success}
           disabled={!isValid()}
           style={[
             styles.loginButton,
-            {backgroundColor: isValid() ? Colors.success : Colors.dark},
+            {backgroundColor: isValid() ? Colors.danger : Colors.dark},
           ]}>
           <Text
             style={{
               ...styles.loginButtonText,
             }}>
-            {'Login'}
+            {'Continue'}
           </Text>
         </Button>
       </View>

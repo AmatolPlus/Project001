@@ -9,7 +9,7 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     padding: Spacing.m,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.light,
     flex: 1,
   },
   row: {
@@ -17,7 +17,9 @@ export const styles = StyleSheet.create({
     flex: 1,
     marginTop: Spacing.xl,
     overflow: 'hidden',
-    shadowColor: Colors.dark,
+    shadowColor: Colors.info,
+    elevation: 12,
+    backgroundColor: Colors.primary,
     justifyContent: 'space-around',
     ...BorderTopRadius('m'),
     ...HorizontalMargin('s'),
@@ -25,6 +27,7 @@ export const styles = StyleSheet.create({
   imageContainer: {
     flex: 0.5,
     paddingBottom: Spacing.l,
+    backgroundColor: Colors.light,
     justifyContent: 'space-between',
     height: height / 4.2,
   },
@@ -36,6 +39,7 @@ export const styles = StyleSheet.create({
     ...Fonts.h3,
     paddingTop: Spacing.xs,
     fontSize: fontSize.h5,
+    color: Colors.info,
     marginLeft: Spacing.s,
     ...VerticalMargin('xs'),
   },

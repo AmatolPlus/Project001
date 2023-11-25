@@ -2,6 +2,7 @@ import {Button, Text} from '@/ui';
 import React, {memo, useCallback, useState} from 'react';
 import {View} from 'react-native';
 import {styles} from './PasswordCheck.style';
+
 import ChangePasswordModal from '../ChangePasswordModal/ChangePasswordModal';
 
 const PasswordCheck = () => {

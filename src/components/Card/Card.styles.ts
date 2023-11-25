@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
   cardContainer: {
     padding: Spacing.m,
     paddingLeft: 0,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.light,
   },
   image: {
     height: Spacing.xl * 2,

@@ -1,20 +1,24 @@
-import {FlatList, View} from 'react-native';
 import React, {useCallback, useState} from 'react';
+import {RefreshControl, View} from 'react-native';
+import {FlashList} from '@shopify/flash-list';
+import {useRoute} from '@react-navigation/native';
 import {
   useLikeContestMutation,
   useMorePostsQuery,
 } from '@/services/apis/contests.api';
+
 import PostCard from '@/components/PostCard/PostCard';
-import {styles} from './MorePosts.styles';
-import {useRoute} from '@react-navigation/native';
+
 import {Spacing} from '@/utils/constants';
 import {Text} from '@/ui';
+import {Colors} from '@/utils/colors';
+import {styles} from './MorePosts.styles';
 
 export default function MorePosts() {
   const route: any = useRoute();
   const [page, setPage] = useState(1);
   const {id, likeEndDate} = route?.params;
-  const {data, refetch} = useMorePostsQuery({id, page});
+  const {data, isLoading: postLoading, refetch} = useMorePostsQuery({id, page});
   const [like, {isLoading}] = useLikeContestMutation({});
 
   const pageInfo = data?.current || '<Page 1 of 2>';
@@ -59,31 +63,32 @@ export default function MorePosts() {
     [like, refetch],
   );
 
-  const renderPosts = ({item}: any) => (
+  const renderPosts = ({item, index}: any) => (
     <PostCard
-      contestImage={item?.contest_image_url}
-      likeCount={item?.like_count}
+      small
+      likeEndDate={likeEndDate}
       item={item}
-      caption={item?.img_caption}
       onLike={handleLike}
       loading={isLoading}
-      likeEndDate={likeEndDate}
+      index={index}
     />
   );
 
   return (
-    <View style={{flex: 1}}>
-      <View style={styles.listContainer}>
-        <FlatList
-          ListFooterComponent={maxPages > 1 ? renderFooter : null}
-          contentContainerStyle={{paddingBottom: Spacing.xl}}
-          style={styles.list}
-          numColumns={2}
-          data={data?.results}
-          showsHorizontalScrollIndicator={false}
-          renderItem={renderPosts}
-        />
-      </View>
-    </View>
+    <FlashList
+      contentContainerStyle={{
+        backgroundColor: Colors.light,
+        paddingBottom: Spacing.l,
+      }}
+      ListFooterComponent={maxPages > 1 ? renderFooter : null}
+      style={styles.list}
+      numColumns={2}
+      refreshControl={
+        <RefreshControl refreshing={postLoading} onRefresh={refetch} />
+      }
+      data={data?.results}
+      showsVerticalScrollIndicator={false}
+      renderItem={renderPosts}
+    />
   );
 }

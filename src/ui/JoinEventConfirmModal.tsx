@@ -1,18 +1,25 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
+import {
+  PermissionsAndroid,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Portal} from 'react-native-paper';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import ImagePicker from 'react-native-image-crop-picker';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
-import Modal from './Modal';
 import OrderSummary from '@/components/OrderSummary/OrderSummary';
-import Text from './Text';
-import {StyleSheet, View} from 'react-native';
-import {Spacing} from '@/utils/constants';
-import {Colors} from '@/utils/colors';
-import Button from './Button';
-import Image from './Image';
-import {Fonts} from '@/utils/fonts';
+
 import {useUploadImageMutation} from '@/services/apis/contests.api';
-import {launchImageLibrary, launchCamera} from 'react-native-image-picker';
-import TextInput from './TextInput';
+import {Button, TextInput, Text, Image, Modal} from '@/ui';
+
+import {BorderRadius, Spacing} from '@/utils/constants';
+import {Colors} from '@/utils/colors';
+import {Fonts, fontSize} from '@/utils/fonts';
+import {HorizontalMargin} from '@/utils/spacing';
+
 interface IJoinEventModal {
   isOpen: boolean;
   onClose: () => void;
@@ -22,8 +29,17 @@ interface IJoinEventModal {
   entryFee: number | string;
   contestName: string;
   wallet: string | number;
+  is_free: boolean;
   mobile_number: string | number;
 }
+
+const HeaderIcon = ({handleClose}: any) => {
+  return (
+    <TouchableOpacity style={styles.modalCloseIcon} onPress={handleClose}>
+      <AntDesign name="arrowleft" size={24} color={Colors.info} />
+    </TouchableOpacity>
+  );
+};
 
 const JoinEventConfirmModal = ({
   isOpen,
@@ -35,9 +51,19 @@ const JoinEventConfirmModal = ({
   mobile_number,
   started_on,
   ends_on,
+  is_free,
 }: IJoinEventModal) => {
-  const [imageId, setImageId] = useState();
+  const [imageId, setImageId] = useState('');
   const [image, setImage] = useState('');
+
+  useEffect(() => {
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    );
+    PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+    );
+  }, []);
 
   const [uploadPost, setPost]: any = useState({
     imageUrl: undefined,
@@ -50,9 +76,12 @@ const JoinEventConfirmModal = ({
     setImageUploaded(!hasImageUploaded);
   }, [hasImageUploaded]);
 
-  const handleOnConfirm = useCallback(async () => {
-    onConfirm(imageId);
-  }, [imageId, onConfirm]);
+  const handleOnConfirm = useCallback(
+    async (image_id: any) => {
+      onConfirm(image_id);
+    },
+    [onConfirm],
+  );
 
   const handlePostChange = useCallback(
     (key: string, value: string): any => {
@@ -72,20 +101,32 @@ const JoinEventConfirmModal = ({
   );
 
   const pickImageCamera = useCallback(() => {
-    launchCamera({
+    ImagePicker.openCamera({
       mediaType: 'photo',
-      quality: 0.8,
+      cropping: true,
+      quality: 0.3,
     }).then((result: any) => {
-      handlePostChange('imageUrl', result?.assets[0]);
+      handlePostChange('imageUrl', {
+        ...result,
+        filename: result?.path,
+        type: result?.mime,
+        uri: result?.path,
+      });
     });
   }, [handlePostChange]);
 
   const pickImageFromLibrary = useCallback(async () => {
-    launchImageLibrary({
+    ImageCropPicker.openPicker({
       mediaType: 'photo',
-      quality: 1,
+      cropping: true,
+      quality: 0.3,
     }).then((result: any) => {
-      handlePostChange('imageUrl', result?.assets[0]);
+      handlePostChange('imageUrl', {
+        ...result,
+        filename: result?.path,
+        type: result?.mime,
+        uri: result?.path,
+      });
     });
   }, [handlePostChange]);
 
@@ -93,7 +134,7 @@ const JoinEventConfirmModal = ({
     try {
       let data: any = await upload({
         file: uploadPost.imageUrl,
-        title: uploadPost.caption || 'No caption',
+        title: uploadPost.caption || ' ',
       });
       if (data?.data?.details === 'Success') {
         setPost({
@@ -102,14 +143,30 @@ const JoinEventConfirmModal = ({
         });
         setImageId(data?.data?.storage_id);
         setImage(data?.data?.url);
-        handleImageUploaded();
+
+        if (is_free) {
+          handleOnConfirm(data?.data?.storage_id);
+          onClose();
+        } else {
+          handleImageUploaded();
+        }
       }
     } catch (e) {}
-  }, [handleImageUploaded, upload, uploadPost.caption, uploadPost.imageUrl]);
+  }, [
+    handleImageUploaded,
+    handleOnConfirm,
+    is_free,
+    onClose,
+    upload,
+    uploadPost.caption,
+    uploadPost.imageUrl,
+  ]);
 
   return (
     <Portal>
       <Modal style={styles.modal} onDismiss={onClose} visible={isOpen}>
+        <HeaderIcon handleClose={onClose} />
+
         {!hasImageUploaded ? (
           <View style={styles.container}>
             <Text style={styles.title}>Upload An Image</Text>
@@ -126,7 +183,9 @@ const JoinEventConfirmModal = ({
             </View>
             <TextInput
               placeholder="Type a Caption here"
+              activeOutlineColor={Colors.info}
               mode="outlined"
+              outlineColor={Colors.info}
               onChangeText={handleCaptionChange}
               value={uploadPost.caption}
               style={styles.input}
@@ -136,13 +195,27 @@ const JoinEventConfirmModal = ({
                 textColor={Colors.white}
                 style={styles.button}
                 onPress={pickImageFromLibrary}>
-                Choose from Library
+                <Text
+                  style={{
+                    ...Fonts.h3,
+                    fontSize: fontSize.s1,
+                    color: Colors.white,
+                  }}>
+                  Choose from Library
+                </Text>
               </Button>
               <Button
                 style={styles.button}
                 textColor={Colors.white}
                 onPress={pickImageCamera}>
-                Take a Photo
+                <Text
+                  style={{
+                    ...Fonts.h3,
+                    fontSize: fontSize.s1,
+                    color: Colors.white,
+                  }}>
+                  Take a Photo
+                </Text>
               </Button>
             </View>
             <Button
@@ -153,16 +226,25 @@ const JoinEventConfirmModal = ({
               style={{
                 ...styles.confirmUpload,
                 backgroundColor: uploadPost.imageUrl?.uri
-                  ? Colors.success
+                  ? Colors.danger
                   : Colors.grey,
               }}>
-              Upload
+              <Text
+                style={{
+                  ...Fonts.h3,
+                  fontSize: fontSize.h6,
+                  color: Colors.white,
+                }}>
+                Upload
+              </Text>
             </Button>
           </View>
         ) : (
           <OrderSummary
+            is_free={is_free}
             handleImageUploaded={handleImageUploaded}
             started_on={started_on}
+            cancel={setImageUploaded}
             ends_on={ends_on}
             mobile_number={mobile_number}
             image={image}
@@ -182,22 +264,26 @@ const JoinEventConfirmModal = ({
 const styles = StyleSheet.create({
   modal: {
     padding: Spacing.l,
+    backgroundColor: Colors.light,
   },
   container: {
     width: '100%',
     padding: Spacing.l,
     borderRadius: Spacing.m,
-    backgroundColor: Colors.white,
+    backgroundColor: Colors.primary,
   },
   title: {
+    color: Colors.info,
+    textAlign: 'center',
     ...Fonts.h2,
   },
   input: {
-    width: '100%',
+    color: Colors.info,
+    backgroundColor: Colors.light,
   },
   imageContainer: {
     height: 300,
-
+    borderRadius: BorderRadius.s,
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: Spacing.xl,
@@ -212,14 +298,33 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: Spacing.m,
     justifyContent: 'space-between',
+    gap: 4,
   },
   button: {
-    backgroundColor: Colors.success,
+    backgroundColor: Colors.danger,
+    borderRadius: BorderRadius.xs,
+    width: '50%',
   },
   confirmUpload: {
-    backgroundColor: Colors.success,
+    backgroundColor: Colors.danger,
     padding: Spacing.s,
     marginTop: Spacing.m,
+    ...HorizontalMargin('m'),
+  },
+  modalCloseIcon: {
+    backgroundColor: Colors.light,
+    elevation: 10,
+    display: 'flex',
+    position: 'absolute',
+    top: '-15%',
+    left: 0,
+    zIndex: 10,
+    height: Spacing.xl * 1.5,
+    width: Spacing.xl * 1.5,
+    borderRadius: BorderRadius.l,
+    alignItems: 'center',
+    shadowColor: Colors.info,
+    justifyContent: 'center',
   },
 });
 

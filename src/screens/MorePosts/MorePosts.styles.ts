@@ -7,8 +7,8 @@ import {StyleSheet} from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.light,
   },
-  listContainer: {flex: 1},
   list: {height: height, width: '100%'},
   buttonContainer: {
     flexDirection: 'row',

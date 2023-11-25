@@ -11,33 +11,29 @@ import {TouchableOpacity, View} from 'react-native';
 import {get} from '@/utils/storage';
 import {Colors} from '@/utils/colors';
 import {options} from '@/utils/navigationConfig';
-import {BorderRadius, Spacing} from '@/utils/constants';
-import {width} from '@/utils/Dimension';
+import {height, width} from '@/utils/Dimension';
+
 import Transactions from '@/screens/Transactions/Transactions';
 
 const ProfileIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons name="md-person" size={Spacing.xl * 1.3} color={Colors.white} />
+    <Ionicons name="md-person" size={size} color={Colors.purple} />
   ) : (
-    <Ionicons name="person-outline" size={size} color={Colors.light} />
+    <Ionicons name="person-outline" size={size} color={Colors.dark2} />
   );
 
 const WalletIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons
-      name="wallet-sharp"
-      size={Spacing.xl * 1.3}
-      color={Colors.white}
-    />
+    <Ionicons name="wallet-sharp" size={size} color={Colors.purple} />
   ) : (
-    <Ionicons name="wallet-outline" size={size} color={Colors.light} />
+    <Ionicons name="wallet-outline" size={size} color={Colors.dark2} />
   );
 
 const HomeIcon = ({color, size, focused}: any) =>
   focused ? (
-    <Ionicons name="md-home" color={Colors.white} size={Spacing.xl * 1.3} />
+    <Ionicons name="md-home" color={Colors.purple} size={size} />
   ) : (
-    <Ionicons name="home-outline" size={size} color={Colors.light} />
+    <Ionicons name="home-outline" size={size} color={Colors.dark2} />
   );
 
 export default function TabStack() {
@@ -51,36 +47,56 @@ export default function TabStack() {
 
   return (
     <Tab.Navigator
-      screenOptions={{
+      screenOptions={({route}) => ({
         tabBarHideOnKeyboard: true,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          position: 'absolute',
-          marginHorizontal: Spacing.l,
-          marginBottom: Spacing.l,
-          borderRadius: BorderRadius.l,
-          elevation: 2,
-          backgroundColor: Colors.dark,
+
+        tabBarInactiveTintColor: Colors.dark2,
+        tabBarActiveTintColor: Colors.purple,
+        tabBarLabel: ({focused}) => {
+          return (
+            <Text
+              style={{
+                ...Fonts.h3,
+                fontSize: fontSize.s1,
+                color: Colors.purple,
+                marginBottom: 4,
+              }}>
+              {focused ? route.name : ''}
+            </Text>
+          );
         },
-      }}>
+        tabBarLabelStyle: {
+          ...Fonts.sub1,
+          marginBottom: 12,
+        },
+        tabBarStyle: {
+          padding: 18,
+          backgroundColor: Colors.white,
+          height: height / 11,
+        },
+      })}>
       <Tab.Screen
         options={{
           tabBarIcon: HomeIcon,
+          headerStyle: {
+            backgroundColor: Colors.light,
+          },
           headerTitle: () => (
             <View
               style={{
                 display: 'flex',
                 alignSelf: 'center',
                 width: width,
+                backgroundColor: Colors.light,
               }}>
               <Text
                 style={{
                   ...Fonts.title,
                   textAlign: 'center',
                   fontSize: fontSize.title,
-                  color: Colors.dark2,
+                  color: Colors.info,
                 }}>
-                HighFive
+                HIGHFIVE
               </Text>
             </View>
           ),

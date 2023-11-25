@@ -17,8 +17,8 @@ export default function LikeExpiry({like_end_date}: any) {
         },
       ]}>
       <View style={styles.noteTextContainer}>
-        <Text style={{color: Colors.dark2}}>
-          Like date for the contest {canLike ? 'ends' : 'ended'} on&nbsp;
+        <Text style={{color: Colors.info}}>
+          Contest {canLike ? 'ends' : 'ended'} on&nbsp;
           <Text style={styles.noteDate}>
             {moment(like_end_date).format('DD MMM YYYY')}
           </Text>
